@@ -23,7 +23,7 @@ def csv_writer():
     root = tree.getroot()
     
     with open('scandinova-{}.csv'.format(datetime.datetime.now().strftime("%m-%d-%Y-%H-%M-%S")), 'w', newline='') as csvfile:
-        fieldnames = ['StartAddress', 'EndAddress', 'Type', 'Unit', 'Readonly', 'General', 'PVName', 'Description', 'Bit', 'StringRep',  'Function']
+        fieldnames = ['StartAddress', 'EndAddress', 'Type', 'Unit', 'Readonly', 'General', 'PVName', 'Description', 'Bit', 'StringRep',  'Function', 'ASG', 'ZNAM', 'ONAM', 'ZSV', 'OSV', 'UNSV', 'ZRSV', 'ONSV', 'TWSV', 'THSV', 'HighHigh', 'High', 'Low', 'LowLow', 'DRVH', 'DRVL', 'Archive']
         csv_writer = csv.DictWriter(csvfile, delimiter=',', fieldnames=fieldnames)
 
         csv_writer.writeheader()

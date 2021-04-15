@@ -15,9 +15,11 @@ IOC to communicate with linac Scandinova modulators over Modbus.
   - [./docs/ScandiCAT ModbusTCP.xml](ScandiCAT ModbusTCP.xml) is a register map from Scandinova
   - [./docs/csv-gen.py](csv-gen.py) generates a CSV file from the register map. PV names, descriptions, etc. have to be added but it is a start
     - The generated csv eventually is used after modifications in the epics database generation
+    - cp docs/scandinova-blah-blah.csv lnrf_mod/Db/registers.csv
   - Also contains PDF documents about the Scandinova control system
 - [./lnrf_modApp/Db/db.py](./lnrf_modApp/Db/db.py)
-  - Automatically run by EPICS building process, it creates registers.db and modbus.cmd
+  - Automatically run by EPICS build process, it creates db/registers.db and iocBoot/modbus.cmd
+  - Uses lnrf_mod/Db/registers.csv
 
 ## pyDevSup
 
