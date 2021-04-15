@@ -1,0 +1,2 @@
+#!/bin/sh
+screen -m -S lnrf_mod1 -L ./st.screen

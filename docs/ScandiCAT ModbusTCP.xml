@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?ModbusProtocolId 0026?>
+<?ModbusProtocolRev 0001?>
+<!--Both Id and Rev must be a four digit string-->
+<?xml-stylesheet type="text/xsl" href="ScandiCAT ModbusTCP.xslt"?>
+<Configuration>
+  <Port>502</Port>
+  <IpAddr></IpAddr>
+  <Mapping>
+    <InputRegisters>
+      <MappingInfo>
+        <StartAddress>0</StartAddress>
+        <EndAddress>0</EndAddress>
+        <VarName>.gp_iModbusProtocolId</VarName>
+        <Comments>
+          <General>Modbus-TCP protocol identification number</General>
+          <Type>Int16</Type>
+          <Function>Id number of protocol (can be different for different customers)</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1</StartAddress>
+        <EndAddress>1</EndAddress>
+        <VarName>.gp_iModbusProtocolRev</VarName>
+        <Comments>
+          <General>Modbus-TCP protocol revision number</General>
+          <Type>Int16</Type>
+          <Function>Rev number of protocol (updated each time this document changes)</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>2</StartAddress>
+        <EndAddress>2</EndAddress>
+        <VarName>SR_SlowCall.IFB_ExtComSts.uiModbusTcpWatchdogPrev</VarName>
+        <Comments>
+          <General>The previously received Modbus-TCP watchdog value</General>
+          <Type>Uint16</Type>
+          <Function>Copied from the ModbusTcpWatchdog holding register, can be used by the master to monitor this communication</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>3</StartAddress>
+        <EndAddress>3</EndAddress>
+        <VarName>.g_iStateRead</VarName>
+        <Comments>
+          <General>The actual state of the modulator</General>
+          <Type>Int16</Type>
+          <Function>(* See Strings\State in GUI Resource.xml *)
+This is the actual state of the MSM (Main State Machine), example:
+StateTarget and StateRead are both "Trig" (13)
+A solenoid interlock is tripped, this interlock was configured to interlock the "Hv" state (9), therefore StateTarget is immediately set to the target level below which is "StandBy" (5). Now all units immediately go to "StandBy" and report their state to the MSM, when the MSM find that all units are at "StandBy" it sets the iStateRead to "StandBy".
+At the same time StatusBits.HvInlkExist is set to TRUE
+Also two events are added to the EventLogg, first the interlock event and then the state event (“StandBy”)
+Additionally the interlock event is copied to FirstInterlockEvent in case multiple interlocks occur in sequence this first interlock copy will not be overwritten until a reset is received)
+</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>4</StartAddress>
+        <EndAddress>4</EndAddress>
+        <VarName>.g_wStatusBits</VarName>
+        <Comments>
+          <General>A word containing 16 status bit's</General>
+          <Type>Uint16</Type>
+          <Function>	Bit0: StbInlkExist	
+ 	Bit1: HvInlkExist	
+ 	Bit2: TrigInlkExist	
+ 	Bit3: WarningExist	
+ 	Bit4: OutsideLimits	
+ 	Bit5: Error	
+ 	Bit6: Spare	
+ 	Bit7: Spare	
+ 	Bit8: Spare	
+ 	Bit9: Spare	
+ 	Bit10: Spare	
+ 	Bit11: Spare	
+ 	Bit12: Spare	
+ 	Bit13: Spare	
+ 	Bit14: Spare
+ 	Bit15: Spare </Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>5</StartAddress>
+        <EndAddress>5</EndAddress>
+        <VarName>.gp_iAccessLevel</VarName>
+        <Comments>
+          <General>The current access level</General>
+          <Type>Int16</Type>
+          <Function>See Strings\Message 0-3 in GUI Resource.xml</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>6</StartAddress>
+        <EndAddress>7</EndAddress>
+        <VarName>SR_SlowCall.IFB_SlowKly.IFB_Delay[1].rTimeRemaining</VarName>
+        <Comments>
+          <General>Remaining time of the delay</General>
+          <Type>Single</Type>
+          <Function>Filament warm-up timer</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>8</StartAddress>
+        <EndAddress>9</EndAddress>
+        <VarName>SR_FastCall.IFB_FastTi.IFB_PrfRead.atq_rPrfRead</VarName>
+        <Comments>
+          <General>Pulse repetition frequency</General>
+          <Type>Single</Type>
+          <Function>Pulse repetition frequency read value</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>20</StartAddress>
+        <EndAddress>20</EndAddress>
+        <VarName>.g_iStateTarget</VarName>
+        <Comments>
+          <General>Modulator target state</General>
+          <Type>Int16</Type>
+          <Function>Currently used setvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>21</StartAddress>
+        <EndAddress>22</EndAddress>
+        <VarName>.gp_rVoltSet</VarName>
+        <Comments>
+          <General>Voltage setvalue of all Ccps</General>
+          <Type>Single</Type>
+          <Unit>V</Unit>
+          <Function>Currently used setvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>23</StartAddress>
+        <EndAddress>24</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_FastFilPS.IFB_CurrSet.ip_rSet</VarName>
+        <Comments>
+          <General>Filament current setvalue</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Currently used setvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>25</StartAddress>
+        <EndAddress>26</EndAddress>
+        <VarName>.gp_rPlswthSet</VarName>
+        <Comments>
+          <General>Pulse width setvalue of all SU's</General>
+          <Type>Single</Type>
+          <Unit>µs</Unit>
+          <Function>Currently used setvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>27</StartAddress>
+        <EndAddress>28</EndAddress>
+        <VarName>.gp_rPrfSet</VarName>
+        <Comments>
+          <General>Local pulse repetition frequency</General>
+          <Type>Single</Type>
+          <Unit>Hz</Unit>
+          <Function>Currently used setvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>100</StartAddress>
+        <EndAddress>101</EndAddress>
+        <VarName>SR_FastCall.IFB_Ccps.IFB_CcpsUnit[1].IFB_VoltRead.atq_rRead</VarName>
+        <Comments>
+          <General>Voltage read value of Capacitor Charging Power Supply no 1 </General>
+          <Type>Single</Type>
+          <Unit>V</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>120</StartAddress>
+        <EndAddress>120</EndAddress>
+        <VarName>SR_FastCall.IFB_Ccps.IFB_CcpsUnit[1].IFB_DigitalInputWord.wTempWord</VarName>
+        <Comments>
+          <General>Interlock status bits of Capacitor Charging Power Supply no 1</General>
+          <Type>Uint16</Type>
+          <Function>Bit0 "Mains interlock"
+Bit1 "PwmPulseCount interlock"
+Bit2 "IsaqCom interlock"
+Bit3 "SoftStart interlock"
+Bit4 "Igbt interlock"
+Bit5 "PhaseLoss interlock"
+Bit6 "TransformerTemp interlock"
+Bit7 "RectifierTemp interlock"
+Bit8 "IgbtTemp interlock"
+Bit9 "OverVoltage interlock"
+Bit10 "OverCurrent interlock"
+Bit11 "OptoFiberDarkTimeout"</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>200</StartAddress>
+        <EndAddress>201</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_FastFilPs.IFB_CurrRead.atq_rRead</VarName>
+        <Comments>
+          <General>Current readvalue of the filament power supply</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>202</StartAddress>
+        <EndAddress>203</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_FastFilPs.IFB_VoltRead.atq_rRead</VarName>
+        <Comments>
+          <General>Voltage readvalue of the filament power supply</General>
+          <Type>Single</Type>
+          <Unit>V</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>300</StartAddress>
+        <EndAddress>301</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_FastIonPS[1].IFB_CurrRead.atq_rRead</VarName>
+        <Comments>
+          <General>Current readvalue of the ion pump controller 1</General>
+          <Type>Single</Type>
+          <Unit>nA</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>302</StartAddress>
+        <EndAddress>303</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_FastIonPS[1].IFB_VoltRead.atq_rRead</VarName>
+        <Comments>
+          <General>Voltage readvalue of the ion pump controller 1</General>
+          <Type>Single</Type>
+          <Unit>kV</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>400</StartAddress>
+        <EndAddress>401</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[1].IFB_CurrRead.atq_rRead</VarName>
+        <Comments>
+          <General>Current readvalue of solenoid power supply 1</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>402</StartAddress>
+        <EndAddress>403</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[1].IFB_VoltRead.atq_rRead</VarName>
+        <Comments>
+          <General>Voltage readvalue of solenoid power supply 1</General>
+          <Type>Single</Type>
+          <Unit>V</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>404</StartAddress>
+        <EndAddress>405</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[2].IFB_CurrRead.atq_rRead</VarName>
+        <Comments>
+          <General>Current readvalue of solenoid power supply 2</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>406</StartAddress>
+        <EndAddress>407</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[2].IFB_VoltRead.atq_rRead</VarName>
+        <Comments>
+          <General>Voltage readvalue of solenoid power supply 2</General>
+          <Type>Single</Type>
+          <Unit>V</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>408</StartAddress>
+        <EndAddress>409</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[3].IFB_CurrRead.atq_rRead</VarName>
+        <Comments>
+          <General>Current readvalue of solenoid power supply 3</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>410</StartAddress>
+        <EndAddress>411</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[3].IFB_VoltRead.atq_rRead</VarName>
+        <Comments>
+          <General>Voltage readvalue of solenoid power supply 3</General>
+          <Type>Single</Type>
+          <Unit>V</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>500</StartAddress>
+        <EndAddress>501</EndAddress>
+        <VarName>SR_FastCall.IFB_FastTank.IFB_Digi.IFB_CtRead.atq_rRead</VarName>
+        <Comments>
+          <General>Current Transformer readvalue</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled read value of the pulse current amplitude</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>502</StartAddress>
+        <EndAddress>503</EndAddress>
+        <VarName>SR_FastCall.IFB_FastTank.IFB_Digi.IFB_CvdRead.atq_rRead</VarName>
+        <Comments>
+          <General>Capacitive voltage-divider readvalue</General>
+          <Type>Single</Type>
+          <Unit>kV</Unit>
+          <Function>Scaled read value of the pulse voltage amplitude</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>504</StartAddress>
+        <EndAddress>505</EndAddress>
+        <VarName>SR_FastCall.IFB_FastTank.IFB_Digi.IFB_FwhmRead.atq_rRead</VarName>
+        <Comments>
+          <General>Full Width Half Maximum readvalue</General>
+          <Type>Single</Type>
+          <Unit>µs</Unit>
+          <Function>Scaled read value of the pulse width at 50% height of the current pulse</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>600</StartAddress>
+        <EndAddress>601</EndAddress>
+        <VarName>SR_SlowCall.IFB_SlowTank.IFB_OilTemperature.atq_rRead</VarName>
+        <Comments>
+          <General>Oil temperature readvalue</General>
+          <Type>Single</Type>
+          <Unit>ºC</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>602</StartAddress>
+        <EndAddress>603</EndAddress>
+        <VarName>SR_SlowCall.IFB_SlowTank.IFB_OilLevel.atq_rRead</VarName>
+        <Comments>
+          <General>Oil level readvalue</General>
+          <Type>Single</Type>
+          <Unit>mm</Unit>
+          <Function>Scaled readvalue of the oil level (0mm at Klystron min specification)</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>700</StartAddress>
+        <EndAddress>701</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_TempSensors[1].atq_rRead</VarName>
+        <Comments>
+          <General>Cool\InletWaterTemp</General>
+          <Type>Single</Type>
+          <Unit>ºC</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>702</StartAddress>
+        <EndAddress>703</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_TempSensors[2].atq_rRead</VarName>
+        <Comments>
+          <General>Cool\ColRtnTemp</General>
+          <Type>Single</Type>
+          <Unit>ºC</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>704</StartAddress>
+        <EndAddress>705</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_TempSensors[3].atq_rRead</VarName>
+        <Comments>
+          <General>Cool\SolTemp</General>
+          <Type>Single</Type>
+          <Unit>ºC</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>800</StartAddress>
+        <EndAddress>801</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_RfaPower.atq_rRead</VarName>
+        <Comments>
+          <General>RF drive power</General>
+          <Type>Single</Type>
+          <Unit>W</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>820</StartAddress>
+        <EndAddress>821</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_RfOutDigi.IFB_FwdRead.atq_rRead</VarName>
+        <Comments>
+          <General>RF forward power</General>
+          <Type>Single</Type>
+          <Unit>dBm</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>822</StartAddress>
+        <EndAddress>823</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_RfOutDigi.IFB_RefRead.atq_rRead</VarName>
+        <Comments>
+          <General>RF reflected power</General>
+          <Type>Single</Type>
+          <Unit>dBm</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>824</StartAddress>
+        <EndAddress>825</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_RfOutDigi.atq_rVswrRead</VarName>
+        <Comments>
+          <General>RF VSWR</General>
+          <Type>Single</Type>
+          <Unit></Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>826</StartAddress>
+        <EndAddress>827</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_RfOutDigi.IFB_FwhmRead.atq_rRead</VarName>
+        <Comments>
+          <General>RF pulse length</General>
+          <Type>Single</Type>
+          <Unit>µs</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>900</StartAddress>
+        <EndAddress>901</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_FlowReads[1].atq_rRead</VarName>
+        <Comments>
+          <General>Cooling water flow rate</General>
+          <Type>Single</Type>
+          <Unit>l/m</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>902</StartAddress>
+        <EndAddress>903</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_FlowReads[2].atq_rRead</VarName>
+        <Comments>
+          <General>Cooling water flow rate</General>
+          <Type>Single</Type>
+          <Unit>l/m</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>904</StartAddress>
+        <EndAddress>905</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_FlowReads[3].atq_rRead</VarName>
+        <Comments>
+          <General>Cooling water flow rate</General>
+          <Type>Single</Type>
+          <Unit>l/m</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>908</StartAddress>
+        <EndAddress>909</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_FlowReads[5].atq_rRead</VarName>
+        <Comments>
+          <General>Cooling water flow rate</General>
+          <Type>Single</Type>
+          <Unit>l/m</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>910</StartAddress>
+        <EndAddress>911</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_FlowReads[6].atq_rRead</VarName>
+        <Comments>
+          <General>Cooling water flow rate</General>
+          <Type>Single</Type>
+          <Unit>l/m</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>912</StartAddress>
+        <EndAddress>913</EndAddress>
+        <VarName>SR_SlowCall.IFB_Cool.IFB_FlowReads[7].atq_rRead</VarName>
+        <Comments>
+          <General>Cooling water flow rate</General>
+          <Type>Single</Type>
+          <Unit>l/m</Unit>
+          <Function>Scaled readvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>999</StartAddress>
+        <EndAddress>999</EndAddress>
+        <VarName>.g_uiEventsIndex</VarName>
+        <Comments>
+          <General>Event logg index</General>
+          <Type>Uint16</Type>
+          <Function>This is the Index of the latest entry (Modulo 50)</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1000</StartAddress>
+        <EndAddress>1049</EndAddress>
+        <VarName>.g_aEventsIncr</VarName>
+        <Comments>
+          <General>Event logg increment array</General>
+          <Type>Uint16</Type>
+          <Function>Incremented for each new event, this enables GUI to see if new events has ocurred</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1050</StartAddress>
+        <EndAddress>1099</EndAddress>
+        <VarName>.g_aEventsType</VarName>
+        <Comments>
+          <General>Event logg type array</General>
+          <Type>Uint16</Type>
+          <Function>0=State, 1=Warning, 2=Interlock, 3=Error, 4=Parameter, 5=Message</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1100</StartAddress>
+        <EndAddress>1299</EndAddress>
+        <VarName>.g_aEventsTime</VarName>
+        <Comments>
+          <General>Event logg time-stamp array</General>
+          <Type>Uint64</Type>
+          <Function>TYPE T_FILETIME :
+STRUCT
+        dwLowDateTime   : DWORD;
+        dwHighDateTime  : DWORD;
+END_STRUCT
+END_TYPE
+The T_FILETIME structure is a 64-bit value representing the number of 100-nanosecond intervals since January 1, 1601 (UTC).
+
+(Since modbus doesn’t support Uint64 you have to read four words per timestamp)</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1300</StartAddress>
+        <EndAddress>1399</EndAddress>
+        <VarName>.g_aEventsTrigId</VarName>
+        <Comments>
+          <General>Event logg trig id array</General>
+          <Type>Uint32</Type>
+          <Function>The current trig id/count</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1400</StartAddress>
+        <EndAddress>1449</EndAddress>
+        <VarName>.g_aEventsIndex</VarName>
+        <Comments>
+          <General>Event logg index array</General>
+          <Type>Uint16</Type>
+          <Function>Shows which item that generated this event, see Matrixltems in GUI Resource.xml</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1450</StartAddress>
+        <EndAddress>1499</EndAddress>
+        <VarName>.g_aEventsTextNo</VarName>
+        <Comments>
+          <General>Event logg text number array</General>
+          <Type>Uint16</Type>
+          <Function>See GUI Resource.xml\Strings, Type determines sub-element </Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1500</StartAddress>
+        <EndAddress>1549</EndAddress>
+        <VarName>.g_aEventsDataType</VarName>
+        <Comments>
+          <General>Event logg data type array</General>
+          <Type>Uint16</Type>
+          <Function>0=No data, 1=Real, 2=Bool, 3=Int, 4=Uint, 5=Word, 6=Dint, 7=Udint, 8=Dword</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1550</StartAddress>
+        <EndAddress>1649</EndAddress>
+        <VarName>.g_aEventsData</VarName>
+        <Comments>
+          <General>Event logg data array</General>
+          <Type>Uint32</Type>
+          <Function>Here data for the event can be entered, if DataType indicates NoData then this value is random</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1700</StartAddress>
+        <EndAddress>1712</EndAddress>
+        <VarName>.g_stMainEvent</VarName>
+        <Comments>
+          <General>Main event struct</General>
+          <Type>Struct</Type>
+          <Function>This can be used to present the actual state of the modulator, you see State, Warnings, FirstInterlock and Error messages
+STRUCT
+	Incr		: Uint16;	(addr: 1700)
+	Type		: Uint16;	(addr: 1701)
+	TimeStamp	: Uint64;	(addr: 1702)
+	TrigId		: Uint32;	(addr: 1706)
+	Index		: Uint16;	(addr: 1708)
+	TextNo		: Uint16;	(addr: 1709)
+	DataType	: Uint16;	(addr: 1710)
+	Data		: Uint32;	(addr: 1711)
+END_STRUCT</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1715</StartAddress>
+        <EndAddress>1727</EndAddress>
+        <VarName>.g_stFirstInterlockEvent</VarName>
+        <Comments>
+          <General>Main event struct</General>
+          <Type>Struct</Type>
+          <Function>Displays the first interlock event since previous reset, the Type element will indicate active interlock whith the value 2 and inactive/resetted with the value 0
+STRUCT
+	Incr		: Uint16;	(addr: 1715)
+	Type		: Uint16;	(addr: 1716)
+	TimeStamp	: Uint64;	(addr: 1717)
+	TrigId		: Uint32;	(addr: 1721)
+	Index		: Uint16;	(addr: 1723)
+	TextNo		: Uint16;	(addr: 1724)
+	DataType	: Uint16;	(addr: 1725)
+	Data		: Uint32;	(addr: 1726)
+END_STRUCT</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>2000</StartAddress>
+        <EndAddress>2255</EndAddress>
+        <VarName>.g_aReadMatrixStateRead</VarName>
+        <Comments>
+          <General>State read array</General>
+          <Type>Uint16</Type>
+          <Function>In this array you can see the actual state of all items in the modulator, see Strings\State in GUI Resource.xml </Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>2300</StartAddress>
+        <EndAddress>2555</EndAddress>
+        <VarName>.g_aReadMatrixStatusBits</VarName>
+        <Comments>
+          <General>Status bit's array</General>
+          <Type>Uint16</Type>
+          <Function>In this array you can see the unlatched status bit's of all items in the modulator,
+	Bit0: Warning condition exists
+	Bit1: Interlock condition exists
+</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>3000</StartAddress>
+        <EndAddress>3000</EndAddress>
+        <VarName>SR_FastCall.IFB_FastDigitizer.iCustSeq</VarName>
+        <Comments>
+          <General>Customer waveform sequence</General>
+          <Type>Int16</Type>
+          <Function>Sequence number reply when a new waveform is received
+This variable will reply:
+99 if fetching did not produce any result
+100 when Cvd T-0 is received
+101 when Cvd T-1 is received
+102 when Cvd T-2 is received
+103 when Cvd T-3 is received
+104 when Cvd T-4 is received
+105 when Cvd saved reference is received
+106 when Cvd upper interlock bondary is received
+107 when Cvd lower interlock bondary is received
+108 when Cvd upper warning bondary is received
+109 when Cvd lower warning bondary is received
+110 when Ct T-0 is received
+111 when Ct T-1 is received
+112 when Ct T-2 is received
+113 when Ct T-3 is received
+114 when Ct T-4 is received
+115 when Ct saved reference is received
+116 when Ct upper interlock bondary is received
+117 when Ct lower interlock bondary is received
+118 when Ct upper warning bondary is received
+119 when Ct lower warning bondary is received
+120 when RfFwd T-0 is received
+121 when RfFwd T-1 is received
+122 when RfFwd T-2 is received
+123 when RfFwd T-3 is received
+124 when RfFwd T-4 is received
+125 when RfFwd saved reference is received
+126 when RfFwd upper interlock bondary is received
+127 when RfFwd lower interlock bondary is received
+128 when RfFwd upper warning bondary is received
+129 when RfFwd lower warning bondary is received
+130 when RfRfl T-0 is received
+131 when RfRfl T-1 is received
+132 when RfRfl T-2 is received
+133 when RfRfl T-3 is received
+134 when RfRfl T-4 is received
+135 when RfRfl saved reference is received
+136 when RfRfl upper interlock bondary is received
+137 when RfRfl lower interlock bondary is received
+138 when RfRfl upper warning bondary is received
+139 when RfRfl lower warning bondary is received</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>3001</StartAddress>
+        <EndAddress>3512</EndAddress>
+        <VarName>SR_FastCall.IFB_FastDigitizer.aCust</VarName>
+        <Comments>
+          <General>Customer waveform</General>
+          <Type>Int16</Type>
+          <Function>Byte 0-7 TimeStamp (either in Windows FileTime or in EpicsTime)
+Byte 8-15 PulseId
+Byte 16-17 NoOfSamples
+Byte 18-1023 Waveform</Function>
+        </Comments>
+      </MappingInfo>
+    </InputRegisters>
+    <OutputRegisters>
+      <MappingInfo>
+        <StartAddress>0</StartAddress>
+        <EndAddress>0</EndAddress>
+        <VarName>SR_SlowCall.IFB_ExtComSts.uiModbusTcpWatchdog</VarName>
+        <Comments>
+          <General>Communication watchdog</General>
+          <Type>Uint16</Type>
+          <Function>Increment this value at least every second (depending on timeout setting in local GUI), used by the modulator to monitor this communication</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>1</StartAddress>
+        <EndAddress>1</EndAddress>
+        <VarName>.g_iStateTargetRem</VarName>
+        <Comments>
+          <General>Modulator target state</General>
+          <Type>Int16</Type>
+          <Function>This is the target state of the MSM (Main State Machine), example:
+iStateTarget and iStateRead are both "Off" (1)
+You request the modulator to "Hv" state by writing 9 to StateTarget
+See Strings\State in GUI Resource.xml</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>2</StartAddress>
+        <EndAddress>2</EndAddress>
+        <VarName>.g_wCommandBitsRem</VarName>
+        <Comments>
+          <General>Command bit's
+Bit0: Reset
+Bit1: ECAT control (use .g_rVoltSetEcat)</General>
+          <Type>Uint16</Type>
+          <Function>A word containing 16 command bit's
+      Bit0: Reset (remember to set it back to zero afterwards)
+      Bit1: ECAT control (use .g_rVoltSetEcat)</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>100</StartAddress>
+        <EndAddress>101</EndAddress>
+        <VarName>.g_rVoltSetRem</VarName>
+        <Comments>
+          <General>Voltage setvalue of all Ccps</General>
+          <Type>Single</Type>
+          <Unit>V</Unit>
+          <Function>Scaled setvalue, range 0-1200VDC</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>200</StartAddress>
+        <EndAddress>201</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_FastFilPS.IFB_CurrSet.ati_rSetRem</VarName>
+        <Comments>
+          <General>Filament current setvalue</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled setvalue, range 0-30ADC</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>300</StartAddress>
+        <EndAddress>301</EndAddress>
+        <VarName>.g_rPlswthSetRem</VarName>
+        <Comments>
+          <General>Pulse width setvalue of all SU's</General>
+          <Type>Single</Type>
+          <Unit>µs</Unit>
+          <Function>Scaled setvalue, range 1-5µs</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>400</StartAddress>
+        <EndAddress>401</EndAddress>
+        <VarName>.g_rPrfSetRem</VarName>
+        <Comments>
+          <General>Local pulse repetition frequency</General>
+          <Type>Single</Type>
+          <Unit>Hz</Unit>
+          <Function>Scaled setvalue.</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>3000</StartAddress>
+        <EndAddress>3000</EndAddress>
+        <VarName>SR_FastCall.IFB_FastDigitizer.iCustSeq</VarName>
+        <Comments>
+          <General>Customer waveform sequence</General>
+          <Type>Int16</Type>
+          <Function>Sequence number used to fetch waveforms
+Set this variable to a specific value to start fetching a specific waveform:
+0 Cvd T-0
+1 Cvd T-1 
+2 Cvd T-2
+3 Cvd T-3
+4 Cvd T-4
+5 Cvd saved reference
+6 Cvd upper interlock bondary
+7 Cvd lower interlock bondary 
+8 Cvd upper warning bondary
+9 Cvd lower warning bondary
+10 Ct T-0
+11 Ct T-1 
+12 Ct T-2
+13 Ct T-3
+14 Ct T-4
+15 Ct saved reference
+16 Ct upper interlock bondary
+17 Ct lower interlock bondary 
+18 Ct upper warning bondary
+19 Ct lower warning bondary
+20 RfFwd T-0
+21 RfFwd T-1 
+22 RfFwd T-2
+23 RfFwd T-3
+24 RfFwd T-4
+25 RfFwd saved reference
+26 RfFwd upper interlock bondary
+27 RfFwd lower interlock bondary 
+28 RfFwd upper warning bondary
+29 RfFwd lower warning bondary
+30 RfRfl T-0
+31 RfRfl T-1 
+32 RfRfl T-2
+33 RfRfl T-3
+34 RfRfl T-4
+35 RfRfl saved reference
+36 RfRfl upper interlock bondary
+37 RfRfl lower interlock bondary 
+38 RfRfl upper warning bondary
+39 RfRfl lower warning bondary</Function>
+        </Comments>
+      </MappingInfo>
+    </OutputRegisters>
+  </Mapping>
+</Configuration>

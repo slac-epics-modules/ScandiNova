@@ -1,0 +1,4 @@
+#!/bin/sh
+module load python/3.5.1
+cd /vxboot/lnrf_mod/boot/iocBoot/ioclnrf_mod1
+exec ./st.cmd
