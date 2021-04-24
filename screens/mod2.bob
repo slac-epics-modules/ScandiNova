@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>$(ModType)</name>
+  <macros>
+    <ModType>Mod2</ModType>
+    <System>LNRF</System>
+  </macros>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display</name>
+    <file>embedded/_expert.bob</file>
+    <width>1050</width>
+    <height>900</height>
+    <resize>2</resize>
+  </widget>
+</display>

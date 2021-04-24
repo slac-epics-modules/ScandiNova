@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>_matrix_intlk</name>
+  <width>320</width>
+  <height>20</height>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>$(T)</text>
+    <width>170</width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_16</name>
+    <pv_name>$(P)$(R)$(T):IntlkON</pv_name>
+    <x>180</x>
+    <off_color>
+      <color name="OK" red="0" green="255" blue="0">
+      </color>
+    </off_color>
+    <on_label>X</on_label>
+    <on_color>
+      <color name="STOP" red="255" green="0" blue="0">
+      </color>
+    </on_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_17</name>
+    <pv_name>$(P)$(R)$(T):WarningON</pv_name>
+    <x>210</x>
+    <off_color>
+      <color name="OK" red="0" green="255" blue="0">
+      </color>
+    </off_color>
+    <on_label>X</on_label>
+    <on_color>
+      <color name="MINOR" red="255" green="255" blue="0">
+      </color>
+    </on_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_7</name>
+    <pv_name>$(P)$(R)$(T):IntlkState</pv_name>
+    <x>240</x>
+    <width>80</width>
+  </widget>
+</display>

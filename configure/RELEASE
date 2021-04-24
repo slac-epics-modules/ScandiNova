@@ -26,12 +26,11 @@ EPICS=/usr/local/epics/R3.15.8
 MODULES=$(EPICS)/modules/soft
 
 #PYTHON=python3.9
-devIocStats=$(MODULES)/iocStatsALS
-RECCASTER=$(MODULES)/recsync/client
-MODBUS=$(MODULES)/modbus-R2-10-1
+#devIocStats=$(MODULES)/iocStatsALS
+#RECCASTER=$(MODULES)/recsync/client
+#RETOOLS=$(MODULES)/retools
 MODBUS=$(MODULES)/synApps_6_1/support/modbus-R3-0
 ASYN=$(MODULES)/synApps_6_1/support/asyn-R4-36
-RETOOLS=$(MODULES)/retools
 PYDEVSUP=$(MODULES)/pyDevSup
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
