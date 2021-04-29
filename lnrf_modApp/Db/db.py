@@ -11,7 +11,7 @@ import scandinovaUtils
 # This file creates st.cmd and modbus.db files
 # Input is read from scandinova.csv file which is partially created by csv-gen.py
 # Lots of business logic is need for some of the XML parsing because of the way
-# Scandinova set it up. That logic is separated out into the ModbusParser class in modbusParserHelp.py
+# Scandinova set it up. That logic is separated out into the Parser class in scandinovaParser.py
 ###
 
 #path = os.path.dirname(os.path.abspath(__file__))

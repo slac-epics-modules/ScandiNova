@@ -3,7 +3,7 @@ from epicsDB import Record, Info
 
 # A whole bunch of crud because Scandinova xml is inconsistent and weird 
 # Most functions are specific to current xml implemenation/modbus map
-# Not modbus-documenation.pdf in root directory along with Resource.xml
+# Note modbus-documenation.pdf in $(TOP)/docs directory along with Resource.xml
 
 class BaseRecord(Record):
     def __init__(self, rec_type, row):
