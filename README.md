@@ -25,8 +25,8 @@ IOC to communicate with linac Scandinova modulators over Modbus.
 
 - Get the following files off of the Beckhoff PLC
   - C:\ScandiCAT GUI\Contents\Resource.xml
+  - C:\ScandiCAT GUI\Contents\MatrixInfo.xml
   - C:\Mbus\ScandiCAT ModbusTCP.xml
-  - MatrixInfo.xm
 - Place ScandiCAT ModbusTCP.xml in $(TOP)/docs
 - Run $(TOP)/docs/csv-gen.py to create a csv file
   - Fill out PV names, alarm info, etc in csv
