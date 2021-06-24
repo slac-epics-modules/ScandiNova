@@ -55,7 +55,7 @@ Blue = OK/Interlock inactive, Yellow = Warning because signal is missing/Interlo
 Press here to see all parameters of this item</Info>
         </ButtonUnit107>
         <ButtonUnit108>
-          <Name>T&amp;i\HwCtrlSpare1Sts</Name>
+          <Name>T&amp;i\ExternalInt1</Name>
           <Info>HardWired status signal that can interlock the StateMachine
 
 Blue = OK/Interlock inactive, Yellow = Warning because signal is missing/Interlock inactive, Green = OK/Interlock active, Red = Interlocked
@@ -63,7 +63,7 @@ Blue = OK/Interlock inactive, Yellow = Warning because signal is missing/Interlo
 Press here to see all parameters of this item</Info>
         </ButtonUnit108>
         <ButtonUnit109>
-          <Name>T&amp;i\HwCtrlSpare2Sts</Name>
+          <Name>T&amp;i\ExternalInt2</Name>
           <Info>HardWired status signal that can interlock the StateMachine
 
 Blue = OK/Interlock inactive, Yellow = Warning because signal is missing/Interlock inactive, Green = OK/Interlock active, Red = Interlocked
@@ -3162,7 +3162,7 @@ Blue bar = Below limit (Could be: Shorted primary, broken  driver)</Info>
       <ButtonNo>107</ButtonNo>
     </Index27>
     <Index28>
-      <Name>ExternalIntlk1</Name>
+      <Name>T&amp;i\ExternalInt1</Name>
       <Unit />
       <Type>Di</Type>
       <PopUp>
@@ -3182,7 +3182,7 @@ Blue bar = Below limit (Could be: Shorted primary, broken  driver)</Info>
       <ButtonNo>108</ButtonNo>
     </Index28>
     <Index29>
-      <Name>ExternalIntlk2</Name>
+      <Name>T&amp;i\ExternalInt2</Name>
       <Unit />
       <Type>Di</Type>
       <PopUp>
@@ -5795,7 +5795,7 @@ Blue bar = Below limit (Could be: Shorted primary, broken  driver)</Info>
     </Index128>
     <Index129>
       <Name>Kly\Ipc1CurrHlim</Name>
-      <Unit>µA</Unit>
+      <Unit>nA</Unit>
       <Type>Ai</Type>
       <PopUp>
         <Tab0>
@@ -5827,7 +5827,7 @@ Blue bar = Below limit (Could be: Shorted primary, broken  driver)</Info>
     </Index129>
     <Index130>
       <Name>Kly\Ipc1CurrLlim</Name>
-      <Unit>µA</Unit>
+      <Unit>nA</Unit>
       <Type>AiPair</Type>
       <ButtonNo>540</ButtonNo>
     </Index130>
@@ -7544,7 +7544,9 @@ Blue bar = Below limit (Could be: Shorted primary, broken  driver)</Info>
       <ButtonNo></ButtonNo>
     </Index211>
     <Index212>
-      <Name>Kly\RfaSts</Name>
+      <Name>
+        <Name>Kly\RfaSts</Name>
+      </Name>
       <Unit></Unit>
       <Type>Di</Type>
       <PopUp>

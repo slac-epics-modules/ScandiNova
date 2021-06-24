@@ -729,6 +729,14 @@
     <TargetStateNbr>99</TargetStateNbr>
   </MatrixEntry>
   <MatrixEntry>
+    <Index>213</Index>
+    <Name>Kly\RF Drive Power Read</Name>
+    <SSMName>Kly\RF Drive Power Read</SSMName>
+    <Type>Input</Type>
+    <TargetStateStr>Trig</TargetStateStr>
+    <TargetStateNbr>13</TargetStateNbr>
+  </MatrixEntry>
+  <MatrixEntry>
     <Index>230</Index>
     <Name>Cool\CollectorPower</Name>
     <SSMName>Cool\CollectorPower</SSMName>

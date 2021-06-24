@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <?ModbusProtocolId 0026?>
 <?ModbusProtocolRev 0001?>
 <!--Both Id and Rev must be a four digit string-->
@@ -162,6 +162,39 @@ Additionally the interlock event is copied to FirstInterlockEvent in case multip
           <Type>Single</Type>
           <Unit>Hz</Unit>
           <Function>Currently used setvalue</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>29</StartAddress>
+        <EndAddress>30</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[1].IFB_CurrSet.ip_rSet</VarName>
+        <Comments>
+          <General>Solenoid Ps 1 set mirror</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled setvalue.</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>31</StartAddress>
+        <EndAddress>32</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[2].IFB_CurrSet.ip_rSet</VarName>
+        <Comments>
+          <General>Solenoid Ps 2 set mirror</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled setvalue.</Function>
+        </Comments>
+      </MappingInfo>
+      <MappingInfo>
+        <StartAddress>33</StartAddress>
+        <EndAddress>34</EndAddress>
+        <VarName>SR_FastCall.IFB_FastKly.IFB_Sps.IFB_GEN[3].IFB_CurrSet.ip_rSet</VarName>
+        <Comments>
+          <General>Solenoid Ps 3 set mirror</General>
+          <Type>Single</Type>
+          <Unit>A</Unit>
+          <Function>Scaled setvalue.</Function>
         </Comments>
       </MappingInfo>
       <MappingInfo>
@@ -800,28 +833,6 @@ Bit1: ECAT control (use .g_rVoltSetEcat)</General>
           <Type>Single</Type>
           <Unit>A</Unit>
           <Function>Scaled setvalue, range 0-30ADC</Function>
-        </Comments>
-      </MappingInfo>
-      <MappingInfo>
-        <StartAddress>300</StartAddress>
-        <EndAddress>301</EndAddress>
-        <VarName>.g_rPlswthSetRem</VarName>
-        <Comments>
-          <General>Pulse width setvalue of all SU's</General>
-          <Type>Single</Type>
-          <Unit>µs</Unit>
-          <Function>Scaled setvalue, range 1-5µs</Function>
-        </Comments>
-      </MappingInfo>
-      <MappingInfo>
-        <StartAddress>400</StartAddress>
-        <EndAddress>401</EndAddress>
-        <VarName>.g_rPrfSetRem</VarName>
-        <Comments>
-          <General>Local pulse repetition frequency</General>
-          <Type>Single</Type>
-          <Unit>Hz</Unit>
-          <Function>Scaled setvalue.</Function>
         </Comments>
       </MappingInfo>
       <MappingInfo>
