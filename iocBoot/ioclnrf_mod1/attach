@@ -1,3 +1,0 @@
-echo ^A-d to detach
-sleep 3
-screen -r lnrf_mod1 

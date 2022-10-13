@@ -20,6 +20,7 @@ CHECK_RELEASE = YES
 #   for a subset of the cross-compiled target architectures
 #   that Base is built for.
 #CROSS_COMPILER_TARGET_ARCHS = vxWorks-ppc32
+CROSS_COMPILER_TARGET_ARCHS = rhel6-x86_64
 
 # To install files into a location other than $(TOP) define
 #   INSTALL_LOCATION here.
@@ -35,8 +36,10 @@ CHECK_RELEASE = YES
 #HOST_OPT = NO
 #CROSS_OPT = NO
 
-PYTHON=python3.5
-PY_VER?=3.5
+#PYTHON=python3.5
+#PY_VER?=3.5
+PYTHON=python3.8
+PY_VER?=3.8
 
 # These allow developers to override the CONFIG_SITE variable
 # settings without having to modify the configure/CONFIG_SITE

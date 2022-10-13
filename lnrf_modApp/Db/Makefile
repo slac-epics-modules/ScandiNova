@@ -6,8 +6,9 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
-DB += $(RECCASTER)/db/reccaster.db
-DB += $(devIocStats)/db/ioc_stats.db
+#DB += $(RECCASTER)/db/reccaster.db
+#DB += $(devIocStats)/db/ioc_stats.db
+DB += $(devIocStats)/db/iocAdmin.db
 DB += waveform.db
 DB += py.db
 
