@@ -23,7 +23,7 @@
 devIocStats_VERSION = R3.1.16-1.3.2
 MODBUS_VERSION = R3.2-1.0.1
 ASYN_VERSION = R4.39-1.0.1
-PYDEVSUP_VERSION = R1.2-0.0.2
+#PYDEVSUP_VERSION = R1.2-0.0.2
 
 # ==========================================================
 # External Support module path definitions
@@ -49,7 +49,7 @@ devIocStats=$(EPICS_MODULES)/iocAdmin/$(devIocStats_VERSION)
 #RETOOLS=$(MODULES)/retools
 MODBUS=$(EPICS_MODULES)/modbus/$(MODBUS_VERSION)
 ASYN=$(EPICS_MODULES)/asyn/$(ASYN_VERSION)
-PYDEVSUP=$(EPICS_MODULES)/pyDevSup/$(PYDEVSUP_VERSION)
+#PYDEVSUP=$(EPICS_MODULES)/pyDevSup/$(PYDEVSUP_VERSION)
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
 # Set EPICS_BASE last so it appears last in the DB, DBD, INCLUDE, and LIB search paths

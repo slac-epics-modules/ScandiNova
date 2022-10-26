@@ -10,9 +10,12 @@ include $(TOP)/configure/CONFIG
 #DB += $(devIocStats)/db/ioc_stats.db
 DB += $(devIocStats)/db/iocAdmin.db
 DB += waveform.db
-DB += py.db
+DB += registers.db
+#DB += py.db
+DB += bridge.db
+DB += logMessages.db
 
-DB_INSTALLS += ../O.$(EPICS_HOST_ARCH)/registers.db
+#DB_INSTALLS += ../O.$(EPICS_HOST_ARCH)/registers.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
@@ -22,5 +25,5 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-../O.$(EPICS_HOST_ARCH)/registers.db: ../registers.csv ../db.py
-	python3 ../db.py ../registers.csv registers.db $(TOP)/iocBoot/modbus.cmd
+#../O.$(EPICS_HOST_ARCH)/registers.db: ../registers.csv ../db.py
+#	python3 ../db.py ../registers.csv registers.db $(TOP)/iocBoot/modbus.cmd.xxx

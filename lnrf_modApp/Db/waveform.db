@@ -1,4 +1,4 @@
-record (mbbo, "$(P)$(R)MasterWaveformSet") {
+record (mbbo, "$(P):MasterWaveformSet") {
   field(DESC, "Used 4 waveform choice bc 16 mbbo limit")
   field(VAL,  "0")
   field(PINI, "YES")
@@ -11,7 +11,7 @@ record (mbbo, "$(P)$(R)MasterWaveformSet") {
   field(THVL, "3")
   field(THST, "RfOutRfl")
 }
-record (mbbo, "$(P)$(R)CvdWaveformSet") {
+record (mbbo, "$(P):CvdWaveformSet") {
   field(DESC, "Used 4 waveform choice bc 16 mbbo limit")
   field(OUT,  "@asyn(write3000)")
   field(DTYP, "asynInt32")
@@ -38,7 +38,7 @@ record (mbbo, "$(P)$(R)CvdWaveformSet") {
   field(NIVL, "9")
   field(NIST, "Lower warn bound")
 }
-record (mbbo, "$(P)$(R)CtWaveformSet") {
+record (mbbo, "$(P):CtWaveformSet") {
   field(DESC, "Used 4 waveform choice bc 16 mbbo limit")
   field(OUT,  "@asyn(write3000)")
   field(DTYP, "asynInt32")
@@ -63,7 +63,7 @@ record (mbbo, "$(P)$(R)CtWaveformSet") {
   field(NIVL, "19")
   field(NIST, "Lower warn bound")
 }
-record (mbbo, "$(P)$(R)RfFwdWaveformSet") {
+record (mbbo, "$(P):RfFwdWaveformSet") {
   field(DESC, "Used 4 waveform choice bc 16 mbbo limit")
   field(OUT,  "@asyn(write3000)")
   field(DTYP, "asynInt32")
@@ -88,7 +88,7 @@ record (mbbo, "$(P)$(R)RfFwdWaveformSet") {
   field(NIVL, "29")
   field(NIST, "Lower warn bound")
 }
-record (mbbo, "$(P)$(R)RfRflWaveformSet") {
+record (mbbo, "$(P):RfRflWaveformSet") {
   field(DESC, "Used 4 waveform choice bc 16 mbbo limit")
   field(OUT,  "@asyn(write3000)")
   field(DTYP, "asynInt32")

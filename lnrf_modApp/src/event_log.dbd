@@ -1,0 +1,2 @@
+registrar(scandinovaLogAsynDriverRegister)
+function(handle_event_modify)

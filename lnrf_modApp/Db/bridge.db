@@ -1,0 +1,79 @@
+record (aSub,"$(P):EventBridge") {
+	field(SNAM,"handle_event_modify")
+
+	field(INPA,"$(P):EventIndex CP")
+	field(FTA,"LONG")
+	field(NOA,"1")
+
+	field(INPB,"$(P):EventIncrement CP")
+	field(FTB,"LONG")
+	field(NOB,"50")
+
+	field(INPC,"$(P):EventTime1 CP")
+	field(FTC,"LONG")
+	field(NOC,"50")
+	field(OUTC,"$(P):MainEventTimeStr")
+	field(FTVC,"STRING")
+	field(NOVC,"64")
+
+	field(INPD,"$(P):EventTime2 CP")
+	field(FTD,"LONG")
+	field(NOD,"50")
+
+	field(INPE,"$(P):EventType CP")
+	field(FTE,"LONG")
+	field(NOE,"50")
+	field(OUTE,"$(P):MainEventTypeStr")
+	field(FTVE,"STRING")
+	field(NOVE,"32")
+
+	field(INPF,"$(P):EventTrigger CP")
+	field(FTF,"LONG")
+	field(NOF,"50")
+	field(OUTF,"$(P):MainEventTriggerStr")
+	field(FTVF,"STRING")
+	field(NOVF,"64")
+
+	field(INPG,"$(P):EventCause CP")
+	field(FTG,"LONG")
+	field(NOG,"50")
+	field(OUTG,"$(P):MainEventTextStr")
+	field(FTVG,"STRING")
+	field(NOVG,"64")
+
+	field(INPH,"$(P):EventTextNum CP")
+	field(FTH,"LONG")
+	field(NOH,"50")
+
+	field(INPI,"$(P):EventDataType CP")
+	field(FTI,"LONG")
+	field(NOI,"50")
+
+	field(INPJ,"$(P):EventData CP")
+	field(FTJ,"LONG")
+	field(NOJ,"50")
+
+	field(OUTK,"$(P):MainEventTextStr2")
+	field(FTVK,"STRING")
+	field(NOVK,"64")
+
+	field(OUTL,"$(P):LastIntlkTypeStr")
+	field(FTVL,"STRING")
+	field(NOVL,"32")
+
+	field(OUTM,"$(P):LastIntlkTimeStr")
+	field(FTVM,"STRING")
+	field(NOVM,"64")
+
+	field(OUTN,"$(P):LastIntlkTriggerStr")
+	field(FTVN,"STRING")
+	field(NOVN,"64")
+
+	field(OUTO,"$(P):LastIntlkTextStr")
+	field(FTVO,"STRING")
+	field(NOVO,"64")
+
+	field(OUTP,"$(P):LastIntlkTextStr2")
+	field(FTVP,"STRING")
+	field(NOVP,"64")
+}
