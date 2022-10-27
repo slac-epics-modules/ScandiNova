@@ -30,14 +30,15 @@ modbusInterposeConfig("mod-beckhoff-plc", 0, 0, 0)
 
 #py "import eventAndWaveform"
 #py "eventAndWaveform.build('$(P)$(R)', '$(TOP)', '/u/gu/egumtow/scandinova-modulator-events')"
+set_event_output_file("./scandinova-modulator-events")
+
 
 ## Load record instances
 dbLoadRecords("db/registers.db","P=$(P)")
 dbLoadRecords("db/waveform.db","P=$(P)")
-dbLoadRecords("db/py.db","P=$(P)")
 dbLoadRecords("db/bridge.db","P=$(P)")
 dbLoadRecords("db/logMessages.db", "P=$(P)")
-iocshLoad("$(IOCSH_TOP)/als_default.iocsh")
+#iocshLoad("$(IOCSH_TOP)/als_default.iocsh")
 
 # access control list
 #asSetFilename("$(TOP)/access_security/lnrf_mod.acf")
@@ -46,38 +47,38 @@ cd ${TOP}/iocBoot/${IOC}
 
 iocInit()
 
-dbpf $(P):SolenoidPS1Current.HIHI 42
-dbpf $(P):SolenoidPS1Current.HIGH 41.8
-dbpf $(P):SolenoidPS1Current.LOW 35
-dbpf $(P):SolenoidPS1Current.LOLO 34
-dbpf $(P):SolenoidPS2Current.HIHI 21
-dbpf $(P):SolenoidPS2Current.HIGH 20
-dbpf $(P):SolenoidPS2Current.LOW 18
-dbpf $(P):SolenoidPS2Current.LOLO 17
-dbpf $(P):SolenoidPS2Voltage.LOW 27.5
-dbpf $(P):SolenoidPS2Voltage.LOLO 27
+#dbpf $(P):SolenoidPS1Current.HIHI 42
+#dbpf $(P):SolenoidPS1Current.HIGH 41.8
+#dbpf $(P):SolenoidPS1Current.LOW 35
+#dbpf $(P):SolenoidPS1Current.LOLO 34
+#dbpf $(P):SolenoidPS2Current.HIHI 21
+#dbpf $(P):SolenoidPS2Current.HIGH 20
+#dbpf $(P):SolenoidPS2Current.LOW 18
+#dbpf $(P):SolenoidPS2Current.LOLO 17
+#dbpf $(P):SolenoidPS2Voltage.LOW 27.5
+#dbpf $(P):SolenoidPS2Voltage.LOLO 27
 
 
-dbpf $(P):SolenoidPS1CurrentSet.HIHI 42
-dbpf $(P):SolenoidPS1CurrentSet.HIGH 41.8
-dbpf $(P):SolenoidPS1CurrentSet.LOW 35
-dbpf $(P):SolenoidPS1CurrentSet.LOLO 34
-dbpf $(P):SolenoidPS2CurrentSet.HIHI 21
-dbpf $(P):SolenoidPS2CurrentSet.HIGH 20
-dbpf $(P):SolenoidPS2CurrentSet.LOW 18
-dbpf $(P):SolenoidPS2CurrentSet.LOLO 17
+#dbpf $(P):SolenoidPS1CurrentSet.HIHI 42
+#dbpf $(P):SolenoidPS1CurrentSet.HIGH 41.8
+#dbpf $(P):SolenoidPS1CurrentSet.LOW 35
+#dbpf $(P):SolenoidPS1CurrentSet.LOLO 34
+#dbpf $(P):SolenoidPS2CurrentSet.HIHI 21
+#dbpf $(P):SolenoidPS2CurrentSet.HIGH 20
+#dbpf $(P):SolenoidPS2CurrentSet.LOW 18
+#dbpf $(P):SolenoidPS2CurrentSet.LOLO 17
 
-dbpf $(P):SolenoidPS2CurrentSet.DRVH 20
+#dbpf $(P):SolenoidPS2CurrentSet.DRVH 20
 
-dbpf $(P):IonPumpCurrent.HIHI 500
-dbpf $(P):IonPumpCurrent.HIGH 300
+#dbpf $(P):IonPumpCurrent.HIHI 500
+#dbpf $(P):IonPumpCurrent.HIGH 300
 
-dbpf $(P):CapVoltageDivider.HIHI 240
-dbpf $(P):CapVoltageDivider.HIGH 230
+#dbpf $(P):CapVoltageDivider.HIHI 240
+#dbpf $(P):CapVoltageDivider.HIGH 230
 
-dbpf $(P):RFReturnLoss.HIHI 85
-dbpf $(P):RFForwardPower.HIHI 104
-dbpf $(P):RFForwardPower.HIGH 103
+#dbpf $(P):RFReturnLoss.HIHI 85
+#dbpf $(P):RFForwardPower.HIHI 104
+#dbpf $(P):RFForwardPower.HIGH 103
 
 #dbl >/vxboot/PVnames/${IOCNAME}
 #epicsEnvShow > /vxboot/PVenv/${IOCNAME}.softioc

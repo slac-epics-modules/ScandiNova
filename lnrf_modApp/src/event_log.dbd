@@ -1,2 +1,2 @@
-registrar(scandinovaLogAsynDriverRegister)
+registrar(event_log_register_commands)
 function(handle_event_modify)

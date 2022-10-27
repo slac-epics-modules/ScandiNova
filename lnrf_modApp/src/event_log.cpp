@@ -1,7 +1,9 @@
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <errno.h>
 #include <iocsh.h>
 #include <epicsTypes.h>
 #include <aSubRecord.h>
@@ -9,11 +11,7 @@
 #include <epicsExport.h>
 #include "asynPortDriver.h"
 
-#define P_TestString "TEST_STRING"
-
-
-
-
+#if 0
 class scandinovaLogAsynPortDriver : public asynPortDriver
 {
 public:
@@ -24,6 +22,7 @@ public:
 protected:
 	int P_Test;
 };
+#endif
 
 
 typedef struct {
@@ -42,11 +41,15 @@ typedef struct {
 } event_info_t;
 
 
+#if 0
 static scandinovaLogAsynPortDriver *driver = NULL;
+#endif
 static int event_index = -1;
 static event_info_t event_infos[50];
 
+#if 0
 static void logTaskBounce(void *arg);
+#endif
 
 
 static const char *event_info_type_strs[] = {
@@ -287,6 +290,25 @@ static const char *event_info_data_type_strs[] = {
 	"Dword"
 };
 
+static char *event_output_file = NULL;
+static FILE *event_output_fd = NULL;
+static void
+set_event_output_file(const char *name)
+{
+	if (event_output_file) {
+		free(event_output_file);
+	}
+	if (event_output_fd) {
+		fclose(event_output_fd);
+	}
+
+	event_output_file = strdup(name);
+	event_output_fd = fopen(event_output_file, "a");
+	if (event_output_fd == NULL) {
+		printf("error: unable to write \'%s\': %s\n", event_output_file, strerror(errno));
+	}
+}
+
 static long
 handle_event_modify(aSubRecord *prec)
 {
@@ -370,6 +392,15 @@ handle_event_modify(aSubRecord *prec)
 		//strncpy((char *) prec->valp, , prec->novp - 1);
 	}
 
+	if (event_output_fd != NULL) {
+		fprintf(event_output_fd, "%d %s %d %s %s\n",
+			event_index,
+			event_info->type_str,
+			event_info->trigger,
+			event_info->cause_str,
+			event_info->timestamp);
+	}
+
 #if 0
 	printf("index type trigger cause text type data time\n");
 	printf("%d \"%s\" %d \"%s\" \"%s\" \"%s\" %08x \"%s\"\n", 
@@ -387,7 +418,7 @@ handle_event_modify(aSubRecord *prec)
 }
 epicsRegisterFunction(handle_event_modify);
 
-
+#if 0
 scandinovaLogAsynPortDriver::scandinovaLogAsynPortDriver(const char *portName) :
 	asynPortDriver(portName, 1, asynInt32Mask, asynInt32Mask, 0, 1, 0, 0)
 {
@@ -422,10 +453,12 @@ static void logTaskBounce(void *arg)
 {
 	driver->logTask();
 }
+#endif
 
 extern "C"
 {
 
+#if 0
 static const iocshFuncDef initFuncDef = { "scandinovaLogAsynDriverConfigure", 0, NULL};
 static void initCallFunc(const iocshArgBuf *args)
 {
@@ -442,7 +475,21 @@ void scandinovaLogAsynDriverRegister(void)
 	iocshRegister(&debugFuncDef, debugCallFunc);
 	driver = new scandinovaLogAsynPortDriver("");
 }
-
 epicsExportRegistrar(scandinovaLogAsynDriverRegister);
+#endif
+
+static const iocshArg event_log_configure_arg0 = {"filename", iocshArgString};
+static const iocshArg *event_log_configure_args[] = {&event_log_configure_arg0};
+static const iocshFuncDef event_log_func_def = {"set_event_output_file", 1, event_log_configure_args};
+static void event_log_call_func(const iocshArgBuf *args)
+{
+	set_event_output_file(args[0].sval);
+}
+
+void event_log_register_commands(void)
+{
+	iocshRegister(&event_log_func_def, event_log_call_func);
+}
+epicsExportRegistrar(event_log_register_commands);
 
 }
