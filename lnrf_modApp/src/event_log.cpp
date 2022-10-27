@@ -313,8 +313,11 @@ static long
 handle_event_modify(aSubRecord *prec)
 {
 	struct tm *ts = NULL;
+	uint64_t epoch_raw = 0;
 	uint32_t upper_32 = 0;
 	uint32_t lower_32 = 0;
+	char timestamp[64];
+	char timezone[8];
 	event_index = *(int *) prec->a;
 	event_info_t *event_info = &event_infos[event_index];
 
@@ -328,9 +331,24 @@ handle_event_modify(aSubRecord *prec)
 		lower_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2];
 	}
 
-	event_info->epoch = (((uint64_t) upper_32 << 32) | lower_32) / 10000000 - 11644473600;
+	epoch_raw = ((uint64_t) upper_32 << 32) | lower_32;
+
+	if (epoch_raw == 0) {
+		return 0;
+	}
+
+	event_info->epoch = epoch_raw / 10000000 - 11644473600;
 	ts = localtime(&event_info->epoch);
-	strftime(event_info->timestamp, sizeof(event_info->timestamp), "%a %Y-%m-%d %H:%M:%S %Z", ts);
+	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
+	strftime(timezone, sizeof(timezone), "%Z", ts);
+	memset(event_info->timestamp, 0, sizeof(event_info->timestamp));
+	snprintf(
+		event_info->timestamp,
+		sizeof(event_info->timestamp) - 1,
+		"%s.%03d %s",
+		timestamp,
+		(int) ((epoch_raw % 10000000) / 10000),
+		timezone);
 
 	memset(prec->valc, 0, prec->novc);
 	strncpy((char *) prec->valc, event_info->timestamp, prec->novc - 1);
@@ -399,6 +417,7 @@ handle_event_modify(aSubRecord *prec)
 			event_info->trigger,
 			event_info->cause_str,
 			event_info->timestamp);
+		fflush(event_output_fd);
 	}
 
 #if 0

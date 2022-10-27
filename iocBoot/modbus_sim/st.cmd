@@ -30,7 +30,7 @@ modbusInterposeConfig("mod-beckhoff-plc", 0, 0, 0)
 
 #py "import eventAndWaveform"
 #py "eventAndWaveform.build('$(P)$(R)', '$(TOP)', '/u/gu/egumtow/scandinova-modulator-events')"
-set_event_output_file("./scandinova-modulator-events")
+set_event_output_file("./scandinova-modulator-events-$(P)")
 
 
 ## Load record instances
