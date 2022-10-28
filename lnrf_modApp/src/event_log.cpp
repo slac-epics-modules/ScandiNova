@@ -11,19 +11,6 @@
 #include <epicsExport.h>
 #include "asynPortDriver.h"
 
-#if 0
-class scandinovaLogAsynPortDriver : public asynPortDriver
-{
-public:
-	scandinovaLogAsynPortDriver(const char *portName);
-	~scandinovaLogAsynPortDriver();
-	virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-	void logTask(void);
-protected:
-	int P_Test;
-};
-#endif
-
 
 typedef struct {
 	time_t epoch;
@@ -38,19 +25,12 @@ typedef struct {
 	int data_type;
 	char data_type_str[16];
 	uint32_t data;
+	char data_str[32];
 } event_info_t;
 
 
-#if 0
-static scandinovaLogAsynPortDriver *driver = NULL;
-#endif
 static int event_index = -1;
 static event_info_t event_infos[50];
-
-#if 0
-static void logTaskBounce(void *arg);
-#endif
-
 
 static const char *event_info_type_strs[] = {
 	"State",
@@ -309,6 +289,32 @@ set_event_output_file(const char *name)
 	}
 }
 
+static void
+event_data_to_str(uint32_t data, int type, char *out, size_t max_out_len_bytes)
+{
+	memset(out, 0, max_out_len_bytes);
+
+	switch (type) {
+	case 0: // no data
+		break;
+	case 1: // real
+		assert(sizeof(float) == sizeof(uint32_t));
+		snprintf(out, max_out_len_bytes - 1, "%f", *(float *) &data);
+		break;
+	case 2: // bool
+	case 3: // int
+	case 5: // word
+	case 6: // dint
+		snprintf(out, max_out_len_bytes - 1, "%d", (int32_t) data);
+		break;
+	case 4: // uint
+	case 7: // udint
+	case 8: // dword
+		snprintf(out, max_out_len_bytes - 1, "%u", (uint32_t) data);
+		break;
+	}
+}
+
 static long
 handle_event_modify(aSubRecord *prec)
 {
@@ -364,9 +370,7 @@ handle_event_modify(aSubRecord *prec)
 	// event trigger id
 
 	event_info->trigger = ((uint16_t *) prec->f)[event_index];
-
-	memset(prec->valf, 0, prec->novf);
-	//strncpy((char *) prec->valf, , prec->novf - 1);
+	*(long *) prec->valf = event_info->trigger;
 
 	// event cause index
 
@@ -386,6 +390,8 @@ handle_event_modify(aSubRecord *prec)
 	} else {
 		strncpy(event_info->text_number_str, event_info_text_number_strs[event_info->type][event_info->text_number], sizeof(event_info->text_number_str));
 	}
+	memset(prec->valh, 0, prec->novh);
+	strncpy((char *) prec->valh, event_info->text_number_str, prec->novh - 1);
 
 	// event data type
 
@@ -395,6 +401,8 @@ handle_event_modify(aSubRecord *prec)
 	// event data
 
 	event_info->data = ((uint32_t *) prec->j)[event_index];
+	event_data_to_str(event_info->data, event_info->data_type, event_info->data_str, sizeof(event_info->data_str));
+
 
 	if (event_info->type == 2) { // interlock
 		memset(prec->vall, 0, prec->novl);
@@ -405,97 +413,29 @@ handle_event_modify(aSubRecord *prec)
 
 		strncpy((char *) prec->vall, event_info->type_str, prec->novl - 1);
 		strncpy((char *) prec->valm, event_info->timestamp, prec->novm - 1);
-		//strncpy((char *) prec->valn, , prec->novn - 1);
+		*(long *) prec->valn = event_info->trigger;
 		strncpy((char *) prec->valo, event_info->cause_str, prec->novo - 1);
 		//strncpy((char *) prec->valp, , prec->novp - 1);
 	}
 
 	if (event_output_fd != NULL) {
-		fprintf(event_output_fd, "%d %s %d %s %s\n",
+		fprintf(event_output_fd, "%d %s %d %s %s %s\n",
 			event_index,
 			event_info->type_str,
 			event_info->trigger,
 			event_info->cause_str,
+			event_info->data_str,
 			event_info->timestamp);
 		fflush(event_output_fd);
 	}
-
-#if 0
-	printf("index type trigger cause text type data time\n");
-	printf("%d \"%s\" %d \"%s\" \"%s\" \"%s\" %08x \"%s\"\n", 
-		event_index,
-		event_info->type_str,
-		event_info->trigger,
-		event_info->cause_str,
-		event_info->text_number_str,
-		event_info->data_type_str,
-		event_info->data,
-		event_info->timestamp);
-#endif
 
 	return 0;
 }
 epicsRegisterFunction(handle_event_modify);
 
-#if 0
-scandinovaLogAsynPortDriver::scandinovaLogAsynPortDriver(const char *portName) :
-	asynPortDriver(portName, 1, asynInt32Mask, asynInt32Mask, 0, 1, 0, 0)
-{
-	epicsThreadOSD *status = NULL;
-
-	status = epicsThreadCreate("scandinovaLogAsynPortDriverTask",
-		epicsThreadPriorityMedium,
-		epicsThreadGetStackSize(epicsThreadStackMedium),
-		logTaskBounce,
-		NULL);
-
-	assert(status != NULL);
-}
-
-scandinovaLogAsynPortDriver::~scandinovaLogAsynPortDriver()
-{
-}
-
-asynStatus scandinovaLogAsynPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
-{
-	return asynSuccess;
-}
-
-void scandinovaLogAsynPortDriver::logTask(void)
-{
-	while (1) {
-		sleep(1);
-	}
-}
-
-static void logTaskBounce(void *arg)
-{
-	driver->logTask();
-}
-#endif
 
 extern "C"
 {
-
-#if 0
-static const iocshFuncDef initFuncDef = { "scandinovaLogAsynDriverConfigure", 0, NULL};
-static void initCallFunc(const iocshArgBuf *args)
-{
-}
-
-static const iocshFuncDef debugFuncDef = { "scandinovaLogAsynDriverDebug", 0, NULL};
-static void debugCallFunc(const iocshArgBuf *args)
-{
-}
-
-void scandinovaLogAsynDriverRegister(void)
-{
-	iocshRegister(&initFuncDef, initCallFunc);
-	iocshRegister(&debugFuncDef, debugCallFunc);
-	driver = new scandinovaLogAsynPortDriver("");
-}
-epicsExportRegistrar(scandinovaLogAsynDriverRegister);
-#endif
 
 static const iocshArg event_log_configure_arg0 = {"filename", iocshArgString};
 static const iocshArg *event_log_configure_args[] = {&event_log_configure_arg0};

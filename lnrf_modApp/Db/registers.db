@@ -841,170 +841,170 @@ record (longin,"$(P):MainEventIncrement") {
 	field(INP, "@asyn(read1700 0)")
 	field(DTYP, "asynInt32")
 }
-record (mbbi,"$(P):MainEventType") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1700 1)")
-	field(DTYP, "asynInt32")
-	field(ZRVL, "0")
-	field(ZRST, "State")
-	field(ONVL, "1")
-	field(ONST, "Warning")
-	field(TWVL, "2")
-	field(TWST, "Interlock")
-	field(THVL, "3")
-	field(THST, "Error")
-	field(FRVL, "4")
-	field(FRST, "Parameter")
-	field(FVVL, "5")
-	field(FVST, "Message")
-}
-record (longin,"$(P):MainEventTimeUpper") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1702 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):MainEventTimeLower") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1702 2)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):MainEventTrigger") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1706 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):MainEventItem") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1708 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):MainEventTextNum") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1708 1)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):MainEventDataType") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1708 2)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):MainEventData") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1711 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):LastIntlkIncrement") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1715 0)")
-	field(DTYP, "asynInt32")
-}
-record (mbbi,"$(P):LastIntlkType") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1715 1)")
-	field(DTYP, "asynInt32")
-	field(ZRVL, "0")
-	field(ZRST, "State")
-	field(ONVL, "1")
-	field(ONST, "Warning")
-	field(TWVL, "2")
-	field(TWST, "Interlock")
-	field(THVL, "3")
-	field(THST, "Error")
-	field(FRVL, "4")
-	field(FRST, "Parameter")
-	field(FVVL, "5")
-	field(FVST, "Message")
-}
-record (longin,"$(P):LastIntlkTimeUpper") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1717 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):LastIntlkTimeLower") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1717 2)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):LastIntlkTrigger") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1721 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):LastIntlkItem") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1723 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):LastIntlkTextNum") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1723 1)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):LastIntlkDataType") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1723 2)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):LastIntlkData") {
-	field(DESC, "first interlock event since reset")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1726 0)")
-	field(DTYP, "asynInt32")
-}
-record (mbbi,"$(P):TrigEnableCmd:IntlkState") {
-	field(DESC, "State of mod where interlock is enabled")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read2000 1)")
-	field(DTYP, "asynInt32")
-	field(ZRVL, "-1")
-	field(ZRST, "Error")
-	field(ONVL, "0")
-	field(ONST, "Initialize")
-	field(TWVL, "1")
-	field(TWST, "Off")
-	field(THVL, "2")
-	field(THST, "StandByInterlock")
-	field(FRVL, "3")
-	field(FRST, "StandByOffRequested")
-	field(FVVL, "4")
-	field(FVST, "StandByOnRequested")
-	field(SXVL, "5")
-	field(SXST, "StandBy")
-	field(SVVL, "6")
-	field(SVST, "HvInterlock")
-	field(EIVL, "7")
-	field(EIST, "HvOffRequested")
-	field(NIVL, "8")
-	field(NIST, "HvOnRequested")
-	field(TEVL, "9")
-	field(TEST, "Hv")
-	field(ELVL, "10")
-	field(ELST, "TrigInterlock")
-	field(TVVL, "11")
-	field(TVST, "TrigOffRequested")
-	field(TTVL, "12")
-	field(TTST, "TrigOnRequested")
-	field(FTVL, "13")
-	field(FTST, "Trig")
-	field(FFVL, "99")
-	field(FFST, "Disabled")
-}
+#record (mbbi,"$(P):MainEventType") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1700 1)")
+#	field(DTYP, "asynInt32")
+#	field(ZRVL, "0")
+#	field(ZRST, "State")
+#	field(ONVL, "1")
+#	field(ONST, "Warning")
+#	field(TWVL, "2")
+#	field(TWST, "Interlock")
+#	field(THVL, "3")
+#	field(THST, "Error")
+#	field(FRVL, "4")
+#	field(FRST, "Parameter")
+#	field(FVVL, "5")
+#	field(FVST, "Message")
+#}
+#record (longin,"$(P):MainEventTimeUpper") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1702 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):MainEventTimeLower") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1702 2)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):MainEventTrigger") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1706 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):MainEventItem") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1708 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):MainEventTextNum") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1708 1)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):MainEventDataType") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1708 2)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):MainEventData") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1711 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):LastIntlkIncrement") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1715 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (mbbi,"$(P):LastIntlkType") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1715 1)")
+#	field(DTYP, "asynInt32")
+#	field(ZRVL, "0")
+#	field(ZRST, "State")
+#	field(ONVL, "1")
+#	field(ONST, "Warning")
+#	field(TWVL, "2")
+#	field(TWST, "Interlock")
+#	field(THVL, "3")
+#	field(THST, "Error")
+#	field(FRVL, "4")
+#	field(FRST, "Parameter")
+#	field(FVVL, "5")
+#	field(FVST, "Message")
+#}
+#record (longin,"$(P):LastIntlkTimeUpper") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1717 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):LastIntlkTimeLower") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1717 2)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):LastIntlkTrigger") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1721 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):LastIntlkItem") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1723 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):LastIntlkTextNum") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1723 1)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):LastIntlkDataType") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1723 2)")
+#	field(DTYP, "asynInt32")
+#}
+#record (longin,"$(P):LastIntlkData") {
+#	field(DESC, "first interlock event since reset")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1726 0)")
+#	field(DTYP, "asynInt32")
+#}
+#record (mbbi,"$(P):TrigEnableCmd:IntlkState") {
+#	field(DESC, "State of mod where interlock is enabled")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read2000 1)")
+#	field(DTYP, "asynInt32")
+#	field(ZRVL, "-1")
+#	field(ZRST, "Error")
+#	field(ONVL, "0")
+#	field(ONST, "Initialize")
+#	field(TWVL, "1")
+#	field(TWST, "Off")
+#	field(THVL, "2")
+#	field(THST, "StandByInterlock")
+#	field(FRVL, "3")
+#	field(FRST, "StandByOffRequested")
+#	field(FVVL, "4")
+#	field(FVST, "StandByOnRequested")
+#	field(SXVL, "5")
+#	field(SXST, "StandBy")
+#	field(SVVL, "6")
+#	field(SVST, "HvInterlock")
+#	field(EIVL, "7")
+#	field(EIST, "HvOffRequested")
+#	field(NIVL, "8")
+#	field(NIST, "HvOnRequested")
+#	field(TEVL, "9")
+#	field(TEST, "Hv")
+#	field(ELVL, "10")
+#	field(ELST, "TrigInterlock")
+#	field(TVVL, "11")
+#	field(TVST, "TrigOffRequested")
+#	field(TTVL, "12")
+#	field(TTST, "TrigOnRequested")
+#	field(FTVL, "13")
+#	field(FTST, "Trig")
+#	field(FFVL, "99")
+#	field(FFST, "Disabled")
+#}
 record (mbbi,"$(P):OilPumpCmd:IntlkState") {
 	field(DESC, "State of mod where interlock is enabled")
 	field(SCAN, "I/O Intr")

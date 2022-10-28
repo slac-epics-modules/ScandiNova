@@ -16,8 +16,8 @@
   <widget class="PyDMLabel" name="PyDMLabel">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>20</y>
+     <x>380</x>
+     <y>180</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -26,7 +26,7 @@
     <string/>
    </property>
    <property name="channel" stdset="0">
-    <string>ca://LNRF:Mod1:ModbusProtocolID</string>
+    <string>ca://${P}:ModbusProtocolID.VAL</string>
    </property>
    <property name="displayFormat" stdset="0">
     <enum>PyDMLabel::Decimal</enum>
@@ -35,8 +35,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>30</y>
+     <x>250</x>
+     <y>190</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -48,8 +48,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>50</y>
+     <x>250</x>
+     <y>210</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_2">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>50</y>
+     <x>380</x>
+     <y>210</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -71,7 +71,7 @@
     <string/>
    </property>
    <property name="channel" stdset="0">
-    <string>ca://LNRF:Mod1:ModbusProtocolRevision</string>
+    <string>ca://${P}:ModbusProtocolRevision.VAL</string>
    </property>
    <property name="displayFormat" stdset="0">
     <enum>PyDMLabel::Decimal</enum>
@@ -80,8 +80,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>70</y>
+     <x>250</x>
+     <y>230</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -93,8 +93,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_3">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>70</y>
+     <x>380</x>
+     <y>230</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -103,7 +103,7 @@
     <string/>
    </property>
    <property name="channel" stdset="0">
-    <string>ca://LNRF:Mod1:EventIndex</string>
+    <string>ca://${P}:EventIndex.VAL</string>
    </property>
    <property name="displayFormat" stdset="0">
     <enum>PyDMLabel::Decimal</enum>
@@ -112,8 +112,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>90</y>
+     <x>250</x>
+     <y>250</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -125,8 +125,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_4">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>90</y>
+     <x>380</x>
+     <y>250</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -135,7 +135,7 @@
     <string/>
    </property>
    <property name="channel" stdset="0">
-    <string>ca://LNRF:Mod1:State</string>
+    <string>ca://${P}:State.VAL</string>
    </property>
    <property name="displayFormat" stdset="0">
     <enum>PyDMLabel::Decimal</enum>
@@ -144,8 +144,8 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>110</y>
+     <x>250</x>
+     <y>270</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -157,8 +157,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_5">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>110</y>
+     <x>380</x>
+     <y>270</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -167,7 +167,7 @@
     <string/>
    </property>
    <property name="channel" stdset="0">
-    <string>ca://LNRF:Mod1:AccessLevel</string>
+    <string>ca://${P}:AccessLevel.VAL</string>
    </property>
    <property name="displayFormat" stdset="0">
     <enum>PyDMLabel::Decimal</enum>
@@ -176,8 +176,8 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>130</y>
+     <x>250</x>
+     <y>290</y>
      <width>121</width>
      <height>18</height>
     </rect>
@@ -189,8 +189,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_6">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>130</y>
+     <x>380</x>
+     <y>290</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -199,7 +199,7 @@
     <string/>
    </property>
    <property name="channel" stdset="0">
-    <string>ca://LNRF:Mod1:FilamentWarmupTimeLeft</string>
+    <string>ca://${P}:FilamentWarmupTimeLeft.VAL</string>
    </property>
    <property name="displayFormat" stdset="0">
     <enum>PyDMLabel::Decimal</enum>
@@ -208,8 +208,8 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>150</y>
+     <x>250</x>
+     <y>310</y>
      <width>121</width>
      <height>18</height>
     </rect>
@@ -221,8 +221,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_7">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>150</y>
+     <x>380</x>
+     <y>310</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -231,10 +231,170 @@
     <string/>
    </property>
    <property name="channel" stdset="0">
-    <string>ca://LNRF:Mod1:PulseRepetitionFreq</string>
+    <string>ca://${P}:PulseRepetitionFreq.VAL</string>
    </property>
    <property name="displayFormat" stdset="0">
     <enum>PyDMLabel::Decimal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>80</y>
+     <width>74</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Type</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>80</y>
+     <width>91</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Timestamp</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>80</y>
+     <width>74</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TrigId</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>80</y>
+     <width>74</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>State</string>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_8">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>100</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:MainEventTypeStr.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::String</enum>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_9">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>100</y>
+     <width>221</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:MainEventTimeStr.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::String</enum>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_10">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>100</y>
+     <width>76</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:MainEventTrigger.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::Decimal</enum>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_11">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>100</y>
+     <width>76</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:State.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::String</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>20</y>
+     <width>101</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>AccessLevel:</string>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_12">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>20</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:AccessLevel.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::String</enum>
    </property>
   </widget>
  </widget>
