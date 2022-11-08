@@ -124,3 +124,13 @@ record (aSub,"$(P):EventBridge") {
 	field(FTVP,"STRING")
 	field(NOVP,"64")
 }
+
+record (calcout,"$(P):CalcWatchdog") {
+	field(FLNK,"$(P):CommWatchdog.PROC")
+	field(SCAN,"1 second")
+	field(INPA,"$(P):CalcWatchdog.VAL NPP NMS")
+	field(CALC,"(A+1)%0x10000")
+	field(OUT,"$(P):CommWatchdog")
+	field(OOPT,"Every Time")
+	field(DOPT,"Use CALC")
+}

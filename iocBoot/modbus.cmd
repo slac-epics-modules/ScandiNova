@@ -1,3 +1,6 @@
+#
+# INPUT REGISTERS (read by IOC app)
+#
 drvModbusAsynConfigure("read0", "mod-beckhoff-plc", 0, 4, 0, 1, 4, 1000, "mod-beckhoff-plc")
 drvModbusAsynConfigure("read1", "mod-beckhoff-plc", 0, 4, 1, 1, 4, 1000, "mod-beckhoff-plc")
 drvModbusAsynConfigure("read3", "mod-beckhoff-plc", 0, 4, 3, 1, 4, 1000, "mod-beckhoff-plc")
@@ -77,13 +80,29 @@ drvModbusAsynConfigure("read3201", "mod-beckhoff-plc", 0, 4, 3201, 100, 4, 1000,
 drvModbusAsynConfigure("read3301", "mod-beckhoff-plc", 0, 4, 3301, 100, 4, 1000, "mod-beckhoff-plc")
 drvModbusAsynConfigure("read3401", "mod-beckhoff-plc", 0, 4, 3401, 100, 4, 1000, "mod-beckhoff-plc")
 drvModbusAsynConfigure("read3501", "mod-beckhoff-plc", 0, 4, 3501, 12, 4, 1000, "mod-beckhoff-plc")
-drvModbusAsynConfigure("write1", "mod-beckhoff-plc", 0, 6, 1, 1, 4, -1, "mod-beckhoff-plc")
-drvModbusAsynConfigure("write2", "mod-beckhoff-plc", 0, 6, 2, 1, 0, -1, "mod-beckhoff-plc")
-drvModbusAsynConfigure("write100", "mod-beckhoff-plc", 0, 16, 100, 2, 7, -1, "mod-beckhoff-plc")
-#drvModbusAsynConfigure("write200", "mod-beckhoff-plc", 0, 16, 200, 2, 7, -1, "mod-beckhoff-plc")
-drvModbusAsynConfigure("write300", "mod-beckhoff-plc", 0, 16, 300, 2, 7, -1, "mod-beckhoff-plc")
-#drvModbusAsynConfigure("write400", "mod-beckhoff-plc", 0, 16, 400, 2, 7, -1, "mod-beckhoff-plc")
-#drvModbusAsynConfigure("write500", "mod-beckhoff-plc", 0, 16, 500, 2, 7, -1, "mod-beckhoff-plc")
-#drvModbusAsynConfigure("write502", "mod-beckhoff-plc", 0, 16, 502, 2, 7, -1, "mod-beckhoff-plc")
-#drvModbusAsynConfigure("write504", "mod-beckhoff-plc", 0, 16, 504, 2, 7, -1, "mod-beckhoff-plc")
-drvModbusAsynConfigure("write3000", "mod-beckhoff-plc", 0, 6, 3000, 1, 4, -1, "mod-beckhoff-plc")
+
+#
+# OUTPUT REGISTERS (written by IOC app)
+#
+# use op code 6 for 16-bit (word) values, and op code 16 for anything more than 16 bits.
+#
+#                      port
+#                                   tcp-port
+#                                                       slave-addr
+#                                                           function
+#                                                                 address
+#                                                                    length-words
+#                                                                       data-type
+#                                                                           poll-ms
+#                                                                              plc-type
+drvModbusAsynConfigure(   "write0", "mod-beckhoff-plc", 0,  6,    0, 1, 0,  0, "mod-beckhoff-plc")
+drvModbusAsynConfigure(   "write1", "mod-beckhoff-plc", 0,  6,    1, 1, 4, -1, "mod-beckhoff-plc")
+drvModbusAsynConfigure(   "write2", "mod-beckhoff-plc", 0,  6,    2, 1, 0, -1, "mod-beckhoff-plc")
+drvModbusAsynConfigure( "write100", "mod-beckhoff-plc", 0, 16,  100, 2, 7, -1, "mod-beckhoff-plc")
+#drvModbusAsynConfigure("write200", "mod-beckhoff-plc", 0, 16,  200, 2, 7, -1, "mod-beckhoff-plc")
+drvModbusAsynConfigure( "write300", "mod-beckhoff-plc", 0, 16,  300, 2, 7, -1, "mod-beckhoff-plc")
+#drvModbusAsynConfigure("write400", "mod-beckhoff-plc", 0, 16,  400, 2, 7, -1, "mod-beckhoff-plc")
+#drvModbusAsynConfigure("write500", "mod-beckhoff-plc", 0, 16,  500, 2, 7, -1, "mod-beckhoff-plc")
+#drvModbusAsynConfigure("write502", "mod-beckhoff-plc", 0, 16,  502, 2, 7, -1, "mod-beckhoff-plc")
+#drvModbusAsynConfigure("write504", "mod-beckhoff-plc", 0, 16,  504, 2, 7, -1, "mod-beckhoff-plc")
+drvModbusAsynConfigure("write3000", "mod-beckhoff-plc", 0,  6, 3000, 1, 4, -1, "mod-beckhoff-plc")

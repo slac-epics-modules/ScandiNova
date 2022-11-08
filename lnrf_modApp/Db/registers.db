@@ -205,7 +205,7 @@ record (mbbi,"$(P):StateSet:RBV") {
 	field(FFVL, "99")
 	field(FFST, "Disabled")
 }
-record (ai,"$(P):VoltageSet:RBV") {
+record (ai,"$(P):VoltageSetRBV") {
 	field(DESC, "Readback of voltage setvalue of all ccps")
 	field(EGU, "V")
 	info(archive,"policy:Default")

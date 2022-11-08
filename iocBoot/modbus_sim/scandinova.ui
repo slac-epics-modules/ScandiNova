@@ -16,8 +16,8 @@
   <widget class="PyDMLabel" name="PyDMLabel">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>180</y>
+     <x>780</x>
+     <y>330</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -35,8 +35,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>190</y>
+     <x>650</x>
+     <y>340</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -48,8 +48,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>210</y>
+     <x>650</x>
+     <y>360</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_2">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>210</y>
+     <x>780</x>
+     <y>360</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -80,8 +80,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>230</y>
+     <x>650</x>
+     <y>380</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -93,8 +93,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_3">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>230</y>
+     <x>780</x>
+     <y>380</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -112,8 +112,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>250</y>
+     <x>650</x>
+     <y>400</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -125,8 +125,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_4">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>250</y>
+     <x>780</x>
+     <y>400</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -144,8 +144,8 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>270</y>
+     <x>650</x>
+     <y>420</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -157,8 +157,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_5">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>270</y>
+     <x>780</x>
+     <y>420</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -176,8 +176,8 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>290</y>
+     <x>650</x>
+     <y>440</y>
      <width>121</width>
      <height>18</height>
     </rect>
@@ -189,8 +189,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_6">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>290</y>
+     <x>780</x>
+     <y>440</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -208,8 +208,8 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>310</y>
+     <x>650</x>
+     <y>460</y>
      <width>121</width>
      <height>18</height>
     </rect>
@@ -221,8 +221,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_7">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>310</y>
+     <x>780</x>
+     <y>460</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -240,8 +240,8 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>80</y>
+     <x>70</x>
+     <y>140</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -253,8 +253,8 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>80</y>
+     <x>170</x>
+     <y>140</y>
      <width>91</width>
      <height>18</height>
     </rect>
@@ -266,8 +266,8 @@
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>80</y>
+     <x>410</x>
+     <y>140</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -279,8 +279,8 @@
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>80</y>
+     <x>520</x>
+     <y>140</y>
      <width>74</width>
      <height>18</height>
     </rect>
@@ -292,8 +292,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_8">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>100</y>
+     <x>70</x>
+     <y>160</y>
      <width>101</width>
      <height>21</height>
     </rect>
@@ -311,8 +311,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_9">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>100</y>
+     <x>170</x>
+     <y>160</y>
      <width>221</width>
      <height>18</height>
     </rect>
@@ -330,8 +330,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_10">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>100</y>
+     <x>410</x>
+     <y>160</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -349,8 +349,8 @@
   <widget class="PyDMLabel" name="PyDMLabel_11">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>100</y>
+     <x>520</x>
+     <y>160</y>
      <width>76</width>
      <height>18</height>
     </rect>
@@ -368,7 +368,7 @@
   <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>20</y>
      <width>101</width>
      <height>18</height>
@@ -381,7 +381,7 @@
   <widget class="PyDMLabel" name="PyDMLabel_12">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>130</x>
      <y>20</y>
      <width>101</width>
      <height>21</height>
@@ -397,12 +397,238 @@
     <enum>PyDMLabel::String</enum>
    </property>
   </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>20</y>
+     <width>271</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ScandiNova ${P}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>10</y>
+     <width>101</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CVD:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>30</y>
+     <width>101</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CT:</string>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_13">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>10</y>
+     <width>76</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="precision" stdset="0">
+    <number>0</number>
+   </property>
+   <property name="showUnits" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="precisionFromPV" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="alarmSensitiveContent" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="alarmSensitiveBorder" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:CapVoltageDivider.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::String</enum>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_14">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>30</y>
+     <width>76</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="precision" stdset="0">
+    <number>0</number>
+   </property>
+   <property name="showUnits" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="precisionFromPV" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="alarmSensitiveContent" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="alarmSensitiveBorder" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:CurrentTransformer.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::String</enum>
+   </property>
+  </widget>
+  <widget class="PyDMLineEdit" name="PyDMLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>310</y>
+     <width>91</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="showUnits" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:VoltageSet</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLineEdit::Decimal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>63</x>
+     <y>320</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Voltage Set</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>350</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Voltage Readback</string>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_15">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>350</y>
+     <width>76</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:Voltage.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::Decimal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>370</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Voltage Readback</string>
+   </property>
+  </widget>
+  <widget class="PyDMLabel" name="PyDMLabel_16">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>370</y>
+     <width>76</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="precision" stdset="0">
+    <number>0</number>
+   </property>
+   <property name="showUnits" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="precisionFromPV" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="alarmSensitiveContent" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="alarmSensitiveBorder" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="channel" stdset="0">
+    <string>ca://${P}:VoltageSetRBV.VAL</string>
+   </property>
+   <property name="displayFormat" stdset="0">
+    <enum>PyDMLabel::Decimal</enum>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
    <class>PyDMLabel</class>
    <extends>QLabel</extends>
    <header>pydm.widgets.label</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>pydm.widgets.line_edit</header>
   </customwidget>
  </customwidgets>
  <resources/>
