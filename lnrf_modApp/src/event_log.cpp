@@ -299,7 +299,7 @@ event_data_to_str(uint32_t data, int type, char *out, size_t max_out_len_bytes)
 		break;
 	case 1: // real
 		assert(sizeof(float) == sizeof(uint32_t));
-		snprintf(out, max_out_len_bytes - 1, "%f", *(float *) &data);
+		snprintf(out, max_out_len_bytes - 1, "%f", *(float *) (void *) &data);
 		break;
 	case 2: // bool
 	case 3: // int

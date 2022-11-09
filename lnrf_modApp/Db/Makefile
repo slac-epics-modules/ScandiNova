@@ -13,7 +13,8 @@ DB += waveform.db
 DB += registers.db
 #DB += py.db
 DB += bridge.db
-DB += logMessages.db
+DB += modbus_registers.db
+DB += log_messages.db
 
 #DB_INSTALLS += ../O.$(EPICS_HOST_ARCH)/registers.db
 

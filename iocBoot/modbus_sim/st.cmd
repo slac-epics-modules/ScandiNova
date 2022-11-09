@@ -37,7 +37,8 @@ set_event_output_file("./scandinova-modulator-events-$(P)")
 dbLoadRecords("db/registers.db","P=$(P)")
 dbLoadRecords("db/waveform.db","P=$(P)")
 dbLoadRecords("db/bridge.db","P=$(P)")
-dbLoadRecords("db/logMessages.db", "P=$(P)")
+dbLoadRecords("db/modbus_registers.db", "P=$(P)")
+dbLoadRecords("db/log_messages.db", "P=$(P)")
 #iocshLoad("$(IOCSH_TOP)/als_default.iocsh")
 
 # access control list
