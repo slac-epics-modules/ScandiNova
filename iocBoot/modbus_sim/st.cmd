@@ -30,6 +30,7 @@ modbusInterposeConfig("mod-beckhoff-plc", 0, 0, 0)
 
 #py "import eventAndWaveform"
 #py "eventAndWaveform.build('$(P)$(R)', '$(TOP)', '/u/gu/egumtow/scandinova-modulator-events')"
+parse_resources_xml("./lnrf_modApp/iocBoot/modbus_sim/Resource.xml")
 set_event_output_file("./scandinova-modulator-events-$(P)")
 
 

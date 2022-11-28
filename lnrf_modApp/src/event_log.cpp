@@ -4,34 +4,58 @@
 #include <time.h>
 #include <string.h>
 #include <errno.h>
+#include <pthread.h>
 #include <iocsh.h>
 #include <epicsTypes.h>
 #include <aSubRecord.h>
 #include <registryFunction.h>
 #include <epicsExport.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#include <libxml/xinclude.h>
+#include <libxml/xmlIO.h>
+#include <map>
+#include <utility>
+#include <string>
 #include "asynPortDriver.h"
 
 
+using namespace std;
+
+
 typedef struct {
+	int index;
 	time_t epoch;
 	char timestamp[64];
-	int type;
-	char type_str[32];
 	int trigger;
-	int cause_index;
-	char cause_str[64];
-	int text_number;
-	char text_number_str[32];
-	int data_type;
+	int type;               // index for Strings and event types
+	char type_str[32];
+	int text_number;        // index for Strings[type]
+	char log_text_str[64];  // from Strings[type][text_number]
+	int matrix_index;       // index for MatrixItems
+	char subsystem_str[32]; // from MatrixItems[matrix_index].Name
+	char units_str[8];      // from MatrixItems[matrix_index].Unit
+	int data_type;          // index for data types
 	char data_type_str[16];
 	uint32_t data;
 	char data_str[32];
 } event_info_t;
 
 
-static int event_index = -1;
+static pthread_t log_thread;
+static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
+static struct timespec next_clean_time = {-1, -1};
 static event_info_t event_infos[50];
+static int current_event_index = -1;
+static char *event_output_file = NULL;
+static FILE *event_output_fd = NULL;
 
+// maps that hold data we parse out of the XML doc
+static map<int, pair<string, string> > matrix_items;
+static map<int, map<int, string> > log_text;
+
+
+// this list is not defined in Resource.xml
 static const char *event_info_type_strs[] = {
 	"State",
 	"Warning",
@@ -41,223 +65,7 @@ static const char *event_info_type_strs[] = {
 	"Message"
 };
 
-static const char *event_info_cause_strs[] = {
-	"T&i\\TrigEnableCmd",
-	"Tank\\OilPumpCmd",
-	"Tank\\BpsVoltSet",
-	"Ccps\\MainsOnCmd",
-	"Ccps\\VoltSet",
-	"Kly\\FpsCurrSet1",
-	"Kly\\Sps1CurrSet",
-	"Kly\\Sps2CurrSet",
-	"Kly\\Sps3CurrSet",
-	"Pdu\\FanOnCmd",
-	"Kly\\HeaterDelay1",
-	"Switch\\PlswthSet",
-	"T&i\\LocPrfSet",
-	"T&i\\PrfRead",
-	"T&i\\FiberIntSts",
-	"T&i\\HwCtrlExtIntlkSts",
-	"T&i\\HwCtrlTrigEnableSts",
-	"T&i\\HvEnaSts",
-	"ExternalIntlk1",
-	"ExternalIntlk2",
-	"T&i\\Spare3",
-	"T&i\\Spare4",
-	"Pdu\\TmaxSts",
-	"Ccps\\Ps1VoltRead",
-	"Ccps\\Ps1VoltRead",
-	"Ccps\\Ps1SumSts",
-	"Ccps\\BleederSumSts",
-	"Switch\\Su1SumSts",
-	"Switch\\Su2SumSts",
-	"Switch\\Su3SumSts",
-	"Switch\\Su4SumSts",
-	"Switch\\Su5SumSts",
-	"Switch\\Su6SumSts",
-	"Switch\\Su7SumSts",
-	"Switch\\Su8SumSts",
-	"Tank\\BiasPsOkSts",
-	"Tank\\DigiCtRead",
-	"Tank\\DigiCtRead",
-	"Tank\\DigiCvdRead",
-	"Tank\\DigiCvdRead",
-	"Tank\\DigiFwhmRead",
-	"Tank\\DigiFwhmRead",
-	"Tank\\DigiSumSts",
-	"Tank\\OilLevRead",
-	"Tank\\OilLevRead",
-	"Tank\\OilTempRead",
-	"Tank\\OilTempRead",
-	"Tank\\OilFilterSts",
-	"Tank\\OilPumpInverterSts",
-	"Tank\\OilPumpTempSts",
-	"Kly\\FpsCurrRead",
-	"Kly\\FpsCurrRead",
-	"Kly\\FpsVoltRead",
-	"Kly\\FpsVoltRead",
-	"Kly\\Sps1CurrRead",
-	"Kly\\Sps1CurrRead",
-	"Kly\\Sps1VoltRead",
-	"Kly\\Sps1VoltRead",
-	"Kly\\Sps2CurrRead",
-	"Kly\\Sps2CurrRead",
-	"Kly\\Sps2VoltRead",
-	"Kly\\Sps2VoltRead",
-	"Kly\\Sps3CurrRead",
-	"Kly\\Sps3CurrRead",
-	"Kly\\Sps3VoltRead",
-	"Kly\\Sps3VoltRead",
-	"Kly\\SolPsSumSts",
-	"Kly\\HwHvSumSts",
-	"Kly\\HwStbSumSts",
-	"Kly\\Ipc1CurrRead",
-	"Kly\\Ipc1CurrRead",
-	"Kly\\Ipc1VoltRead",
-	"Kly\\Ipc1VoltRead",
-	"Kly\\Ipc1VacOkSts",
-	"Cool\\InletWaterTempRead",
-	"Cool\\InletWaterTempRead",
-	"Cool\\ColRtnTempRead",
-	"Cool\\ColRtnTempRead",
-	"Cool\\BodyRtnTempRead",
-	"Cool\\BodyRtnTempRead",
-	"Cool\\HwHvSumSts",
-	"Cool\\HwStbSumSts",
-	"Cool\\SolTempSwitchSts",
-	"Cool\\FluidTrapSts",
-	"Cool\\CcpsSuFlow1",
-	"Cool\\CcpsSuFlow2",
-	"Cool\\CcpsSuFlow3",
-	"Cool\\BodWinFlow",
-	"Cool\\CollectorFlow",
-	"Cool\\SolenoidFlow",
-	"Kly\\RfaSts",
-	"Kly\\RF Drive Power Read",
-	"Cool\\CollectorPower",
-	"Cool\\BodyPower",
-	"Kly\\RF Fwd Read",
-	"Kly\\RF Fwd Read",
-	"Kly\\RF Rfl Read",
-	"Kly\\RF Rfl Read",
-	"Kly\\RF Pulse Len Read",
-	"Kly\\RF Pulse Len Read",
-	"Kly\\RF DigiSumSts",
-	"Kly\\RF VSWR Read",
-	"GUIWatchdog",
-	"IntComm",
-	"ExtComm",
-};
-
-static const char *event_info_text_number_strs[6][101] = {
-	{
-	    "Error",
-	    "Initialize",
-	    "Off",
-	    "BlkInterlock",
-	    "BlkOffRequested",
-	    "BlkOnRequested",
-	    "Blk",
-	    "FilInterlock",
-	    "FilOffRequested",
-	    "FilOnRequested",
-	    "Fil",
-	    "StbInterlock",
-	    "StbOffRequested",
-	    "StbOnRequested",
-	    "Stb",
-	    "HvInterlock",
-	    "HvOffRequested",
-	    "HvOnRequested",
-	    "Hv",
-	    "TrigInterlock",
-	    "TrigOffRequested",
-	    "TrigOnRequested",
-	    "Trig",
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "",
-	    "Disabled"
-	}, {
-		"Llim exceeded",
-		"WLlim exceeded",
-		"WHlim exceeded",
-		"Hlim exceeded",
-		"Input missing"
-	}, {
-		"Llim exceeded",
-		"",
-		"",
-		"Hlim exceeded",
-		"Input missing"
-	}, {
-        "Slave configuration error",
-        "Slave error",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-        "GUI\\ScandiCat code",
-        "GUI\\SelfTest code",
-        "GUI\\UnitAi code",
-        "GUI\\UnitAo code",
-        "GUI\\UnitDi code",
-        "GUI\\UnitDly code",
-        "GUI\\UnitMultiAo code",
-        "GUI\\UnitMultiDi code",
-        "GUI\\Ads code",
-        "GUI\\EventLogg code",
-        "GUI\\Matrix code",
-        "GUI\\Trend log code",
-        "GUI\\Digitizer code",
-        "GUI\\Config code"
-	}, {
-        "Hlim",
-        "WHlim",
-        "WLlim",
-        "Llim",
-        "Filter / ms",
-        "uiScaleU",
-        "uiScalL",
-        "rScaleU",
-        "rScaleL",
-        "Set",
-        "Set1",
-        "Set2",
-        "Invalid Set",
-        "Invalid Set1",
-        "Invalid Set2",
-        "RampTime / s", 
-        "OkDly / ms",
-        "RampTime1 / s", 
-        "RampTime2 /s",
-        "OkDly1 /ms",
-        "OkDly2 / ms",
-        "RampStartSet",
-        "Invalid RampStartSet",
-        "RampOn",
-        "TargetMatrix updated",
-        "Hardware config saved",
-        "CvdArcTripSet /kV",
-        "CtArcTripSet /A",
-        "CtIntegrateTripSet / A", 
-        "CtIntegrateDelay /ns",
-        "CtIntegrateSamples",
-        "TrafoResistance / mOhm",
-        "MaxDownTime / sec",
-        "DownTimeFactor / sec"	
-	}, {
-		"AccessLevel: Remote",
-		"AccessLevel: Operator",
-		"AccessLevel: Admin",
-		"AccessLevel: ScandiNova"
-	}
-};
-
+// this list is not defined in Resource.xml
 static const char *event_info_data_type_strs[] = {
 	"No data",
 	"Real",
@@ -270,8 +78,137 @@ static const char *event_info_data_type_strs[] = {
 	"Dword"
 };
 
-static char *event_output_file = NULL;
-static FILE *event_output_fd = NULL;
+
+// given a node in XML, find a subnode by name
+static xmlNode *
+xml_get_node_by_name(xmlNode *node, char *name)
+{
+	xmlNode *subnode = node->children;
+
+	while (subnode != NULL) {
+		if (xmlStrcmp(subnode->name, (xmlChar *) name) == 0) {
+			return subnode;
+		}
+		subnode = subnode->next;
+	}
+
+	return NULL;
+}
+
+// given a node in XML, find the Name and Unit subnodes and retrieve their values
+static void
+xml_matrix_items(xmlNode *node)
+{
+	int index;
+	xmlNode *index_node = NULL;
+	xmlNode *name_node = NULL;
+	xmlNode *unit_node = NULL;
+	char *name = NULL;
+	char *unit = NULL;
+
+	for (index_node = node->children; index_node != NULL; index_node = index_node->next) {
+		sscanf((char *) index_node->name, "Index%d", &index);
+
+		name_node = xml_get_node_by_name(index_node, (char *) "Name");
+		unit_node = xml_get_node_by_name(index_node, (char *) "Unit");
+
+		name = (char *) xmlNodeGetContent(name_node);
+		unit = (char *) xmlNodeGetContent(unit_node);
+
+		matrix_items.insert(pair<int, pair<string, string> >(index, pair<string, string>(name, unit)));
+	}
+}
+
+// given a node in XML, iterate the subnodes, find the subnodes whose names
+// match "no%d" and retrieve their values.  the %d part of "no%d" is the
+// index value that the modulator gives us during run time, mapping an int
+// to a string.
+static void
+xml_by_number(xmlNode *node, map<int, string> &vals)
+{
+	xmlNode *number_node = NULL;
+	xmlNode *text_node = NULL;
+	int number;
+
+	for (number_node = node->children; number_node != NULL; number_node = number_node->next) {
+		sscanf((char *) number_node->name, "no%d", &number);
+
+		text_node = xml_get_node_by_name(number_node, (char *) "Text");
+		vals.insert(pair<int, string>(number, (char *) xmlNodeGetContent(text_node)));
+	}
+}
+
+// we use libxml2 to parse XML docs
+static void
+parse_resources_xml(const char *name)
+{
+	xmlDocPtr doc = xmlReadFile(name, NULL, XML_PARSE_NOBLANKS);
+	xmlNode *gui_node = NULL;
+	xmlNode *matrix_items_node = NULL;
+	xmlNode *strings_node = NULL;
+	xmlNode *state_node = NULL;
+	xmlNode *warning_node = NULL;
+	xmlNode *interlock_node = NULL;
+	xmlNode *param_node = NULL;
+	xmlNode *error_node = NULL;
+	xmlNode *message_node = NULL;
+
+	if (doc == NULL) {
+		printf("error: %s not found", name);
+		return;
+	}
+
+	gui_node = xmlDocGetRootElement(doc);
+	if (!gui_node) {
+		printf("error: %s missing data", name);
+		return;
+	}
+
+	matrix_items_node = xml_get_node_by_name(gui_node, (char *) "MatrixItems");
+	if (!matrix_items_node) {
+		return;
+	}
+	strings_node = xml_get_node_by_name(gui_node, (char *) "Strings");
+	if (!strings_node) {
+		return;
+	}
+	state_node = xml_get_node_by_name(strings_node, (char *) "State");
+	if (!state_node) {
+		return;
+	}
+	warning_node = xml_get_node_by_name(strings_node, (char *) "Warning");
+	if (!state_node) {
+		return;
+	}
+	interlock_node = xml_get_node_by_name(strings_node, (char *) "Interlock");
+	if (!state_node) {
+		return;
+	}
+	param_node = xml_get_node_by_name(strings_node, (char *) "Param");
+	if (!state_node) {
+		return;
+	}
+	error_node = xml_get_node_by_name(strings_node, (char *) "Error");
+	if (!state_node) {
+		return;
+	}
+	message_node = xml_get_node_by_name(strings_node, (char *) "Message");
+	if (!state_node) {
+		return;
+	}
+
+	xml_matrix_items(matrix_items_node);
+	xml_by_number(state_node, log_text[0]);     // states
+	xml_by_number(warning_node, log_text[1]);   // warnings
+	xml_by_number(interlock_node, log_text[2]); // interlocks
+	xml_by_number(error_node, log_text[3]);     // errors
+	xml_by_number(param_node, log_text[4]);     // params
+	xml_by_number(message_node, log_text[5]);   // messages (access level)
+
+	xmlFreeDoc(doc);
+	xmlCleanupParser();
+}
+
 static void
 set_event_output_file(const char *name)
 {
@@ -315,6 +252,145 @@ event_data_to_str(uint32_t data, int type, char *out, size_t max_out_len_bytes)
 	}
 }
 
+// if the event log is updating in hardware, we must wait for it to reach a
+// consistent state before we pull data out of it.  so we delay by one second,
+// and during that time if there are no further updates, we lock our
+// representation of the event data and assume it is consistent.  then we
+// write to the log file and unlock the event data.
+static int is_log_updating(void)
+{
+	struct timespec now;
+	struct timespec diff;
+
+	clock_gettime(CLOCK_REALTIME, &now);
+
+	diff.tv_sec = next_clean_time.tv_sec - now.tv_sec;
+	diff.tv_nsec = next_clean_time.tv_nsec - now.tv_nsec;
+
+	// if modulator event log has not changed for 1.0+ seconds
+	if (diff.tv_sec < 0) {
+		return 0;
+	}
+	if (diff.tv_sec == 0 && diff.tv_nsec < 0) {
+		return 0;
+	}
+
+	// modulator event log updated within the previous 1 second
+	return 1;
+}
+
+// check every second to see if the modulator's event log has new
+// data that needs to be written to the log file.
+static void *
+update_log_file(void *unused)
+{
+	int previous_event_index = -1;
+	int event_count = 0;
+	event_info_t *event_info = NULL;
+	int i = 0;
+
+	while (1) {
+		sleep(1);
+
+		pthread_mutex_lock(&log_mutex);
+
+		if (is_log_updating()) {
+			// wait a little bit longer
+			pthread_mutex_unlock(&log_mutex);
+			continue;
+		}
+
+		if (previous_event_index == -1) {
+			// initializing
+			event_count = 0;
+		} else if (previous_event_index < current_event_index) {
+			// event log did not wrap
+			event_count = current_event_index - previous_event_index;
+		} else if (previous_event_index > current_event_index) {
+			// event log wrapped
+			event_count = current_event_index + (50 - previous_event_index);
+		} else {
+			event_count = 0;
+		}
+
+		// write all the new events to a file
+		for (i = 0; i < event_count; i++) {
+			// previous_event_index contains the index of the event we previously
+			// wrote to file.  so the next (unwritten) event is at +1, and we
+			// have event_count of them.
+			event_info = &event_infos[(previous_event_index + i + 1) % 50];
+
+#if 0
+			printf("increment:  %d\n",                     event_info->index);
+			printf("trigger id: %d\n",                     event_info->trigger);
+			printf("timestamp:  %s\n",                     event_info->timestamp);
+			printf("type:       \"%s\" (%d)\n",            event_info->type_str, event_info->type);
+			printf("subsystem:  \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
+			printf("log text:   \"%s\" (%d/%d)\n",         event_info->log_text_str, event_info->type, event_info->text_number);
+			printf("data type:  \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
+			printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
+			printf("\n");
+#endif
+
+			if (event_output_fd != NULL) {
+				// if this event has an empty data field
+				if (event_info->data_type == 0) {
+					fprintf(event_output_fd, "\"%s\" %3d %-9s \"%s\" \"%s\"\n",
+						event_info->timestamp,
+						event_info->trigger,
+						event_info->type_str,
+						event_info->subsystem_str,
+						event_info->log_text_str);
+				} else {
+					fprintf(event_output_fd, "\"%s\" %3d %-9s \"%s\" \"%s: %s %s\"\n",
+						event_info->timestamp,
+						event_info->trigger,
+						event_info->type_str,
+						event_info->subsystem_str,
+						event_info->log_text_str,
+						event_info->data_str,
+						event_info->units_str);
+				}
+				fflush(event_output_fd);
+			}
+		}
+
+		previous_event_index = current_event_index;
+
+		pthread_mutex_unlock(&log_mutex);
+	}
+
+	return NULL;
+}
+
+
+// inputs from modbus
+// prec->a event index       EventIndex      read999       "Event logg index"
+// prec->b event increment   EventIncrement  read1000/50   "Event logg increment array"
+// prec->c timestamp         EventTime1      read1100/100  "Event logg time-stamp array"
+// prec->d timestamp         EventTime2      read1200/100  "Event logg time-stamp array"
+// prec->e event type        EventType       read1050/50   "Event logg type array"
+// prec->f event trigger     EventTrigger    read1300/100  "Event logg trig id array"
+// prec->g matrix index      EventCause      read1400/50   "Event logg index array"
+// prec->h event text number EventTextNum    read1450/50   "Event logg text number array"
+// prec->i data type         EventDataType   read1500/50   "Event logg data type array"
+// prec->j data              EventData       read1550/100  "Event logg data array"
+//
+// outputs to EPICS
+// prec->valc human timestamp   MainEventTimeStr
+// prec->vale event type str    MainEventTypeStr
+// prec->valf trigger id        MainEventTrigger
+// prec->valg log_text str      MainEventTextStr
+// prec->valh text number str   MainEventTextNumStr
+// prec->vali                   
+// prec->valj                   
+// prec->valk commented out     MainEventTextStr2
+// prec->vall type str          LastIntlkTypeStr
+// prec->valm timestamp         LastIntlkTimeStr
+// prec->valn trigger id        LastIntlkTrigger
+// prec->valo log_text str      LastIntlkTextStr
+// prec->valp                   LastIntlkTextStr2
+
 static long
 handle_event_modify(aSubRecord *prec)
 {
@@ -322,112 +398,110 @@ handle_event_modify(aSubRecord *prec)
 	uint64_t epoch_raw = 0;
 	uint32_t upper_32 = 0;
 	uint32_t lower_32 = 0;
+	int event_index = -1;
 	char timestamp[64];
 	char timezone[8];
-	event_index = *(int *) prec->a;
-	event_info_t *event_info = &event_infos[event_index];
+	event_info_t *event_info = NULL;
 
-	// event timestamp
+	pthread_mutex_lock(&log_mutex);
 
-	if (event_index < 25) {
-		upper_32 = ((uint32_t *) prec->c)[event_index * 2 + 1];
-		lower_32 = ((uint32_t *) prec->c)[event_index * 2];
-	} else {
-		upper_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2 + 1];
-		lower_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2];
+	current_event_index = *(int *) prec->a;
+
+	for (event_index = 0; event_index < 50; event_index++) {
+		event_info = &event_infos[event_index];
+		event_info->index = event_index;
+
+		// event timestamp
+
+		if (event_index < 25) {
+			upper_32 = ((uint32_t *) prec->c)[event_index * 2 + 1];
+			lower_32 = ((uint32_t *) prec->c)[event_index * 2];
+		} else {
+			upper_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2 + 1];
+			lower_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2];
+		}
+
+		epoch_raw = ((uint64_t) upper_32 << 32) | lower_32;
+
+		event_info->epoch = epoch_raw / 10000000 - 11644473600;
+		ts = localtime(&event_info->epoch);
+		strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
+		strftime(timezone, sizeof(timezone), "%Z", ts);
+		memset(event_info->timestamp, 0, sizeof(event_info->timestamp));
+		snprintf(
+			event_info->timestamp,
+			sizeof(event_info->timestamp) - 1,
+			"%s.%03d %s",
+			timestamp,
+			(int) ((epoch_raw % 10000000) / 10000),
+			timezone);
+
+		memset(prec->valc, 0, prec->novc);
+		strncpy((char *) prec->valc, event_info->timestamp, prec->novc - 1);
+
+		// event type
+
+		event_info->type = ((uint32_t *) prec->e)[event_index];
+		strncpy(event_info->type_str, event_info_type_strs[event_info->type], sizeof(event_info->type_str) - 1);
+
+		memset(prec->vale, 0, prec->nove);
+		strncpy((char *) prec->vale, event_info->type_str, prec->nove - 1);
+
+		// event trigger id
+
+		event_info->trigger = ((uint32_t *) prec->f)[event_index];
+		*(long *) prec->valf = event_info->trigger;
+
+		// event log text index
+
+		event_info->matrix_index = ((uint32_t *) prec->g)[event_index];
+		strncpy(event_info->subsystem_str, matrix_items[event_info->matrix_index].first.c_str(), sizeof(event_info->subsystem_str));
+		strncpy(event_info->units_str, matrix_items[event_info->matrix_index].second.c_str(), sizeof(event_info->units_str));
+
+		memset(prec->valg, 0, prec->novg);
+		memset(prec->valk, 0, prec->novk);
+		//strncpy((char *) prec->valg, event_info->log_text_str, prec->novg - 1);
+		//strncpy((char *) prec->valk, event_info->log_text_str, prec->novk - 1);
+
+		// event text number
+
+		event_info->text_number = ((uint32_t *) prec->h)[event_index];
+		strncpy(event_info->log_text_str, log_text[event_info->type][event_info->text_number].c_str(), sizeof(event_info->log_text_str) - 1);
+
+		memset(prec->valh, 0, prec->novh);
+		//strncpy((char *) prec->valh, event_info->, prec->novh - 1);
+
+		// event data type
+
+		event_info->data_type = ((uint32_t *) prec->i)[event_index];
+		strncpy(event_info->data_type_str, event_info_data_type_strs[event_info->data_type], sizeof(event_info->data_type_str) - 1);
+
+		// event data
+
+		event_info->data = ((uint32_t *) prec->j)[event_index];
+		event_data_to_str(event_info->data, event_info->data_type, event_info->data_str, sizeof(event_info->data_str));
+#if 0
+		if (event_info->type == 2) { // interlock
+			memset(prec->vall, 0, prec->novl);
+			memset(prec->valm, 0, prec->novm);
+			memset(prec->valn, 0, prec->novn);
+			memset(prec->valo, 0, prec->novo);
+			memset(prec->valp, 0, prec->novp);
+
+			strncpy((char *) prec->vall, event_info->type_str, prec->novl - 1);
+			strncpy((char *) prec->valm, event_info->timestamp, prec->novm - 1);
+			*(long *) prec->valn = event_info->trigger;
+			strncpy((char *) prec->valo, event_info->log_text_str, prec->novo - 1);
+			//strncpy((char *) prec->valp, , prec->novp - 1);
+		}
+#endif
 	}
 
-	epoch_raw = ((uint64_t) upper_32 << 32) | lower_32;
+	// the time at which the event data is done being updated (clean)
+	clock_gettime(CLOCK_REALTIME, &next_clean_time);
+	next_clean_time.tv_sec++;
 
-	if (epoch_raw == 0) {
-		return 0;
-	}
-
-	event_info->epoch = epoch_raw / 10000000 - 11644473600;
-	ts = localtime(&event_info->epoch);
-	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
-	strftime(timezone, sizeof(timezone), "%Z", ts);
-	memset(event_info->timestamp, 0, sizeof(event_info->timestamp));
-	snprintf(
-		event_info->timestamp,
-		sizeof(event_info->timestamp) - 1,
-		"%s.%03d %s",
-		timestamp,
-		(int) ((epoch_raw % 10000000) / 10000),
-		timezone);
-
-	memset(prec->valc, 0, prec->novc);
-	strncpy((char *) prec->valc, event_info->timestamp, prec->novc - 1);
-
-	// event type
-
-	event_info->type = ((uint16_t *) prec->e)[event_index];
-	strncpy(event_info->type_str, event_info_type_strs[event_info->type], sizeof(event_info->type_str));
-	
-	memset(prec->vale, 0, prec->nove);
-	strncpy((char *) prec->vale, event_info->type_str, prec->nove - 1);
-
-	// event trigger id
-
-	event_info->trigger = ((uint16_t *) prec->f)[event_index];
-	*(long *) prec->valf = event_info->trigger;
-
-	// event cause index
-
-	event_info->cause_index = ((uint16_t *) prec->g)[event_index];
-	strncpy(event_info->cause_str, event_info_cause_strs[event_info->cause_index], sizeof(event_info->cause_str));
-
-	memset(prec->valg, 0, prec->novg);
-	memset(prec->valk, 0, prec->novk);
-	strncpy((char *) prec->valg, event_info->cause_str, prec->novg - 1);
-	//strncpy((char *) prec->valk, event_info->cause_str, prec->novk - 1);
-
-	// event text number
-
-	event_info->text_number = ((uint16_t *) prec->h)[event_index];
-	if (event_info->type == 0) {
-		strncpy(event_info->text_number_str, event_info_text_number_strs[event_info->type][event_info->text_number + 1], sizeof(event_info->text_number_str));
-	} else {
-		strncpy(event_info->text_number_str, event_info_text_number_strs[event_info->type][event_info->text_number], sizeof(event_info->text_number_str));
-	}
-	memset(prec->valh, 0, prec->novh);
-	strncpy((char *) prec->valh, event_info->text_number_str, prec->novh - 1);
-
-	// event data type
-
-	event_info->data_type = ((uint16_t *) prec->i)[event_index];
-	strncpy(event_info->data_type_str, event_info_data_type_strs[event_info->data_type], sizeof(event_info->data_type_str));
-
-	// event data
-
-	event_info->data = ((uint32_t *) prec->j)[event_index];
-	event_data_to_str(event_info->data, event_info->data_type, event_info->data_str, sizeof(event_info->data_str));
-
-
-	if (event_info->type == 2) { // interlock
-		memset(prec->vall, 0, prec->novl);
-		memset(prec->valm, 0, prec->novm);
-		memset(prec->valn, 0, prec->novn);
-		memset(prec->valo, 0, prec->novo);
-		memset(prec->valp, 0, prec->novp);
-
-		strncpy((char *) prec->vall, event_info->type_str, prec->novl - 1);
-		strncpy((char *) prec->valm, event_info->timestamp, prec->novm - 1);
-		*(long *) prec->valn = event_info->trigger;
-		strncpy((char *) prec->valo, event_info->cause_str, prec->novo - 1);
-		//strncpy((char *) prec->valp, , prec->novp - 1);
-	}
-
-	if (event_output_fd != NULL) {
-		fprintf(event_output_fd, "%d %s %d %s %s %s\n",
-			event_index,
-			event_info->type_str,
-			event_info->trigger,
-			event_info->cause_str,
-			event_info->data_str,
-			event_info->timestamp);
-		fflush(event_output_fd);
-	}
+	pthread_mutex_unlock(&log_mutex);
 
 	return 0;
 }
@@ -436,6 +510,14 @@ epicsRegisterFunction(handle_event_modify);
 
 extern "C"
 {
+
+static const iocshArg event_resources_configure_arg0 = {"filename", iocshArgString};
+static const iocshArg *event_resources_configure_args[] = {&event_resources_configure_arg0};
+static const iocshFuncDef event_resources_func_def = {"parse_resources_xml", 1, event_resources_configure_args};
+static void event_resources_call_func(const iocshArgBuf *args)
+{
+	parse_resources_xml(args[0].sval);
+}
 
 static const iocshArg event_log_configure_arg0 = {"filename", iocshArgString};
 static const iocshArg *event_log_configure_args[] = {&event_log_configure_arg0};
@@ -447,7 +529,11 @@ static void event_log_call_func(const iocshArgBuf *args)
 
 void event_log_register_commands(void)
 {
+	pthread_create(&log_thread, NULL, update_log_file, NULL);
+	pthread_detach(log_thread);
+
 	iocshRegister(&event_log_func_def, event_log_call_func);
+	iocshRegister(&event_resources_func_def, event_resources_call_func);
 }
 epicsExportRegistrar(event_log_register_commands);
 
