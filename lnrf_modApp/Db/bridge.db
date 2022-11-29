@@ -1,49 +1,155 @@
-record (stringin,"$(P):MainEventTimeStr") {
-	field(DESC, "Timestamp of the last main event in mod")
+# current event
+
+record (stringin,"$(P):CurrentEventTimeStr") {
+	field(DESC, "Timestamp of the current event in mod")
 }
 
-record (stringin,"$(P):MainEventTypeStr") {
-	field(DESC, "Event type of the last main event in mod")
+record (stringin,"$(P):CurrentEventTypeStr") {
+	field(DESC, "Event type of the current event in mod")
 }
 
-record (stringin,"$(P):MainEventTrigger") {
-	field(DESC, "Trigger ID of the last main event in mod")
+record (longin,"$(P):CurrentEventTrigger") {
+	field(DESC, "Trigger ID of the current event in mod")
 }
 
-record (stringin,"$(P):MainEventTextStr") {
-	field(DESC, "Text explanation of the last main event")
+record (stringin,"$(P):CurrentEventSubsystemStr") {
+	field(DESC, "Text explanation of the current event")
 }
 
-record (stringin,"$(P):MainEventTextStr2") {
+record (stringin,"$(P):CurrentEventTextStr") {
+	field(DESC, "Text explanation of the current event")
+}
+
+record (stringin,"$(P):CurrentEventTextStr2") {
 	field(DESC, "Second half of MainEventTextStr")
 }
 
-record (stringin,"$(P):MainEventTextNumStr") {
-	field(DESC, "State of the last main event")
+record (stringin,"$(P):CurrentEventUnitStr") {
+	field(DESC, "Units to measure current event data")
 }
 
-record (stringin,"$(P):LastIntlkTypeStr") {
-	field(DESC, "Event type of the last interlock event")
+record (stringin,"$(P):CurrentEventDataStr") {
+	field(DESC, "Data associated with the current event")
 }
 
-record (stringin,"$(P):LastIntlkTimeStr") {
-	field(DESC, "Timestamp of the last interlock event")
+record (aSub,"$(P):CurrentEventStructBridge") {
+	field(SNAM,"handle_current_event_struct_modify")
+
+	field(INPA,"$(P):CurrentEventStruct CP")
+	field(FTA,"LONG")
+	field(NOA,"13")
+
+	field(OUTA,"$(P):CurrentEventTimeStr PP")
+	field(FTVA,"STRING")
+	field(NOVA,"64")
+
+	field(OUTB,"$(P):CurrentEventTypeStr PP")
+	field(FTVB,"STRING")
+	field(NOVB,"64")
+
+	field(OUTC,"$(P):CurrentEventTrigger PP")
+	field(FTVC,"LONG")
+	field(NOVC,"1")
+
+	field(OUTD,"$(P):CurrentEventSubsystemStr PP")
+	field(FTVD,"STRING")
+	field(NOVD,"64")
+
+	field(OUTE,"$(P):CurrentEventTextStr PP")
+	field(FTVE,"STRING")
+	field(NOVE,"64")
+
+	field(OUTF,"$(P):CurrentEventTextStr2 PP")
+	field(FTVF,"STRING")
+	field(NOVF,"64")
+
+	field(OUTG,"$(P):CurrentEventUnitStr PP")
+	field(FTVG,"STRING")
+	field(NOVG,"64")
+
+	field(OUTH,"$(P):CurrentEventDataStr PP")
+	field(FTVH,"STRING")
+	field(NOVH,"64")
 }
 
-record (stringin,"$(P):LastIntlkTrigger") {
-	field(DESC, "Trigger ID of the last interlock event")
+# interlock event
+
+record (stringin,"$(P):InterlockEventTimeStr") {
+	field(DESC, "Timestamp of the interlock event in mod")
 }
 
-record (stringin,"$(P):LastIntlkTextStr") {
-	field(DESC, "Text explanation of last interlock event")
+record (stringin,"$(P):InterlockEventTypeStr") {
+	field(DESC, "Event type of the interlock event in mod")
 }
 
-record (stringin,"$(P):LastIntlkTextStr2") {
-	field(DESC, "Second half of LastIntlkTextStr")
+record (longin,"$(P):InterlockEventTrigger") {
+	field(DESC, "Trigger ID of the interlock event in mod")
 }
+
+record (stringin,"$(P):InterlockEventSubsystemStr") {
+	field(DESC, "Text explanation of the interlock event")
+}
+
+record (stringin,"$(P):InterlockEventTextStr") {
+	field(DESC, "Text explanation of the interlock event")
+}
+
+record (stringin,"$(P):InterlockEventTextStr2") {
+	field(DESC, "Second half of InterlockEventTextStr")
+}
+
+record (stringin,"$(P):InterlockEventUnitStr") {
+	field(DESC, "Units to measure interlock event data")
+}
+
+record (stringin,"$(P):InterlockEventDataStr") {
+	field(DESC, "Data associated with the interlock event")
+}
+
+record (aSub,"$(P):InterlockEventStructBridge") {
+	field(SNAM,"handle_interlock_event_struct_modify")
+
+	field(INPA,"$(P):InterlockEventStruct CP")
+	field(FTA,"LONG")
+	field(NOA,"13")
+
+	field(OUTA,"$(P):InterlockEventTimeStr PP")
+	field(FTVA,"STRING")
+	field(NOVA,"64")
+
+	field(OUTB,"$(P):InterlockEventTypeStr PP")
+	field(FTVB,"STRING")
+	field(NOVB,"64")
+
+	field(OUTC,"$(P):InterlockEventTrigger PP")
+	field(FTVC,"LONG")
+	field(NOVC,"1")
+
+	field(OUTD,"$(P):InterlockEventSubsystemStr PP")
+	field(FTVD,"STRING")
+	field(NOVD,"64")
+
+	field(OUTE,"$(P):InterlockEventTextStr PP")
+	field(FTVE,"STRING")
+	field(NOVE,"64")
+
+	field(OUTF,"$(P):InterlockEventTextStr2 PP")
+	field(FTVF,"STRING")
+	field(NOVF,"64")
+
+	field(OUTG,"$(P):InterlockEventUnitStr PP")
+	field(FTVG,"STRING")
+	field(NOVG,"64")
+
+	field(OUTH,"$(P):InterlockEventDataStr PP")
+	field(FTVH,"STRING")
+	field(NOVH,"64")
+}
+
+# events for logging to a file
 
 record (aSub,"$(P):EventBridge") {
-	field(SNAM,"handle_event_modify")
+	field(SNAM,"handle_event_log_modify")
 
 	field(INPA,"$(P):EventIndex CP")
 	field(FTA,"LONG")
@@ -56,9 +162,6 @@ record (aSub,"$(P):EventBridge") {
 	field(INPC,"$(P):EventTime1 CP")
 	field(FTC,"LONG")
 	field(NOC,"50")
-	field(OUTC,"$(P):MainEventTimeStr PP")
-	field(FTVC,"STRING")
-	field(NOVC,"64")
 
 	field(INPD,"$(P):EventTime2 CP")
 	field(FTD,"LONG")
@@ -67,30 +170,18 @@ record (aSub,"$(P):EventBridge") {
 	field(INPE,"$(P):EventType CP")
 	field(FTE,"LONG")
 	field(NOE,"50")
-	field(OUTE,"$(P):MainEventTypeStr PP")
-	field(FTVE,"STRING")
-	field(NOVE,"32")
 
 	field(INPF,"$(P):EventTrigger CP")
 	field(FTF,"LONG")
 	field(NOF,"50")
-	field(OUTF,"$(P):MainEventTrigger PP")
-	field(FTVF,"LONG")
-	field(NOVF,"1")
 
 	field(INPG,"$(P):EventCause CP")
 	field(FTG,"LONG")
 	field(NOG,"50")
-	field(OUTG,"$(P):MainEventTextStr PP")
-	field(FTVG,"STRING")
-	field(NOVG,"64")
 
 	field(INPH,"$(P):EventTextNum CP")
 	field(FTH,"LONG")
 	field(NOH,"50")
-	field(OUTH, "$(P):MainEventTextNumStr PP")
-	field(FTVH,"STRING")
-	field(NOVH,"64")
 
 	field(INPI,"$(P):EventDataType CP")
 	field(FTI,"LONG")
@@ -99,31 +190,9 @@ record (aSub,"$(P):EventBridge") {
 	field(INPJ,"$(P):EventData CP")
 	field(FTJ,"LONG")
 	field(NOJ,"50")
-
-	field(OUTK,"$(P):MainEventTextStr2 PP")
-	field(FTVK,"STRING")
-	field(NOVK,"64")
-
-	field(OUTL,"$(P):LastIntlkTypeStr PP")
-	field(FTVL,"STRING")
-	field(NOVL,"32")
-
-	field(OUTM,"$(P):LastIntlkTimeStr PP")
-	field(FTVM,"STRING")
-	field(NOVM,"64")
-
-	field(OUTN,"$(P):LastIntlkTrigger PP")
-	field(FTVN,"LONG")
-	field(NOVN,"1")
-
-	field(OUTO,"$(P):LastIntlkTextStr PP")
-	field(FTVO,"STRING")
-	field(NOVO,"64")
-
-	field(OUTP,"$(P):LastIntlkTextStr2 PP")
-	field(FTVP,"STRING")
-	field(NOVP,"64")
 }
+
+# watchdog
 
 record (calcout,"$(P):CalcWatchdog") {
 	field(FLNK,"$(P):CommWatchdog.PROC")

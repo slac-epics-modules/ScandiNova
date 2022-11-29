@@ -1,2 +1,4 @@
 registrar(event_log_register_commands)
-function(handle_event_modify)
+function(handle_event_log_modify)
+function(handle_current_event_struct_modify)
+function(handle_interlock_event_struct_modify)

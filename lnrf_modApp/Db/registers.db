@@ -835,12 +835,12 @@ record (longin,"$(P):EventIndex") {
 	field(INP, "@asyn(read999 0)")
 	field(DTYP, "asynInt32")
 }
-record (longin,"$(P):MainEventIncrement") {
-	field(DESC, "Struct holding main event data")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read1700 0)")
-	field(DTYP, "asynInt32")
-}
+#record (longin,"$(P):MainEventIncrement") {
+#	field(DESC, "Struct holding main event data")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read1700 0)")
+#	field(DTYP, "asynInt32")
+#}
 #record (mbbi,"$(P):MainEventType") {
 #	field(DESC, "Struct holding main event data")
 #	field(SCAN, "I/O Intr")

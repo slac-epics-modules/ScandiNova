@@ -1,14 +1,16 @@
 file intarray_in.template
 {
     pattern
-    { P,      R,                 PORT,        OFFSET, NELM, SCAN       }
-    { "${P}", ":EventIncrement", "read1000",  0,      50,   "I/O Intr" }
-    { "${P}", ":EventType",      "read1050",  0,      50,   "I/O Intr" }
-    { "${P}", ":EventTime1",     "read1100",  0,      100,  "I/O Intr" }
-    { "${P}", ":EventTime2",     "read1200",  0,      100,  "I/O Intr" }
-    { "${P}", ":EventTrigger",   "read1300",  0,      100,  "I/O Intr" }
-    { "${P}", ":EventCause",     "read1400",  0,      50,   "I/O Intr" }
-    { "${P}", ":EventTextNum",   "read1450",  0,      50,   "I/O Intr" }
-    { "${P}", ":EventDataType",  "read1500",  0,      50,   "I/O Intr" }
-    { "${P}", ":EventData",      "read1550",  0,      100,  "I/O Intr" }
+    { P,      R,                       PORT,        OFFSET, NELM, SCAN       }
+    { "${P}", ":EventIncrement",       "read1000",  0,      50,   "I/O Intr" }
+    { "${P}", ":EventType",            "read1050",  0,      50,   "I/O Intr" }
+    { "${P}", ":EventTime1",           "read1100",  0,      100,  "I/O Intr" }
+    { "${P}", ":EventTime2",           "read1200",  0,      100,  "I/O Intr" }
+    { "${P}", ":EventTrigger",         "read1300",  0,      100,  "I/O Intr" }
+    { "${P}", ":EventCause",           "read1400",  0,      50,   "I/O Intr" }
+    { "${P}", ":EventTextNum",         "read1450",  0,      50,   "I/O Intr" }
+    { "${P}", ":EventDataType",        "read1500",  0,      50,   "I/O Intr" }
+    { "${P}", ":EventData",            "read1550",  0,      100,  "I/O Intr" }
+    { "${P}", ":CurrentEventStruct",   "read1700",  0,      13,   "I/O Intr" }
+    { "${P}", ":InterlockEventStruct", "read1715",  0,      13,   "I/O Intr" }
 }

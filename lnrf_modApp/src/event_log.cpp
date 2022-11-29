@@ -23,15 +23,26 @@
 using namespace std;
 
 
+typedef struct __attribute__ (packed) {
+	uint16_t increment;
+	uint16_t type;
+	uint64_t epoch_raw;
+	uint32_t trigger;
+	uint16_t matrix_index;
+	uint16_t text_number;
+	uint16_t data_type;
+	uint32_t data;
+} event_struct_t;
+
 typedef struct {
-	int index;
+	int increment;
 	time_t epoch;
 	char timestamp[64];
 	int trigger;
 	int type;               // index for Strings and event types
 	char type_str[32];
 	int text_number;        // index for Strings[type]
-	char log_text_str[64];  // from Strings[type][text_number]
+	char text_str[64];  // from Strings[type][text_number]
 	int matrix_index;       // index for MatrixItems
 	char subsystem_str[32]; // from MatrixItems[matrix_index].Name
 	char units_str[8];      // from MatrixItems[matrix_index].Unit
@@ -154,13 +165,13 @@ parse_resources_xml(const char *name)
 	xmlNode *message_node = NULL;
 
 	if (doc == NULL) {
-		printf("error: %s not found", name);
+		printf("error: %s not found\n", name);
 		return;
 	}
 
 	gui_node = xmlDocGetRootElement(doc);
 	if (!gui_node) {
-		printf("error: %s missing data", name);
+		printf("error: %s missing data\n", name);
 		return;
 	}
 
@@ -226,6 +237,7 @@ set_event_output_file(const char *name)
 	}
 }
 
+// convert raw bytes from the modulator to a meaningful number
 static void
 event_data_to_str(uint32_t data, int type, char *out, size_t max_out_len_bytes)
 {
@@ -321,12 +333,12 @@ update_log_file(void *unused)
 			event_info = &event_infos[(previous_event_index + i + 1) % 50];
 
 #if 0
-			printf("increment:  %d\n",                     event_info->index);
+			printf("increment:  %d\n",                     event_info->increment);
 			printf("trigger id: %d\n",                     event_info->trigger);
 			printf("timestamp:  %s\n",                     event_info->timestamp);
 			printf("type:       \"%s\" (%d)\n",            event_info->type_str, event_info->type);
 			printf("subsystem:  \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
-			printf("log text:   \"%s\" (%d/%d)\n",         event_info->log_text_str, event_info->type, event_info->text_number);
+			printf("log text:   \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
 			printf("data type:  \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
 			printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
 			printf("\n");
@@ -340,14 +352,14 @@ update_log_file(void *unused)
 						event_info->trigger,
 						event_info->type_str,
 						event_info->subsystem_str,
-						event_info->log_text_str);
+						event_info->text_str);
 				} else {
 					fprintf(event_output_fd, "\"%s\" %3d %-9s \"%s\" \"%s: %s %s\"\n",
 						event_info->timestamp,
 						event_info->trigger,
 						event_info->type_str,
 						event_info->subsystem_str,
-						event_info->log_text_str,
+						event_info->text_str,
 						event_info->data_str,
 						event_info->units_str);
 				}
@@ -363,53 +375,76 @@ update_log_file(void *unused)
 	return NULL;
 }
 
-
-// inputs from modbus
-// prec->a event index       EventIndex      read999       "Event logg index"
-// prec->b event increment   EventIncrement  read1000/50   "Event logg increment array"
-// prec->c timestamp         EventTime1      read1100/100  "Event logg time-stamp array"
-// prec->d timestamp         EventTime2      read1200/100  "Event logg time-stamp array"
-// prec->e event type        EventType       read1050/50   "Event logg type array"
-// prec->f event trigger     EventTrigger    read1300/100  "Event logg trig id array"
-// prec->g matrix index      EventCause      read1400/50   "Event logg index array"
-// prec->h event text number EventTextNum    read1450/50   "Event logg text number array"
-// prec->i data type         EventDataType   read1500/50   "Event logg data type array"
-// prec->j data              EventData       read1550/100  "Event logg data array"
-//
-// outputs to EPICS
-// prec->valc human timestamp   MainEventTimeStr
-// prec->vale event type str    MainEventTypeStr
-// prec->valf trigger id        MainEventTrigger
-// prec->valg log_text str      MainEventTextStr
-// prec->valh text number str   MainEventTextNumStr
-// prec->vali                   
-// prec->valj                   
-// prec->valk commented out     MainEventTextStr2
-// prec->vall type str          LastIntlkTypeStr
-// prec->valm timestamp         LastIntlkTimeStr
-// prec->valn trigger id        LastIntlkTrigger
-// prec->valo log_text str      LastIntlkTextStr
-// prec->valp                   LastIntlkTextStr2
-
-static long
-handle_event_modify(aSubRecord *prec)
+// convert raw event struct from hardware to a meaningful event
+static void
+event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_info)
 {
 	struct tm *ts = NULL;
-	uint64_t epoch_raw = 0;
-	uint32_t upper_32 = 0;
-	uint32_t lower_32 = 0;
-	int event_index = -1;
 	char timestamp[64];
 	char timezone[8];
+
+	memset(event_info, 0, sizeof(event_info_t));
+
+	event_info->epoch = event_struct->epoch_raw / 10000000 - 11644473600;
+	event_info->increment = event_struct->increment;
+	event_info->type = event_struct->type;
+	event_info->trigger = event_struct->trigger;
+	event_info->text_number = event_struct->text_number;
+	event_info->data_type = event_struct->data_type;
+	event_info->data = event_struct->data;
+	event_info->matrix_index = event_struct->matrix_index;
+
+	strncpy(event_info->type_str, event_info_type_strs[event_info->type], sizeof(event_info->type_str) - 1);
+	strncpy(event_info->text_str, log_text[event_info->type][event_info->text_number].c_str(), sizeof(event_info->text_str) - 1);
+	strncpy(event_info->subsystem_str, matrix_items[event_info->matrix_index].first.c_str(), sizeof(event_info->subsystem_str));
+	strncpy(event_info->units_str, matrix_items[event_info->matrix_index].second.c_str(), sizeof(event_info->units_str));
+	strncpy(event_info->data_type_str, event_info_data_type_strs[event_info->data_type], sizeof(event_info->data_type_str) - 1);
+
+	event_data_to_str(event_info->data, event_info->data_type, event_info->data_str, sizeof(event_info->data_str));
+
+	ts = localtime(&event_info->epoch);
+	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
+	strftime(timezone, sizeof(timezone), "%Z", ts);
+	memset(event_info->timestamp, 0, sizeof(event_info->timestamp));
+	snprintf(
+		event_info->timestamp,
+		sizeof(event_info->timestamp) - 1,
+		"%s.%03d %s",
+		timestamp,
+		(int) ((event_struct->epoch_raw % 10000000) / 10000),
+		timezone);
+}
+
+// inputs from modbus
+// INPA event index       EventIndex      read999       "Event logg index"
+// INPB event increment   EventIncrement  read1000/50   "Event logg increment array"
+// INPC timestamp         EventTime1      read1100/100  "Event logg time-stamp array"
+// INPD timestamp         EventTime2      read1200/100  "Event logg time-stamp array"
+// INPE event type        EventType       read1050/50   "Event logg type array"
+// INPF event trigger     EventTrigger    read1300/100  "Event logg trig id array"
+// INPG matrix index      EventCause      read1400/50   "Event logg index array"
+// INPH event text number EventTextNum    read1450/50   "Event logg text number array"
+// INPI data type         EventDataType   read1500/50   "Event logg data type array"
+// INPJ data              EventData       read1550/100  "Event logg data array"
+static long
+handle_event_log_modify(aSubRecord *prec)
+{
+	int event_index = 0;
+	uint32_t upper_32 = 0;
+	uint32_t lower_32 = 0;
 	event_info_t *event_info = NULL;
+	event_struct_t event_struct;
+
+	memset(&event_struct, 0, sizeof(event_struct));
 
 	pthread_mutex_lock(&log_mutex);
 
 	current_event_index = *(int *) prec->a;
+	assert(current_event_index >= 0);
+	assert(current_event_index < 50);
 
 	for (event_index = 0; event_index < 50; event_index++) {
 		event_info = &event_infos[event_index];
-		event_info->index = event_index;
 
 		// event timestamp
 
@@ -421,79 +456,26 @@ handle_event_modify(aSubRecord *prec)
 			lower_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2];
 		}
 
-		epoch_raw = ((uint64_t) upper_32 << 32) | lower_32;
+		event_struct.increment = (uint16_t) ((uint32_t *) prec->b)[event_index];
+		event_struct.epoch_raw = ((uint64_t) upper_32 << 32) | lower_32;
+		event_struct.type = (uint16_t) ((uint32_t *) prec->e)[event_index];
+		event_struct.trigger = ((uint32_t *) prec->f)[event_index];
+		event_struct.matrix_index = (uint16_t) ((uint32_t *) prec->g)[event_index];
+		event_struct.text_number = (uint16_t) ((uint32_t *) prec->h)[event_index];
+		event_struct.data_type = (uint16_t) ((uint32_t *) prec->i)[event_index];
+		event_struct.data = ((uint32_t *) prec->j)[event_index];
 
-		event_info->epoch = epoch_raw / 10000000 - 11644473600;
-		ts = localtime(&event_info->epoch);
-		strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
-		strftime(timezone, sizeof(timezone), "%Z", ts);
-		memset(event_info->timestamp, 0, sizeof(event_info->timestamp));
-		snprintf(
-			event_info->timestamp,
-			sizeof(event_info->timestamp) - 1,
-			"%s.%03d %s",
-			timestamp,
-			(int) ((epoch_raw % 10000000) / 10000),
-			timezone);
-
-		memset(prec->valc, 0, prec->novc);
-		strncpy((char *) prec->valc, event_info->timestamp, prec->novc - 1);
-
-		// event type
-
-		event_info->type = ((uint32_t *) prec->e)[event_index];
-		strncpy(event_info->type_str, event_info_type_strs[event_info->type], sizeof(event_info->type_str) - 1);
-
-		memset(prec->vale, 0, prec->nove);
-		strncpy((char *) prec->vale, event_info->type_str, prec->nove - 1);
-
-		// event trigger id
-
-		event_info->trigger = ((uint32_t *) prec->f)[event_index];
-		*(long *) prec->valf = event_info->trigger;
-
-		// event log text index
-
-		event_info->matrix_index = ((uint32_t *) prec->g)[event_index];
-		strncpy(event_info->subsystem_str, matrix_items[event_info->matrix_index].first.c_str(), sizeof(event_info->subsystem_str));
-		strncpy(event_info->units_str, matrix_items[event_info->matrix_index].second.c_str(), sizeof(event_info->units_str));
-
-		memset(prec->valg, 0, prec->novg);
-		memset(prec->valk, 0, prec->novk);
-		//strncpy((char *) prec->valg, event_info->log_text_str, prec->novg - 1);
-		//strncpy((char *) prec->valk, event_info->log_text_str, prec->novk - 1);
-
-		// event text number
-
-		event_info->text_number = ((uint32_t *) prec->h)[event_index];
-		strncpy(event_info->log_text_str, log_text[event_info->type][event_info->text_number].c_str(), sizeof(event_info->log_text_str) - 1);
-
-		memset(prec->valh, 0, prec->novh);
-		//strncpy((char *) prec->valh, event_info->, prec->novh - 1);
-
-		// event data type
-
-		event_info->data_type = ((uint32_t *) prec->i)[event_index];
-		strncpy(event_info->data_type_str, event_info_data_type_strs[event_info->data_type], sizeof(event_info->data_type_str) - 1);
-
-		// event data
-
-		event_info->data = ((uint32_t *) prec->j)[event_index];
-		event_data_to_str(event_info->data, event_info->data_type, event_info->data_str, sizeof(event_info->data_str));
+		event_struct_to_event_info(&event_struct, event_info);
 #if 0
-		if (event_info->type == 2) { // interlock
-			memset(prec->vall, 0, prec->novl);
-			memset(prec->valm, 0, prec->novm);
-			memset(prec->valn, 0, prec->novn);
-			memset(prec->valo, 0, prec->novo);
-			memset(prec->valp, 0, prec->novp);
-
-			strncpy((char *) prec->vall, event_info->type_str, prec->novl - 1);
-			strncpy((char *) prec->valm, event_info->timestamp, prec->novm - 1);
-			*(long *) prec->valn = event_info->trigger;
-			strncpy((char *) prec->valo, event_info->log_text_str, prec->novo - 1);
-			//strncpy((char *) prec->valp, , prec->novp - 1);
-		}
+		printf("increment:  %d\n",                     event_info->increment);
+		printf("trigger id: %d\n",                     event_info->trigger);
+		printf("timestamp:  %s\n",                     event_info->timestamp);
+		printf("type:       \"%s\" (%d)\n",            event_info->type_str, event_info->type);
+		printf("subsystem:  \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
+		printf("log text:   \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
+		printf("data type:  \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
+		printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
+		printf("\n");
 #endif
 	}
 
@@ -505,8 +487,129 @@ handle_event_modify(aSubRecord *prec)
 
 	return 0;
 }
-epicsRegisterFunction(handle_event_modify);
+epicsRegisterFunction(handle_event_log_modify);
 
+// convert raw data from modbus to a meaningful event
+static void
+modbus_to_event_info(uint32_t *modbus_data, event_info_t *event_info)
+{
+	unsigned int i = 0;
+	uint16_t words[sizeof(event_struct_t) / 2];
+
+	for (i = 0; i < sizeof(event_struct_t) / 2; i++) {
+		words[i] = (uint16_t) modbus_data[i];
+	}
+
+	event_struct_to_event_info((event_struct_t *) words, event_info);
+}
+
+// inputs from modbus:
+// INPA CurrentEventStruct read1700
+//
+// outputs to EPICS:
+// OUTA CurrentEventTimeStr
+// OUTB CurrentEventTypeStr
+// OUTC CurrentEventTrigger
+// OUTD CurrentEventSubsystemStr
+// OUTE CurrentEventTextStr
+// OUTF CurrentEventTextStr2
+// OUTG CurrentEventUnitStr
+// OUTH CurrentEventDataStr
+static long
+handle_current_event_struct_modify(aSubRecord *prec)
+{
+	event_info_t event_info;
+
+	modbus_to_event_info((uint32_t *) prec->a, &event_info);
+
+	memset(prec->vala, 0, prec->nova);
+	memset(prec->valb, 0, prec->novb);
+	memset(prec->valc, 0, sizeof(long) * prec->novc);
+	memset(prec->vald, 0, prec->novc);
+	memset(prec->vale, 0, prec->novd);
+	memset(prec->valf, 0, prec->nove);
+	memset(prec->valg, 0, prec->novg);
+	memset(prec->valh, 0, prec->novh);
+
+	strncpy((char *) prec->vala, event_info.timestamp, prec->nova - 1);
+	strncpy((char *) prec->valb, event_info.type_str, prec->novb - 1);
+	*(long *) prec->valc = event_info.trigger;
+	strncpy((char *) prec->vald, event_info.subsystem_str, prec->novd - 1);
+	strncpy((char *) prec->vale, event_info.text_str, prec->nove - 1);
+	strncpy((char *) prec->valf, event_info.subsystem_str, prec->novf - 1);
+	strncpy((char *) prec->valg, event_info.units_str, prec->novg - 1);
+	strncpy((char *) prec->valh, event_info.data_str, prec->novh - 1);
+
+#if 0
+	printf("event ------------------------------------\n");
+	printf("increment:  %d\n",                     event_info.increment);
+	printf("trigger id: %d\n",                     event_info.trigger);
+	printf("timestamp:  %s\n",                     event_info.timestamp);
+	printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
+	printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
+	printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
+	printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
+	printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
+	printf("\n");
+#endif
+
+	return 0;
+}
+epicsRegisterFunction(handle_current_event_struct_modify);
+
+// inputs from modbus:
+// INPA InterlockEventStruct read1715
+//
+// outputs to EPICS:
+// OUTA InterlockEventTimeStr
+// OUTB InterlockEventTypeStr
+// OUTC InterlockEventTrigger
+// OUTD InterlockEventSubsystemStr
+// OUTE InterlockEventTextStr
+// OUTF InterlockEventTextStr2
+// OUTG InterlockEventUnitStr
+// OUTH InterlockEventDataStr
+static long
+handle_interlock_event_struct_modify(aSubRecord *prec)
+{
+	event_info_t event_info;
+
+	modbus_to_event_info((uint32_t *) prec->a, &event_info);
+
+	memset(prec->vala, 0, prec->nova);
+	memset(prec->valb, 0, prec->novb);
+	memset(prec->valc, 0, sizeof(long) * prec->novc);
+	memset(prec->vald, 0, prec->novc);
+	memset(prec->vale, 0, prec->novd);
+	memset(prec->valf, 0, prec->nove);
+	memset(prec->valg, 0, prec->novg);
+	memset(prec->valh, 0, prec->novh);
+
+	strncpy((char *) prec->vala, event_info.timestamp, prec->nova - 1);
+	strncpy((char *) prec->valb, event_info.type_str, prec->novb - 1);
+	*(long *) prec->valc = event_info.trigger;
+	strncpy((char *) prec->vald, event_info.subsystem_str, prec->novd - 1);
+	strncpy((char *) prec->vale, event_info.text_str, prec->nove - 1);
+	strncpy((char *) prec->valf, event_info.subsystem_str, prec->novf - 1);
+	strncpy((char *) prec->valg, event_info.units_str, prec->novg - 1);
+	strncpy((char *) prec->valh, event_info.data_str, prec->novh - 1);
+
+#if 0
+	printf("interlock ------------------------------------\n");
+	printf("increment:  %d\n",                     event_info.increment);
+	printf("trigger id: %d\n",                     event_info.trigger);
+	printf("timestamp:  %s\n",                     event_info.timestamp);
+	printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
+	printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
+	printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
+	printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
+	printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
+	printf("\n");
+#endif
+
+	return 0;
+}
+epicsRegisterFunction(handle_interlock_event_struct_modify);
 
 extern "C"
 {
