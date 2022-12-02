@@ -42,7 +42,7 @@ typedef struct {
 	int type;               // index for Strings and event types
 	char type_str[32];
 	int text_number;        // index for Strings[type]
-	char text_str[64];  // from Strings[type][text_number]
+	char text_str[64];      // from Strings[type][text_number]
 	int matrix_index;       // index for MatrixItems
 	char subsystem_str[32]; // from MatrixItems[matrix_index].Name
 	char units_str[8];      // from MatrixItems[matrix_index].Unit
@@ -72,7 +72,7 @@ static const char *event_info_type_strs[] = {
 	"Warning",
 	"Interlock",
 	"Error",
-	"Parameter",
+	"Param",
 	"Message"
 };
 
@@ -139,12 +139,15 @@ xml_by_number(xmlNode *node, map<int, string> &vals)
 {
 	xmlNode *number_node = NULL;
 	xmlNode *text_node = NULL;
-	int number;
+	int number = 0;
 
 	for (number_node = node->children; number_node != NULL; number_node = number_node->next) {
 		sscanf((char *) number_node->name, "no%d", &number);
 
 		text_node = xml_get_node_by_name(number_node, (char *) "Text");
+		if (!text_node) {
+			printf("error: XML Text not found\n");
+		}
 		vals.insert(pair<int, string>(number, (char *) xmlNodeGetContent(text_node)));
 	}
 }
@@ -157,64 +160,40 @@ parse_resources_xml(const char *name)
 	xmlNode *gui_node = NULL;
 	xmlNode *matrix_items_node = NULL;
 	xmlNode *strings_node = NULL;
-	xmlNode *state_node = NULL;
-	xmlNode *warning_node = NULL;
-	xmlNode *interlock_node = NULL;
-	xmlNode *param_node = NULL;
-	xmlNode *error_node = NULL;
-	xmlNode *message_node = NULL;
+	xmlNode *node = NULL;
+	int i = 0;
 
 	if (doc == NULL) {
-		printf("error: %s not found\n", name);
+		printf("error: XML %s not found\n", name);
 		return;
 	}
 
 	gui_node = xmlDocGetRootElement(doc);
 	if (!gui_node) {
-		printf("error: %s missing data\n", name);
+		printf("error: XML %s missing data\n", name);
 		return;
 	}
 
 	matrix_items_node = xml_get_node_by_name(gui_node, (char *) "MatrixItems");
 	if (!matrix_items_node) {
+		printf("error: XML MatrixItems not found\n");
 		return;
 	}
+	xml_matrix_items(matrix_items_node);
+
 	strings_node = xml_get_node_by_name(gui_node, (char *) "Strings");
 	if (!strings_node) {
-		return;
-	}
-	state_node = xml_get_node_by_name(strings_node, (char *) "State");
-	if (!state_node) {
-		return;
-	}
-	warning_node = xml_get_node_by_name(strings_node, (char *) "Warning");
-	if (!state_node) {
-		return;
-	}
-	interlock_node = xml_get_node_by_name(strings_node, (char *) "Interlock");
-	if (!state_node) {
-		return;
-	}
-	param_node = xml_get_node_by_name(strings_node, (char *) "Param");
-	if (!state_node) {
-		return;
-	}
-	error_node = xml_get_node_by_name(strings_node, (char *) "Error");
-	if (!state_node) {
-		return;
-	}
-	message_node = xml_get_node_by_name(strings_node, (char *) "Message");
-	if (!state_node) {
+		printf("error: XML Strings not found\n");
 		return;
 	}
 
-	xml_matrix_items(matrix_items_node);
-	xml_by_number(state_node, log_text[0]);     // states
-	xml_by_number(warning_node, log_text[1]);   // warnings
-	xml_by_number(interlock_node, log_text[2]); // interlocks
-	xml_by_number(error_node, log_text[3]);     // errors
-	xml_by_number(param_node, log_text[4]);     // params
-	xml_by_number(message_node, log_text[5]);   // messages (access level)
+	for (i = 0; i < sizeof(event_info_type_strs) / sizeof(char *); i++) {
+		node = xml_get_node_by_name(strings_node, (char *) event_info_type_strs[i]);
+		if (!node) {
+			printf("error: XML %s not found\n", event_info_type_strs[i]);
+		}
+		xml_by_number(node, log_text[i]);
+	}
 
 	xmlFreeDoc(doc);
 	xmlCleanupParser();
@@ -269,6 +248,14 @@ event_data_to_str(uint32_t data, int type, char *out, size_t max_out_len_bytes)
 // and during that time if there are no further updates, we lock our
 // representation of the event data and assume it is consistent.  then we
 // write to the log file and unlock the event data.
+//
+// this function tells us if the representation of the log data is ok to use.
+// return 0 ==> ok to write to log file
+// return 1 ==> not ok to write to log file
+//
+// this function assumes the in-memory representation of the log data has
+// been locked, i.e. the in-memory log will not change again until it has
+// been unlocked.
 static int is_log_updating(void)
 {
 	struct timespec now;
@@ -415,7 +402,11 @@ event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_inf
 		timezone);
 }
 
-// inputs from modbus
+// one of the arrays containing log data has changed.  here we handle the
+// changing data.  in this function we build our in-memory representation
+// of the log.  in another thread, we write each log item to a file.
+//
+// inputs from modbus (offsets and names from ScandiNova spec)
 // INPA event index       EventIndex      read999       "Event logg index"
 // INPB event increment   EventIncrement  read1000/50   "Event logg increment array"
 // INPC timestamp         EventTime1      read1100/100  "Event logg time-stamp array"
