@@ -205,14 +205,14 @@ record (mbbi,"$(P):StateSet:RBV") {
 	field(FFVL, "99")
 	field(FFST, "Disabled")
 }
-record (ai,"$(P):VoltageSetRBV") {
-	field(DESC, "Readback of voltage setvalue of all ccps")
-	field(EGU, "V")
-	info(archive,"policy:Default")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read21 0)")
-	field(DTYP, "asynFloat64")
-}
+#record (ai,"$(P):VoltageSetRBV") {
+#	field(DESC, "Readback of voltage setvalue of all ccps")
+#	field(EGU, "V")
+#	info(archive,"policy:Default")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read21 0)")
+#	field(DTYP, "asynFloat64")
+#}
 #record (ai,"$(P):FilamentCurrentSet:RBV") {
 #	field(DESC, "Set val for filament current")
 #	field(EGU, "A")
@@ -221,14 +221,14 @@ record (ai,"$(P):VoltageSetRBV") {
 #	field(INP, "@asyn(read23 0)")
 #	field(DTYP, "asynFloat64")
 #}
-record (ai,"$(P):PulseWidthSet:RBV") {
-	field(DESC, "Readback of pulse width setvalue")
-	field(EGU, "us")
-	info(archive,"policy:Default")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read25 0)")
-	field(DTYP, "asynFloat64")
-}
+#record (ai,"$(P):PulseWidthSetRBV") {
+#	field(DESC, "Readback of pulse width setvalue")
+#	field(EGU, "us")
+#	info(archive,"policy:Default")
+#	field(SCAN, "I/O Intr")
+#	field(INP, "@asyn(read25 0)")
+#	field(DTYP, "asynFloat64")
+#}
 #record (ai,"$(P):PulseRepFreqSet:RBV") {
 #	field(DESC, "Readback of pulse repetition freq setval")
 #	field(EGU, "Hz")
@@ -9326,19 +9326,19 @@ record (bo,"$(P):Reset") {
 	field(OUT, "@asynMask(write2 0 0x01 500)")
 	field(DTYP, "asynUInt32Digital")
 }
-record (ao,"$(P):VoltageSet") {
-	field(DESC, "Set voltage for capacitor charging ps")
-	field(EGU, "V")
-	field(HIHI, "1000")
-	field(HHSV, "MAJOR")
-	field(HIGH, "980")
-	field(HSV, "MINOR")
-	field(DRVH, "980")
-	field(DRVL, "0")
-	field(PINI, "YES")
-	field(OUT, "@asyn(write100)")
-	field(DTYP, "asynFloat64")
-}
+#record (ao,"$(P):VoltageSet") {
+#	field(DESC, "Set voltage for capacitor charging ps")
+#	field(EGU, "V")
+#	field(HIHI, "1000")
+#	field(HHSV, "MAJOR")
+#	field(HIGH, "980")
+#	field(HSV, "MINOR")
+#	field(DRVH, "980")
+#	field(DRVL, "0")
+#	field(PINI, "YES")
+#	field(OUT, "@asyn(write100)")
+#	field(DTYP, "asynFloat64")
+#}
 #record (ao,"$(P):FilamentCurrentSet") {
 #	field(DESC, "Set val for filament current")
 #	field(EGU, "A")
@@ -9352,19 +9352,19 @@ record (ao,"$(P):VoltageSet") {
 #	field(OUT, "@asyn(write200)")
 #	field(DTYP, "asynFloat64")
 #}
-record (ao,"$(P):PulseWidthSet") {
-	field(DESC, "Pulse width set for all Sus, range 1-5us")
-	field(EGU, "us")
-	field(HIHI, "4.5")
-	field(HHSV, "MAJOR")
-	field(LOLO, "1")
-	field(LLSV, "MAJOR")
-	field(DRVH, "4.5")
-	field(DRVL, "1")
-	field(PINI, "YES")
-	field(OUT, "@asyn(write300)")
-	field(DTYP, "asynFloat64")
-}
+#record (ao,"$(P):PulseWidthSet") {
+#	field(DESC, "Pulse width set for all Sus, range 1-5us")
+#	field(EGU, "us")
+#	field(HIHI, "4.5")
+#	field(HHSV, "MAJOR")
+#	field(LOLO, "1")
+#	field(LLSV, "MAJOR")
+#	field(DRVH, "4.5")
+#	field(DRVL, "1")
+#	field(PINI, "YES")
+#	field(OUT, "@asyn(write300)")
+#	field(DTYP, "asynFloat64")
+#}
 #record (ao,"$(P):PulseRepFreqSet") {
 #	field(DESC, "Local pulse repetition frequency setval")
 #	field(EGU, "Hz")

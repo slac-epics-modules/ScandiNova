@@ -1,8 +1,17 @@
-file ai.template
+file longinInt32.template
 {
     pattern
-    { P,      R,                 PORT,        OFFSET, BITS, EGUL, EGUF,       PREC, SCAN       }
-#    { "${P}", ":VoltageSetRBV",  "read21",    0,      32,   0,    4294967295, 0,    "I/O Intr" }
+    { P,      R,                PORT,     OFFSET, UNITS, DATA_TYPE,  SCAN       }
+    { "${P}", ":VoltageSetRBV", "read21", 0,      "V",   FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":PulseWidthRBV", "read25", 0,      "us",  FLOAT32_LE, "I/O Intr" }
+}
+
+file longoutInt32.template
+{
+    pattern
+    { P,      R,                PORT,       OFFSET, UNITS, DATA_TYPE  }
+    { "${P}", ":VoltageSet",    "write100", 0,      "us",  FLOAT32_LE }
+    { "${P}", ":PulseWidthSet", "write300", 0,      "us",  FLOAT32_LE }
 }
 
 file ao.template
