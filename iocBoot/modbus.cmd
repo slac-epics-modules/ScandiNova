@@ -1,4 +1,4 @@
-# https://epics-modbus.readthedocs.io/en/latest/
+# https://epics-modules.github.io/modbus/
 #
 # drvModbusAsynConfigure(portName,
 #                        tcpPortName,
@@ -9,6 +9,15 @@
 #                        dataType,
 #                        pollMsec,
 #                        plcType);
+#
+
+#
+# if you would like to observe the raw data being transferred via modbus,
+# issue these two commands:
+#
+# epics> asynSetTraceIOMask <portName> 0 ASYN_TRACEIO_HEX
+# epics> asynSetTraceMask <portName> 0 ASYN_TRACEIO_DRIVER|ASYN_TRACEIO_DEVICE
+#
 
 #
 # INPUT REGISTERS (read by IOC app)
@@ -104,7 +113,7 @@ drvModbusAsynConfigure("read3501", "mod-beckhoff-plc", 0, 4, 3501,  12, UINT16, 
 drvModbusAsynConfigure(   "write0", "mod-beckhoff-plc", 0,  6,    0, 1, INT16,        0, "mod-beckhoff-plc")
 drvModbusAsynConfigure(   "write1", "mod-beckhoff-plc", 0,  6,    1, 1, UINT16,      -1, "mod-beckhoff-plc")
 drvModbusAsynConfigure(   "write2", "mod-beckhoff-plc", 0,  6,    2, 1, INT16,       -1, "mod-beckhoff-plc")
-drvModbusAsynConfigure( "write100", "mod-beckhoff-plc", 0, 16,  100, 2, UINT32_LE,   -1, "mod-beckhoff-plc")
+drvModbusAsynConfigure( "write100", "mod-beckhoff-plc", 0, 16,  100, 2, FLOAT32_LE,  -1, "mod-beckhoff-plc")
 #drvModbusAsynConfigure("write200", "mod-beckhoff-plc", 0, 16,  200, 2, INT32_LE_BS, -1, "mod-beckhoff-plc")
 drvModbusAsynConfigure( "write300", "mod-beckhoff-plc", 0, 16,  300, 2, UINT32_LE,   -1, "mod-beckhoff-plc")
 #drvModbusAsynConfigure("write400", "mod-beckhoff-plc", 0, 16,  400, 2, INT32_LE_BS, -1, "mod-beckhoff-plc")

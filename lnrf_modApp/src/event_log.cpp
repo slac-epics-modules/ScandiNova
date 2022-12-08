@@ -187,7 +187,7 @@ parse_resources_xml(const char *name)
 		return;
 	}
 
-	for (i = 0; i < sizeof(event_info_type_strs) / sizeof(char *); i++) {
+	for (i = 0; i < (int) (sizeof(event_info_type_strs) / sizeof(char *)); i++) {
 		node = xml_get_node_by_name(strings_node, (char *) event_info_type_strs[i]);
 		if (!node) {
 			printf("error: XML %s not found\n", event_info_type_strs[i]);

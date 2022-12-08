@@ -1,17 +1,19 @@
-file longinInt32.template
+# we use the 64-bit float template for 32-bit floats
+file aiFloat64.template
 {
     pattern
-    { P,      R,                PORT,     OFFSET, UNITS, DATA_TYPE,  SCAN       }
-    { "${P}", ":VoltageSetRBV", "read21", 0,      "V",   FLOAT32_LE, "I/O Intr" }
-    { "${P}", ":PulseWidthRBV", "read25", 0,      "us",  FLOAT32_LE, "I/O Intr" }
+    { P,      R,                PORT,     OFFSET, UNITS, LOPR, HIPR, PREC, DATA_TYPE,  SCAN       }
+    { "${P}", ":VoltageSetRBV", "read21", 0,      "V",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":PulseWidthRBV", "read25", 0,      "us",  1,    5,    3,    FLOAT32_LE, "I/O Intr" }
 }
 
-file longoutInt32.template
+# we use the 64-bit float template for 32-bit floats
+file aoFloat64.template
 {
     pattern
-    { P,      R,                PORT,       OFFSET, UNITS, DATA_TYPE  }
-    { "${P}", ":VoltageSet",    "write100", 0,      "us",  FLOAT32_LE }
-    { "${P}", ":PulseWidthSet", "write300", 0,      "us",  FLOAT32_LE }
+    { P,      R,                PORT,       OFFSET, UNITS, LOPR, HIPR, PREC, DATA_TYPE  }
+    { "${P}", ":VoltageSet",    "write100", 0,      "V",   0,    1200, 3,    FLOAT32_LE }
+    { "${P}", ":PulseWidthSet", "write300", 0,      "us",  1,    5,    3,    FLOAT32_LE }
 }
 
 file ao.template
