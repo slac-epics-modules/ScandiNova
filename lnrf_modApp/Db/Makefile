@@ -5,18 +5,18 @@ include $(TOP)/configure/CONFIG
 
 #----------------------------------------------------
 # Create and install (or just install) into <top>/db
-# databases, templates, substitutions like this
-#DB += $(RECCASTER)/db/reccaster.db
-#DB += $(devIocStats)/db/ioc_stats.db
-DB += $(devIocStats)/db/iocAdmin.db
+# databases, templates, substitutions like this:
+
+# DB_INSTALLS for db outside this IOC's source
+DB_INSTALLS += $(devIocStats)/db/iocAdmin.db
+DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
+
+# DB for db inside this IOC's source
 DB += waveform.db
 DB += registers.db
-#DB += py.db
 DB += bridge.db
 DB += modbus_registers.db
 DB += log_messages.db
-
-#DB_INSTALLS += ../O.$(EPICS_HOST_ARCH)/registers.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

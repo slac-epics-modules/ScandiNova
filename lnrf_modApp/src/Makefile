@@ -23,7 +23,6 @@ lnrf_mod_DBD += asyn.dbd
 lnrf_mod_DBD += iocAdmin.dbd
 lnrf_mod_DBD += event_log.dbd
 
-
 USR_INCLUDES += -I$(ZLIB_INCLUDE)
 USR_INCLUDES += -I$(XZ_INCLUDE)
 USR_INCLUDES += -I$(LIBXML2_INCLUDE)
@@ -47,6 +46,7 @@ lnrf_mod_LIBS += $(EPICS_BASE_IOC_LIBS)
 lnrf_mod_LIBS += modbus
 lnrf_mod_LIBS += asyn
 lnrf_mod_LIBS += devIocStats
+lnrf_mod_LIBS += autosave
 
 #===========================
 
