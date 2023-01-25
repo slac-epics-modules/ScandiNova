@@ -1,0 +1,9 @@
+# three fields, whitespace separated:
+#
+#  1. PV name or glob pattern
+#  2. period in seconds
+#  3. monitor or scan
+
+*:ModbusProtocolID       60 monitor
+*:ModbusProtocolRevision 60 monitor
+*:State                  10 monitor

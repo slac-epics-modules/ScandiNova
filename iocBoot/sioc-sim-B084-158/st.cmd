@@ -12,7 +12,7 @@ epicsEnvSet("IOCSH_TOP", "$(MODULES)/iocsh")
 epicsEnvSet("ENGINEER", "egumtow")
 epicsEnvSet("LOCATION", "B084 158")
 epicsEnvSet("WIKI", "LinacModulator")
-epicsEnvSet("IOCNAME", "scandinova_modulator_sim")
+epicsEnvSet("IOCNAME", "sioc-sim-B084-158")
 
 epicsEnvSet("SYSTEM", "LNRF")
 epicsEnvSet("BUILDING", "B084")
@@ -26,11 +26,11 @@ lnrf_mod_registerRecordDeviceDriver(pdbbase)
 drvAsynIPPortConfigure("mod-beckhoff-plc", "127.0.0.1:1502", 0, 0, 1)
 modbusInterposeConfig("mod-beckhoff-plc", 0, 0, 0)
 
-< "iocBoot/modbus.cmd"
+< "iocBoot/$(IOCNAME)/modbus.cmd"
 
 #py "import eventAndWaveform"
 #py "eventAndWaveform.build('$(P)$(R)', '$(TOP)', '/u/gu/egumtow/scandinova-modulator-events')"
-parse_resources_xml("./iocBoot/modbus_sim/Resource.xml")
+parse_resources_xml("./iocBoot/$(IOCNAME)/Resource.xml")
 set_event_output_file("./scandinova-modulator-events-$(P)")
 
 
