@@ -53,6 +53,7 @@ typedef struct {
 } event_info_t;
 
 
+static int debug_flag = 0;
 static pthread_t log_thread;
 static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 static struct timespec next_clean_time = {-1, -1};
@@ -89,6 +90,14 @@ static const char *event_info_data_type_strs[] = {
 	"Dword"
 };
 
+
+// enable or disable debug printfs
+static void
+set_event_debug(const int on)
+{
+	debug_flag = on;
+	printf("debug %s\n", debug_flag ? "on" : "off");
+}
 
 // given a node in XML, find a subnode by name
 static xmlNode *
@@ -319,17 +328,18 @@ update_log_file(void *unused)
 			// have event_count of them.
 			event_info = &event_infos[(previous_event_index + i + 1) % 50];
 
-#if 0
-			printf("increment:  %d\n",                     event_info->increment);
-			printf("trigger id: %d\n",                     event_info->trigger);
-			printf("timestamp:  %s\n",                     event_info->timestamp);
-			printf("type:       \"%s\" (%d)\n",            event_info->type_str, event_info->type);
-			printf("subsystem:  \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
-			printf("log text:   \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
-			printf("data type:  \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
-			printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
-			printf("\n");
-#endif
+			if (debug_flag) {
+				printf("log file  ------------------------------------\n");
+				printf("increment:  %d\n",                     event_info->increment);
+				printf("trigger id: %d\n",                     event_info->trigger);
+				printf("timestamp:  %s\n",                     event_info->timestamp);
+				printf("type:       \"%s\" (%d)\n",            event_info->type_str, event_info->type);
+				printf("subsystem:  \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
+				printf("log text:   \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
+				printf("data type:  \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
+				printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
+				printf("\n");
+			}
 
 			if (event_output_fd != NULL) {
 				// if this event has an empty data field
@@ -457,6 +467,7 @@ handle_event_log_modify(aSubRecord *prec)
 		event_struct.data = ((uint32_t *) prec->j)[event_index];
 
 		event_struct_to_event_info(&event_struct, event_info);
+
 #if 0
 		printf("increment:  %d\n",                     event_info->increment);
 		printf("trigger id: %d\n",                     event_info->trigger);
@@ -516,9 +527,9 @@ handle_current_event_struct_modify(aSubRecord *prec)
 	memset(prec->vala, 0, prec->nova);
 	memset(prec->valb, 0, prec->novb);
 	memset(prec->valc, 0, sizeof(long) * prec->novc);
-	memset(prec->vald, 0, prec->novc);
-	memset(prec->vale, 0, prec->novd);
-	memset(prec->valf, 0, prec->nove);
+	memset(prec->vald, 0, prec->novd);
+	memset(prec->vale, 0, prec->nove);
+	memset(prec->valf, 0, prec->novf);
 	memset(prec->valg, 0, prec->novg);
 	memset(prec->valh, 0, prec->novh);
 
@@ -531,18 +542,18 @@ handle_current_event_struct_modify(aSubRecord *prec)
 	strncpy((char *) prec->valg, event_info.units_str, prec->novg - 1);
 	strncpy((char *) prec->valh, event_info.data_str, prec->novh - 1);
 
-#if 0
-	printf("event ------------------------------------\n");
-	printf("increment:  %d\n",                     event_info.increment);
-	printf("trigger id: %d\n",                     event_info.trigger);
-	printf("timestamp:  %s\n",                     event_info.timestamp);
-	printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
-	printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
-	printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
-	printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
-	printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
-	printf("\n");
-#endif
+	if (debug_flag) {
+		printf("event ------------------------------------\n");
+		printf("increment:  %d\n",                     event_info.increment);
+		printf("trigger id: %d\n",                     event_info.trigger);
+		printf("timestamp:  %s\n",                     event_info.timestamp);
+		printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
+		printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
+		printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
+		printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
+		printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
+		printf("\n");
+	}
 
 	return 0;
 }
@@ -570,9 +581,9 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 	memset(prec->vala, 0, prec->nova);
 	memset(prec->valb, 0, prec->novb);
 	memset(prec->valc, 0, sizeof(long) * prec->novc);
-	memset(prec->vald, 0, prec->novc);
-	memset(prec->vale, 0, prec->novd);
-	memset(prec->valf, 0, prec->nove);
+	memset(prec->vald, 0, prec->novd);
+	memset(prec->vale, 0, prec->nove);
+	memset(prec->valf, 0, prec->novf);
 	memset(prec->valg, 0, prec->novg);
 	memset(prec->valh, 0, prec->novh);
 
@@ -585,18 +596,18 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 	strncpy((char *) prec->valg, event_info.units_str, prec->novg - 1);
 	strncpy((char *) prec->valh, event_info.data_str, prec->novh - 1);
 
-#if 0
-	printf("interlock ------------------------------------\n");
-	printf("increment:  %d\n",                     event_info.increment);
-	printf("trigger id: %d\n",                     event_info.trigger);
-	printf("timestamp:  %s\n",                     event_info.timestamp);
-	printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
-	printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
-	printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
-	printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
-	printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
-	printf("\n");
-#endif
+	if (debug_flag) {
+		printf("interlock ------------------------------------\n");
+		printf("increment:  %d\n",                     event_info.increment);
+		printf("trigger id: %d\n",                     event_info.trigger);
+		printf("timestamp:  %s\n",                     event_info.timestamp);
+		printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
+		printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
+		printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
+		printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
+		printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
+		printf("\n");
+	}
 
 	return 0;
 }
@@ -604,6 +615,14 @@ epicsRegisterFunction(handle_interlock_event_struct_modify);
 
 extern "C"
 {
+
+static const iocshArg event_debug_configure_arg0 = {"0|1", iocshArgInt};
+static const iocshArg *event_debug_configure_args[] = {&event_debug_configure_arg0};
+static const iocshFuncDef event_debug_func_def = {"set_event_debug", 1, event_debug_configure_args};
+static void event_debug_call_func(const iocshArgBuf *args)
+{
+	set_event_debug(args[0].ival);
+}
 
 static const iocshArg event_resources_configure_arg0 = {"filename", iocshArgString};
 static const iocshArg *event_resources_configure_args[] = {&event_resources_configure_arg0};
@@ -626,6 +645,7 @@ void event_log_register_commands(void)
 	pthread_create(&log_thread, NULL, update_log_file, NULL);
 	pthread_detach(log_thread);
 
+	iocshRegister(&event_debug_func_def, event_debug_call_func);
 	iocshRegister(&event_log_func_def, event_log_call_func);
 	iocshRegister(&event_resources_func_def, event_resources_call_func);
 }
