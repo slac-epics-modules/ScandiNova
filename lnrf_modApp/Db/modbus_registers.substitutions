@@ -16,6 +16,17 @@ file aoFloat64.template
     { "${P}", ":PulseWidthSet", "write300", 0,      "us",  1,    5,    3,    FLOAT32_LE }
 }
 
+# int32 in
+file ai.template
+{
+    pattern
+    { P,      R,                         PORT,        OFFSET, BITS, EGUL, EGUF,  PREC, SCAN       }
+    { "${P}", ":ModbusProtocolID",       "read0",     0,      16,   0,    65535, 0,    "I/O Intr" }
+    { "${P}", ":ModbusProtocolRevision", "read1",     0,      16,   0,    65535, 0,    "I/O Intr" }
+    { "${P}", ":WatchdogRBV",            "read2",     0,      16,   0,    65535, 0,    "I/O Intr" }
+}
+
+# int32 out
 file ao.template
 {
     pattern
