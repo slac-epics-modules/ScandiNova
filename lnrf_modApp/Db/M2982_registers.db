@@ -5655,18 +5655,6 @@ record (longin,"$(P):WaveformType") {
 	field(INP, "@asyn(read3000 0)")
 	field(DTYP, "asynInt32")
 }
-record (longin,"$(P):WaveformTimeLower") {
-	field(DESC, "Digitizer waveform")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read3001 0)")
-	field(DTYP, "asynInt32")
-}
-record (longin,"$(P):WaveformTimeUpper") {
-	field(DESC, "Digitizer waveform")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read3001 2)")
-	field(DTYP, "asynInt32")
-}
 record (longin,"$(P):WaveformPulseIDLower") {
 	field(DESC, "Digitizer waveform")
 	field(SCAN, "I/O Intr")

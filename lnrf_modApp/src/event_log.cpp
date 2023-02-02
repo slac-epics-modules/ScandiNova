@@ -19,6 +19,9 @@
 #include <string>
 #include "asynPortDriver.h"
 
+#define EPOCH_RAW_TO_EPOCH(raw) ((raw) / 10000000 - 11644473600)
+#define EPOCH_RAW_TO_MILLISECONDS_OFFSET(raw) (((raw) % 10000000) / 10000)
+
 
 using namespace std;
 
@@ -372,17 +375,36 @@ update_log_file(void *unused)
 	return NULL;
 }
 
-// convert raw event struct from hardware to a meaningful event
+// take a raw epoch timestamp given to us by the Scandinova hardware, and
+// convert it to a human-readable timestamp string.
 static void
-event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_info)
+epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
 {
 	struct tm *ts = NULL;
 	char timestamp[64];
 	char timezone[8];
+	time_t epoch = EPOCH_RAW_TO_EPOCH(epoch_raw);
 
+	ts = localtime(&epoch);
+	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
+	strftime(timezone, sizeof(timezone), "%Z", ts);
+	memset(str, 0, max_out_len_bytes);
+	snprintf(
+		str,
+		max_out_len_bytes - 1,
+		"%s.%03d %s",
+		timestamp,
+		(int) EPOCH_RAW_TO_MILLISECONDS_OFFSET(epoch_raw),
+		timezone);
+}
+
+// convert raw event struct from hardware to a meaningful event
+static void
+event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_info)
+{
 	memset(event_info, 0, sizeof(event_info_t));
 
-	event_info->epoch = event_struct->epoch_raw / 10000000 - 11644473600;
+	event_info->epoch = EPOCH_RAW_TO_EPOCH(event_struct->epoch_raw);
 	event_info->increment = event_struct->increment;
 	event_info->type = event_struct->type;
 	event_info->trigger = event_struct->trigger;
@@ -399,17 +421,7 @@ event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_inf
 
 	event_data_to_str(event_info->data, event_info->data_type, event_info->data_str, sizeof(event_info->data_str));
 
-	ts = localtime(&event_info->epoch);
-	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
-	strftime(timezone, sizeof(timezone), "%Z", ts);
-	memset(event_info->timestamp, 0, sizeof(event_info->timestamp));
-	snprintf(
-		event_info->timestamp,
-		sizeof(event_info->timestamp) - 1,
-		"%s.%03d %s",
-		timestamp,
-		(int) ((event_struct->epoch_raw % 10000000) / 10000),
-		timezone);
+	epoch_raw_to_timestr(event_struct->epoch_raw, event_info->timestamp, sizeof(event_info->timestamp));
 }
 
 // one of the arrays containing log data has changed.  here we handle the
@@ -612,6 +624,20 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 	return 0;
 }
 epicsRegisterFunction(handle_interlock_event_struct_modify);
+
+// inputs from modbus:
+// INPA  read3001/4 "Customer waveform timestamp"
+//
+// outputs to EPICS:
+// OUTA WaveformTimeStr
+static long
+handle_waveform_timestamp_modify(aSubRecord *prec)
+{
+	epoch_raw_to_timestr(*(uint64_t *) prec->a, (char *) prec->vala, prec->nova);
+
+	return 0;
+}
+epicsRegisterFunction(handle_waveform_timestamp_modify);
 
 extern "C"
 {

@@ -192,6 +192,24 @@ record (aSub,"$(P):EventBridge") {
 	field(NOJ,"50")
 }
 
+# waveform
+
+record (stringin,"$(P):WaveformTimeStr") {
+	field(DESC, "Timestamp of the selected waveform")
+}
+
+record (aSub,"$(P):WaveformTimeBridge") {
+	field(SNAM, "handle_waveform_timestamp_modify")
+
+	field(INPA, "$(P):WaveformTime CP")
+	field(FTA,  "LONG")
+	field(NOA,  "4")
+
+	field(OUTA, "$(P):WaveformTimeStr PP")
+	field(FTVA, "STRING")
+	field(NOVA, "64")
+}
+
 # watchdog
 
 record (calcout,"$(P):CalcWatchdog") {
