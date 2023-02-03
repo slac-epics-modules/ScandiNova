@@ -12,7 +12,8 @@ DB_INSTALLS += $(devIocStats)/db/iocAdmin.db
 DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
 
 # DB for db inside this IOC's source
-DB += registers.db
+DB += simulator_registers.db
+DB += M2982_registers.db
 DB += modbus_registers.db
 DB += log_messages_bridge.db
 DB += waveform.db

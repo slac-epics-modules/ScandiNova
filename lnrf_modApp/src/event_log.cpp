@@ -19,6 +19,7 @@
 #include <string>
 #include "asynPortDriver.h"
 
+#define EVENT_LOG_SIZE 50
 #define EPOCH_RAW_TO_EPOCH(raw) ((raw) / 10000000 - 11644473600)
 #define EPOCH_RAW_TO_MILLISECONDS_OFFSET(raw) (((raw) % 10000000) / 10000)
 
@@ -38,21 +39,21 @@ typedef struct __attribute__ (packed) {
 } event_struct_t;
 
 typedef struct {
-	int increment;
-	time_t epoch;
-	char timestamp[64];
-	int trigger;
+	int increment;          // XXX confirm with Scandinova
+	time_t epoch;           // seconds since 1/1/1970
+	char timestamp[64];     // human-readable timestamp
+	int trigger;            // counter
 	int type;               // index for Strings and event types
-	char type_str[32];
+	char type_str[32];      // type description
 	int text_number;        // index for Strings[type]
 	char text_str[64];      // from Strings[type][text_number]
 	int matrix_index;       // index for MatrixItems
 	char subsystem_str[32]; // from MatrixItems[matrix_index].Name
 	char units_str[8];      // from MatrixItems[matrix_index].Unit
-	int data_type;          // index for data types
-	char data_type_str[16];
-	uint32_t data;
-	char data_str[32];
+	int data_type;          // index for data types; defines the conversion
+	char data_type_str[16]; // data type description
+	uint32_t data;          // raw data (4 bytes)
+	char data_str[32];      // converted data to be read by humans
 } event_info_t;
 
 
@@ -60,7 +61,7 @@ static int debug_flag = 0;
 static pthread_t log_thread;
 static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 static struct timespec next_clean_time = {-1, -1};
-static event_info_t event_infos[50];
+static event_info_t event_infos[EVENT_LOG_SIZE];
 static int current_event_index = -1;
 static char *event_output_file = NULL;
 static FILE *event_output_fd = NULL;
@@ -319,7 +320,7 @@ update_log_file(void *unused)
 			event_count = current_event_index - previous_event_index;
 		} else if (previous_event_index > current_event_index) {
 			// event log wrapped
-			event_count = current_event_index + (50 - previous_event_index);
+			event_count = current_event_index + (EVENT_LOG_SIZE - previous_event_index);
 		} else {
 			event_count = 0;
 		}
@@ -329,7 +330,7 @@ update_log_file(void *unused)
 			// previous_event_index contains the index of the event we previously
 			// wrote to file.  so the next (unwritten) event is at +1, and we
 			// have event_count of them.
-			event_info = &event_infos[(previous_event_index + i + 1) % 50];
+			event_info = &event_infos[(previous_event_index + i + 1) % EVENT_LOG_SIZE];
 
 			if (debug_flag) {
 				printf("log file  ------------------------------------\n");
@@ -454,19 +455,19 @@ handle_event_log_modify(aSubRecord *prec)
 
 	current_event_index = *(int *) prec->a;
 	assert(current_event_index >= 0);
-	assert(current_event_index < 50);
+	assert(current_event_index < EVENT_LOG_SIZE);
 
-	for (event_index = 0; event_index < 50; event_index++) {
+	for (event_index = 0; event_index < EVENT_LOG_SIZE; event_index++) {
 		event_info = &event_infos[event_index];
 
 		// event timestamp
 
-		if (event_index < 25) {
+		if (event_index < EVENT_LOG_SIZE / 2) {
 			upper_32 = ((uint32_t *) prec->c)[event_index * 2 + 1];
 			lower_32 = ((uint32_t *) prec->c)[event_index * 2];
 		} else {
-			upper_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2 + 1];
-			lower_32 = ((uint32_t *) prec->d)[(event_index - 25) * 2];
+			upper_32 = ((uint32_t *) prec->d)[(event_index - EVENT_LOG_SIZE / 2) * 2 + 1];
+			lower_32 = ((uint32_t *) prec->d)[(event_index - EVENT_LOG_SIZE / 2) * 2];
 		}
 
 		event_struct.increment = (uint16_t) ((uint32_t *) prec->b)[event_index];
@@ -630,6 +631,9 @@ epicsRegisterFunction(handle_interlock_event_struct_modify);
 //
 // outputs to EPICS:
 // OUTA WaveformTimeStr
+//
+// note this is unrelated to logging and events.  we put it in this file for
+// convenience only.
 static long
 handle_waveform_timestamp_modify(aSubRecord *prec)
 {
