@@ -31,9 +31,12 @@ set_event_output_file("./scandinova-modulator-events-$(P)")
 # Load record instances
 dbLoadRecords("db/M2982_registers.db","P=$(P)")
 dbLoadRecords("db/waveform.db","P=$(P)")
-dbLoadRecords("db/bridge.db","P=$(P)")
-dbLoadRecords("db/modbus_registers.db", "P=$(P)")
+dbLoadRecords("db/waveform_bridge.db","P=$(P)")
+dbLoadRecords("db/customer_waveform.db","P=$(P)")
 dbLoadRecords("db/log_messages.db", "P=$(P)")
+dbLoadRecords("db/log_messages_bridge.db","P=$(P)")
+dbLoadRecords("db/modbus_registers.db", "P=$(P)")
+dbLoadRecords("db/watchdog_bridge.db","P=$(P)")
 
 cd ${TOP}/iocBoot/${IOC}
 

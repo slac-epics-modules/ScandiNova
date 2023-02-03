@@ -1,0 +1,49 @@
+# we read in information about the digitized signal.  the information is:
+#
+#  * time - 8 bytes, which we must later convert to a human-readable timestamp
+#  * pulse id - 8 bytes
+#  * sample count - 2 bytes
+#  * waveform - 1006 bytes == 503 16-bit modbus registers
+#
+# the max size of a modbus read is 100 16-bit modbus registers, so we split
+# the waveform itself into 6 PVs.
+#
+# scandinova dedicates modbus addresses 3001-3512 to this purpose.  this gives
+# us ((3512 - 3001) + 1) * 2 == 1024 bytes that we must read.
+#
+# size of data in bytes ==> 8 + 8 + 2 + 1006 == 1024 bytes.
+#
+# although we use int32 types, modbus knows to read only 16 bits.  when we
+# define int32 with 4 elements, this is int16 with 4 elements, which is 8
+# bytes.
+
+
+# int32 array, waveform record in
+file intarray_in.template
+{
+    pattern
+    { P,      R,                       PORT,        OFFSET, NELM, SCAN       }
+    { "${P}", ":WaveformTime",         "read3001",  0,         4, "I/O Intr" }
+    { "${P}", ":Waveform1",            "read3010",  0,       100, "I/O Intr" }
+    { "${P}", ":Waveform2",            "read3110",  0,       100, "I/O Intr" }
+    { "${P}", ":Waveform3",            "read3210",  0,       100, "I/O Intr" }
+    { "${P}", ":Waveform4",            "read3310",  0,       100, "I/O Intr" }
+    { "${P}", ":Waveform5",            "read3410",  0,       100, "I/O Intr" }
+    { "${P}", ":Waveform6",            "read3510",  0,         3, "I/O Intr" }
+}
+
+# int32 in
+file ai.template
+{
+    pattern
+    { P,      R,              PORT,       OFFSET, BITS, EGUL, EGUF,  PREC, SCAN       }
+    { "${P}", ":SampleCount", "read3009", 0,      16,   0,    65535, 0,    "I/O Intr" }
+}
+
+# int64 in
+file int64in.template
+{
+	pattern
+	{ P,      R,          PORT,       OFFSET, DATA_TYPE, SCAN       }
+    { "${P}", ":PulseId", "read3005", 0,      UINT64_LE, "I/O Intr" }
+}

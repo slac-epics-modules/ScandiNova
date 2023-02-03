@@ -13,5 +13,4 @@ file intarray_in.template
     { "${P}", ":EventData",            "read1550",  0,       100, "I/O Intr" }
     { "${P}", ":CurrentEventStruct",   "read1700",  0,        13, "I/O Intr" }
     { "${P}", ":InterlockEventStruct", "read1715",  0,        13, "I/O Intr" }
-    { "${P}", ":WaveformTime",         "read3001",  0,         4, "I/O Intr" }
 }
