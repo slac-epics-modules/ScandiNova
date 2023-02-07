@@ -39,7 +39,7 @@ typedef struct __attribute__ (packed) {
 } event_struct_t;
 
 typedef struct {
-	int increment;          // XXX confirm with Scandinova
+	int increment;          // unique id (0, 1, 2, ..., 65535) for the event per boot
 	time_t epoch;           // seconds since 1/1/1970
 	char timestamp[64];     // human-readable timestamp
 	int trigger;            // counter
@@ -348,14 +348,16 @@ update_log_file(void *unused)
 			if (event_output_fd != NULL) {
 				// if this event has an empty data field
 				if (event_info->data_type == 0) {
-					fprintf(event_output_fd, "\"%s\" %3d %-9s \"%s\" \"%s\"\n",
+					fprintf(event_output_fd, "%d \"%s\" %3d %-9s \"%s\" \"%s\"\n",
+						event_info->increment,
 						event_info->timestamp,
 						event_info->trigger,
 						event_info->type_str,
 						event_info->subsystem_str,
 						event_info->text_str);
 				} else {
-					fprintf(event_output_fd, "\"%s\" %3d %-9s \"%s\" \"%s: %s %s\"\n",
+					fprintf(event_output_fd, "%d \"%s\" %3d %-9s \"%s\" \"%s: %s %s\"\n",
+						event_info->increment,
 						event_info->timestamp,
 						event_info->trigger,
 						event_info->type_str,
