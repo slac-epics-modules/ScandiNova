@@ -5,6 +5,7 @@
 #include <string.h>
 #include <errno.h>
 #include <pthread.h>
+#include <sys/time.h>
 #include <iocsh.h>
 #include <epicsTypes.h>
 #include <aSubRecord.h>
@@ -41,7 +42,8 @@ typedef struct __attribute__ (packed) {
 typedef struct {
 	int increment;          // unique id (0, 1, 2, ..., 65535) for the event per boot
 	time_t epoch;           // seconds since 1/1/1970
-	char timestamp[64];     // human-readable timestamp
+	char timestamp[64];     // human-readable timestamp derived from the modulator's time
+	char timestamp_ioc[64]; // human-readable timestamp derived from the IOC's UNIX epoch
 	int trigger;            // counter
 	int type;               // index for Strings and event types
 	char type_str[32];      // type description
@@ -334,31 +336,34 @@ update_log_file(void *unused)
 
 			if (debug_flag) {
 				printf("log file  ------------------------------------\n");
-				printf("increment:  %d\n",                     event_info->increment);
-				printf("trigger id: %d\n",                     event_info->trigger);
-				printf("timestamp:  %s\n",                     event_info->timestamp);
-				printf("type:       \"%s\" (%d)\n",            event_info->type_str, event_info->type);
-				printf("subsystem:  \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
-				printf("log text:   \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
-				printf("data type:  \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
-				printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
+				printf("increment:     %d\n",                     event_info->increment);
+				printf("trigger id:    %d\n",                     event_info->trigger);
+				printf("timestamp:     %s\n",                     event_info->timestamp);
+				printf("IOC timestamp: %s\n",                     event_info->timestamp_ioc);
+				printf("type:          \"%s\" (%d)\n",            event_info->type_str, event_info->type);
+				printf("subsystem:     \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
+				printf("log text:      \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
+				printf("data type:     \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
+				printf("data:          \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
 				printf("\n");
 			}
 
 			if (event_output_fd != NULL) {
 				// if this event has an empty data field
 				if (event_info->data_type == 0) {
-					fprintf(event_output_fd, "%d \"%s\" %3d %-9s \"%s\" \"%s\"\n",
+					fprintf(event_output_fd, "%d \"%s\" \"%s\" %3d %-9s \"%s\" \"%s\"\n",
 						event_info->increment,
 						event_info->timestamp,
+						event_info->timestamp_ioc,
 						event_info->trigger,
 						event_info->type_str,
 						event_info->subsystem_str,
 						event_info->text_str);
 				} else {
-					fprintf(event_output_fd, "%d \"%s\" %3d %-9s \"%s\" \"%s: %s %s\"\n",
+					fprintf(event_output_fd, "%d \"%s\" \"%s\" %3d %-9s \"%s\" \"%s: %s %s\"\n",
 						event_info->increment,
 						event_info->timestamp,
+						event_info->timestamp_ioc,
 						event_info->trigger,
 						event_info->type_str,
 						event_info->subsystem_str,
@@ -378,15 +383,16 @@ update_log_file(void *unused)
 	return NULL;
 }
 
-// take a raw epoch timestamp given to us by the Scandinova hardware, and
-// convert it to a human-readable timestamp string.
+// take a UNIX epoch and milliseconds offset, and construct a human-readable
+// string representing the date, time, and timezone.
+//
+// TODO: should we have the format string be an externally settable parameter?
 static void
-epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
+human_timestr(time_t epoch, int milliseconds, char *str, size_t max_out_len_bytes)
 {
 	struct tm *ts = NULL;
 	char timestamp[64];
 	char timezone[8];
-	time_t epoch = EPOCH_RAW_TO_EPOCH(epoch_raw);
 
 	ts = localtime(&epoch);
 	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
@@ -397,8 +403,30 @@ epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
 		max_out_len_bytes - 1,
 		"%s.%03d %s",
 		timestamp,
-		(int) EPOCH_RAW_TO_MILLISECONDS_OFFSET(epoch_raw),
+		milliseconds,
 		timezone);
+}
+
+// construct a human-readable string from the current time (now).
+static void
+now_to_timestr(char *str, size_t max_out_len_bytes)
+{
+	struct timeval tv;
+
+	gettimeofday(&tv, NULL);
+	human_timestr(tv.tv_sec, tv.tv_usec / 1000, str, max_out_len_bytes);
+}
+
+// take a raw epoch timestamp given to us by the Scandinova hardware, and
+// convert it to a human-readable timestamp string.
+static void
+epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
+{
+	human_timestr(
+		(time_t) EPOCH_RAW_TO_EPOCH(epoch_raw),
+		(int) EPOCH_RAW_TO_MILLISECONDS_OFFSET(epoch_raw),
+		str,
+		max_out_len_bytes);
 }
 
 // convert raw event struct from hardware to a meaningful event
@@ -425,6 +453,7 @@ event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_inf
 	event_data_to_str(event_info->data, event_info->data_type, event_info->data_str, sizeof(event_info->data_str));
 
 	epoch_raw_to_timestr(event_struct->epoch_raw, event_info->timestamp, sizeof(event_info->timestamp));
+	now_to_timestr(event_info->timestamp_ioc, sizeof(event_info->timestamp_ioc));
 }
 
 // one of the arrays containing log data has changed.  here we handle the
@@ -484,14 +513,15 @@ handle_event_log_modify(aSubRecord *prec)
 		event_struct_to_event_info(&event_struct, event_info);
 
 #if 0
-		printf("increment:  %d\n",                     event_info->increment);
-		printf("trigger id: %d\n",                     event_info->trigger);
-		printf("timestamp:  %s\n",                     event_info->timestamp);
-		printf("type:       \"%s\" (%d)\n",            event_info->type_str, event_info->type);
-		printf("subsystem:  \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
-		printf("log text:   \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
-		printf("data type:  \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
-		printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
+		printf("increment:     %d\n",                     event_info->increment);
+		printf("trigger id:    %d\n",                     event_info->trigger);
+		printf("timestamp:     %s\n",                     event_info->timestamp);
+		printf("IOC timestamp: %s\n",                     event_info->timestamp_ioc);
+		printf("type:          \"%s\" (%d)\n",            event_info->type_str, event_info->type);
+		printf("subsystem:     \"%s\" (%d)\n",            event_info->subsystem_str, event_info->matrix_index);
+		printf("log text:      \"%s\" (%d/%d)\n",         event_info->text_str, event_info->type, event_info->text_number);
+		printf("data type:     \"%s\" (%d)\n",            event_info->data_type_str, event_info->data_type);
+		printf("data:          \"%s\" \"%s\" (0x%08x)\n", event_info->data_str, event_info->units_str, event_info->data);
 		printf("\n");
 #endif
 	}
@@ -559,14 +589,15 @@ handle_current_event_struct_modify(aSubRecord *prec)
 
 	if (debug_flag) {
 		printf("event ------------------------------------\n");
-		printf("increment:  %d\n",                     event_info.increment);
-		printf("trigger id: %d\n",                     event_info.trigger);
-		printf("timestamp:  %s\n",                     event_info.timestamp);
-		printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
-		printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
-		printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
-		printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
-		printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
+		printf("increment:     %d\n",                     event_info.increment);
+		printf("trigger id:    %d\n",                     event_info.trigger);
+		printf("timestamp:     %s\n",                     event_info.timestamp);
+		printf("IOC timestamp: %s\n",                     event_info.timestamp_ioc);
+		printf("type:          \"%s\" (%d)\n",            event_info.type_str, event_info.type);
+		printf("subsystem:     \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
+		printf("log text:      \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
+		printf("data type:     \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
+		printf("data:          \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
 		printf("\n");
 	}
 
@@ -613,14 +644,15 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 
 	if (debug_flag) {
 		printf("interlock ------------------------------------\n");
-		printf("increment:  %d\n",                     event_info.increment);
-		printf("trigger id: %d\n",                     event_info.trigger);
-		printf("timestamp:  %s\n",                     event_info.timestamp);
-		printf("type:       \"%s\" (%d)\n",            event_info.type_str, event_info.type);
-		printf("subsystem:  \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
-		printf("log text:   \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
-		printf("data type:  \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
-		printf("data:       \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
+		printf("increment:     %d\n",                     event_info.increment);
+		printf("trigger id:    %d\n",                     event_info.trigger);
+		printf("timestamp:     %s\n",                     event_info.timestamp);
+		printf("IOC timestamp: %s\n",                     event_info.timestamp_ioc);
+		printf("type:          \"%s\" (%d)\n",            event_info.type_str, event_info.type);
+		printf("subsystem:     \"%s\" (%d)\n",            event_info.subsystem_str, event_info.matrix_index);
+		printf("log text:      \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
+		printf("data type:     \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
+		printf("data:          \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
 		printf("\n");
 	}
 
