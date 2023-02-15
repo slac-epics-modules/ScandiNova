@@ -27,6 +27,14 @@
 
 using namespace std;
 
+typedef enum {
+	EVENT_TYPE_STATE,
+	EVENT_TYPE_WARNING,
+	EVENT_TYPE_INTERLOCK,
+	EVENT_TYPE_ERROR,
+	EVENT_TYPE_PARAM,
+	EVENT_TYPE_MESSAGE
+} event_type_t;
 
 typedef struct __attribute__ (packed) {
 	uint16_t increment;
@@ -71,7 +79,6 @@ static FILE *event_output_fd = NULL;
 // maps that hold data we parse out of the XML doc
 static map<int, pair<string, string> > matrix_items;
 static map<int, map<int, string> > log_text;
-
 
 // this list is not defined in Resource.xml
 static const char *event_info_type_strs[] = {
@@ -433,6 +440,9 @@ epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
 static void
 event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_info)
 {
+	assert(event_struct->type < sizeof(event_info_type_strs) / sizeof(char *));
+	assert(event_struct->data_type < sizeof(event_info_data_type_strs) / sizeof(char *));
+
 	memset(event_info, 0, sizeof(event_info_t));
 
 	event_info->epoch = EPOCH_RAW_TO_EPOCH(event_struct->epoch_raw);
@@ -550,45 +560,95 @@ modbus_to_event_info(uint32_t *modbus_data, event_info_t *event_info)
 	event_struct_to_event_info((event_struct_t *) words, event_info);
 }
 
-// inputs from modbus:
-// INPA CurrentEventStruct read1700
-//
-// outputs to EPICS:
-// OUTA CurrentEventTimeStr
-// OUTB CurrentEventTypeStr
-// OUTC CurrentEventTrigger
-// OUTD CurrentEventSubsystemStr
-// OUTE CurrentEventTextStr
-// OUTF CurrentEventTextStr2
-// OUTG CurrentEventUnitStr
-// OUTH CurrentEventDataStr
-static long
-handle_current_event_struct_modify(aSubRecord *prec)
+// update current event struct PVs.
+static void
+handle_current_event(aSubRecord *prec, event_info_t *event_info)
 {
-	event_info_t event_info;
-
-	modbus_to_event_info((uint32_t *) prec->a, &event_info);
-
 	memset(prec->vala, 0, prec->nova);
 	memset(prec->valb, 0, prec->novb);
-	memset(prec->valc, 0, sizeof(long) * prec->novc);
-	memset(prec->vald, 0, prec->novd);
+	memset(prec->valc, 0, prec->novc);
+	memset(prec->vald, 0, sizeof(long) * prec->novd);
 	memset(prec->vale, 0, prec->nove);
 	memset(prec->valf, 0, prec->novf);
 	memset(prec->valg, 0, prec->novg);
 	memset(prec->valh, 0, prec->novh);
 
-	strncpy((char *) prec->vala, event_info.timestamp, prec->nova - 1);
-	strncpy((char *) prec->valb, event_info.type_str, prec->novb - 1);
-	*(long *) prec->valc = event_info.trigger;
-	strncpy((char *) prec->vald, event_info.subsystem_str, prec->novd - 1);
-	strncpy((char *) prec->vale, event_info.text_str, prec->nove - 1);
-	strncpy((char *) prec->valf, event_info.subsystem_str, prec->novf - 1);
-	strncpy((char *) prec->valg, event_info.units_str, prec->novg - 1);
-	strncpy((char *) prec->valh, event_info.data_str, prec->novh - 1);
+	strncpy((char *) prec->vala, event_info->timestamp, prec->nova - 1);
+	strncpy((char *) prec->valb, event_info->timestamp, prec->novb - 1);
+	strncpy((char *) prec->valc, event_info->type_str, prec->novc - 1);
+	*(long *) prec->vald = event_info->trigger;
+	strncpy((char *) prec->vale, event_info->subsystem_str, prec->nove - 1);
+	strncpy((char *) prec->valf, event_info->text_str, prec->novf - 1);
+	strncpy((char *) prec->valg, event_info->units_str, prec->nog - 1);
+	strncpy((char *) prec->valh, event_info->data_str, prec->noh - 1);
+}
+
+// update warning event struct PVs.
+//
+// we discovered that the modulator's internal logic overwrites warning events
+// with the next event (whatever kind of event) within the modbus arrays that
+// hold 50 events.  so what we do here is preserve the warning from the event
+// struct.  without this, we would have no trace of a warning event ever
+// happening.
+static void
+handle_warning_event(aSubRecord *prec, event_info_t *event_info)
+{
+	memset(prec->vali, 0, prec->novi);
+	memset(prec->valj, 0, prec->novj);
+	memset(prec->valk, 0, prec->novk);
+	memset(prec->vall, 0, sizeof(long) * prec->novl);
+	memset(prec->valm, 0, prec->novm);
+	memset(prec->valn, 0, prec->novn);
+	memset(prec->valo, 0, prec->novo);
+	memset(prec->valp, 0, prec->novp);
+
+	strncpy((char *) prec->vali, event_info->timestamp, prec->novi - 1);
+	strncpy((char *) prec->valj, event_info->timestamp, prec->novj - 1);
+	strncpy((char *) prec->valk, event_info->type_str, prec->novk - 1);
+	*(long *) prec->vall = event_info->trigger;
+	strncpy((char *) prec->valm, event_info->subsystem_str, prec->nom - 1);
+	strncpy((char *) prec->valn, event_info->text_str, prec->novn - 1);
+	strncpy((char *) prec->valo, event_info->units_str, prec->novo - 1);
+	strncpy((char *) prec->valp, event_info->data_str, prec->novp - 1);
+}
+
+
+// inputs from modbus:
+// INPA CurrentEventStruct read1700
+//
+// outputs to EPICS:
+// OUTA CurrentEventTimeStr
+// OUTB CurrentEventIocTimeStr
+// OUTC CurrentEventTypeStr
+// OUTD CurrentEventTrigger
+// OUTE CurrentEventSubsystemStr
+// OUTF CurrentEventTextStr
+// OUTG CurrentEventUnitStr
+// OUTH CurrentEventDataStr
+// OUTI WarningEventTimeStr
+// OUTJ WarningEventIocTimeStr
+// OUTK WarningEventTypeStr
+// OUTL WarningEventTrigger
+// OUTM WarningEventSubsystemStr
+// OUTN WarningEventTextStr
+// OUTO WarningEventUnitStr
+// OUTP WarningEventDataStr
+static long
+handle_current_event_struct_modify(aSubRecord *prec)
+{
+	event_info_t event_info;
+
+	memset(&event_info, 0, sizeof(event_info));
+	modbus_to_event_info((uint32_t *) prec->a, &event_info);
+
+	if (event_info.type != EVENT_TYPE_WARNING) {
+		handle_current_event(prec, &event_info);
+	} else {
+		handle_warning_event(prec, &event_info);
+	}
 
 	if (debug_flag) {
-		printf("event ------------------------------------\n");
+		printf("%s event ------------------------------------\n", event_info_type_strs[event_info.type]);
 		printf("increment:     %d\n",                     event_info.increment);
 		printf("trigger id:    %d\n",                     event_info.trigger);
 		printf("timestamp:     %s\n",                     event_info.timestamp);
@@ -610,11 +670,11 @@ epicsRegisterFunction(handle_current_event_struct_modify);
 //
 // outputs to EPICS:
 // OUTA InterlockEventTimeStr
-// OUTB InterlockEventTypeStr
-// OUTC InterlockEventTrigger
-// OUTD InterlockEventSubsystemStr
-// OUTE InterlockEventTextStr
-// OUTF InterlockEventTextStr2
+// OUTB InterlockEventIocTimeStr
+// OUTC InterlockEventTypeStr
+// OUTD InterlockEventTrigger
+// OUTE InterlockEventSubsystemStr
+// OUTF InterlockEventTextStr
 // OUTG InterlockEventUnitStr
 // OUTH InterlockEventDataStr
 static long
@@ -626,24 +686,24 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 
 	memset(prec->vala, 0, prec->nova);
 	memset(prec->valb, 0, prec->novb);
-	memset(prec->valc, 0, sizeof(long) * prec->novc);
-	memset(prec->vald, 0, prec->novd);
+	memset(prec->valc, 0, prec->novc);
+	memset(prec->vald, 0, sizeof(long) * prec->novd);
 	memset(prec->vale, 0, prec->nove);
 	memset(prec->valf, 0, prec->novf);
 	memset(prec->valg, 0, prec->novg);
 	memset(prec->valh, 0, prec->novh);
 
 	strncpy((char *) prec->vala, event_info.timestamp, prec->nova - 1);
-	strncpy((char *) prec->valb, event_info.type_str, prec->novb - 1);
-	*(long *) prec->valc = event_info.trigger;
-	strncpy((char *) prec->vald, event_info.subsystem_str, prec->novd - 1);
-	strncpy((char *) prec->vale, event_info.text_str, prec->nove - 1);
-	strncpy((char *) prec->valf, event_info.subsystem_str, prec->novf - 1);
+	strncpy((char *) prec->valb, event_info.timestamp_ioc, prec->novb - 1);
+	strncpy((char *) prec->valc, event_info.type_str, prec->novc - 1);
+	*(long *) prec->vald = event_info.trigger;
+	strncpy((char *) prec->vale, event_info.subsystem_str, prec->nove - 1);
+	strncpy((char *) prec->valf, event_info.text_str, prec->novf - 1);
 	strncpy((char *) prec->valg, event_info.units_str, prec->novg - 1);
 	strncpy((char *) prec->valh, event_info.data_str, prec->novh - 1);
 
 	if (debug_flag) {
-		printf("interlock ------------------------------------\n");
+		printf("%s event ------------------------------\n", event_info_type_strs[event_info.type]);
 		printf("increment:     %d\n",                     event_info.increment);
 		printf("trigger id:    %d\n",                     event_info.trigger);
 		printf("timestamp:     %s\n",                     event_info.timestamp);

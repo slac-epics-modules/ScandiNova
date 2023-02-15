@@ -1,15 +1,19 @@
 # current event
 
 record (stringin,"$(P):CurrentEventTimeStr") {
-	field(DESC, "Timestamp of the current event in mod")
+	field(DESC, "Timestamp of the current event")
+}
+
+record (stringin,"$(P):CurrentEventIocTimeStr") {
+	field(DESC, "IOC timestamp of the current event")
 }
 
 record (stringin,"$(P):CurrentEventTypeStr") {
-	field(DESC, "Event type of the current event in mod")
+	field(DESC, "Event type of the current event")
 }
 
 record (longin,"$(P):CurrentEventTrigger") {
-	field(DESC, "Trigger ID of the current event in mod")
+	field(DESC, "Trigger ID of the current event")
 }
 
 record (stringin,"$(P):CurrentEventSubsystemStr") {
@@ -20,10 +24,6 @@ record (stringin,"$(P):CurrentEventTextStr") {
 	field(DESC, "Text explanation of the current event")
 }
 
-record (stringin,"$(P):CurrentEventTextStr2") {
-	field(DESC, "Second half of MainEventTextStr")
-}
-
 record (stringin,"$(P):CurrentEventUnitStr") {
 	field(DESC, "Units to measure current event data")
 }
@@ -32,34 +32,70 @@ record (stringin,"$(P):CurrentEventDataStr") {
 	field(DESC, "Data associated with the current event")
 }
 
+record (stringin,"$(P):WarningEventTimeStr") {
+	field(DESC, "Timestamp of the warning event")
+}
+
+record (stringin,"$(P):WarningEventIocTimeStr") {
+	field(DESC, "IOC timestamp of the warning event")
+}
+
+record (stringin,"$(P):WarningEventTypeStr") {
+	field(DESC, "Event type of the warning event")
+}
+
+record (longin,"$(P):WarningEventTrigger") {
+	field(DESC, "Trigger ID of the warning event")
+}
+
+record (stringin,"$(P):WarningEventSubsystemStr") {
+	field(DESC, "Text explanation of the warning event")
+}
+
+record (stringin,"$(P):WarningEventTextStr") {
+	field(DESC, "Text explanation of the warning event")
+}
+
+record (stringin,"$(P):WarningEventUnitStr") {
+	field(DESC, "Units to measure warning event data")
+}
+
+record (stringin,"$(P):WarningEventDataStr") {
+	field(DESC, "Data associated with the warning event")
+}
+
 record (aSub,"$(P):CurrentEventStructBridge") {
 	field(SNAM,"handle_current_event_struct_modify")
+
+# input current event struct
 
 	field(INPA,"$(P):CurrentEventStruct CP")
 	field(FTA,"LONG")
 	field(NOA,"13")
 
+# output current event
+
 	field(OUTA,"$(P):CurrentEventTimeStr PP")
 	field(FTVA,"STRING")
 	field(NOVA,"64")
 
-	field(OUTB,"$(P):CurrentEventTypeStr PP")
+	field(OUTB,"$(P):CurrentEventIocTimeStr PP")
 	field(FTVB,"STRING")
 	field(NOVB,"64")
 
-	field(OUTC,"$(P):CurrentEventTrigger PP")
-	field(FTVC,"LONG")
-	field(NOVC,"1")
+	field(OUTC,"$(P):CurrentEventTypeStr PP")
+	field(FTVC,"STRING")
+	field(NOVC,"64")
 
-	field(OUTD,"$(P):CurrentEventSubsystemStr PP")
-	field(FTVD,"STRING")
-	field(NOVD,"64")
+	field(OUTD,"$(P):CurrentEventTrigger PP")
+	field(FTVD,"LONG")
+	field(NOVD,"1")
 
-	field(OUTE,"$(P):CurrentEventTextStr PP")
+	field(OUTE,"$(P):CurrentEventSubsystemStr PP")
 	field(FTVE,"STRING")
 	field(NOVE,"64")
 
-	field(OUTF,"$(P):CurrentEventTextStr2 PP")
+	field(OUTF,"$(P):CurrentEventTextStr PP")
 	field(FTVF,"STRING")
 	field(NOVF,"64")
 
@@ -70,20 +106,58 @@ record (aSub,"$(P):CurrentEventStructBridge") {
 	field(OUTH,"$(P):CurrentEventDataStr PP")
 	field(FTVH,"STRING")
 	field(NOVH,"64")
+
+# output warning event
+
+	field(OUTI,"$(P):WarningEventTimeStr PP")
+	field(FTVI,"STRING")
+	field(NOVI,"64")
+
+	field(OUTJ,"$(P):WarningEventIocTimeStr PP")
+	field(FTVJ,"STRING")
+	field(NOVJ,"64")
+
+	field(OUTK,"$(P):WarningEventTypeStr PP")
+	field(FTVK,"STRING")
+	field(NOVK,"64")
+
+	field(OUTL,"$(P):WarningEventTrigger PP")
+	field(FTVL,"LONG")
+	field(NOVL,"1")
+
+	field(OUTM,"$(P):WarningEventSubsystemStr PP")
+	field(FTVM,"STRING")
+	field(NOVM,"64")
+
+	field(OUTN,"$(P):WarningEventTextStr PP")
+	field(FTVN,"STRING")
+	field(NOVN,"64")
+
+	field(OUTO,"$(P):WarningEventUnitStr PP")
+	field(FTVO,"STRING")
+	field(NOVO,"64")
+
+	field(OUTP,"$(P):WarningEventDataStr PP")
+	field(FTVP,"STRING")
+	field(NOVP,"64")
 }
 
 # interlock event
 
 record (stringin,"$(P):InterlockEventTimeStr") {
-	field(DESC, "Timestamp of the interlock event in mod")
+	field(DESC, "Timestamp of the interlock event")
+}
+
+record (stringin,"$(P):InterlockEventIocTimeStr") {
+	field(DESC, "IOC timestamp of the interlock event")
 }
 
 record (stringin,"$(P):InterlockEventTypeStr") {
-	field(DESC, "Event type of the interlock event in mod")
+	field(DESC, "Event type of the interlock event")
 }
 
 record (longin,"$(P):InterlockEventTrigger") {
-	field(DESC, "Trigger ID of the interlock event in mod")
+	field(DESC, "Trigger ID of the interlock event")
 }
 
 record (stringin,"$(P):InterlockEventSubsystemStr") {
@@ -92,10 +166,6 @@ record (stringin,"$(P):InterlockEventSubsystemStr") {
 
 record (stringin,"$(P):InterlockEventTextStr") {
 	field(DESC, "Text explanation of the interlock event")
-}
-
-record (stringin,"$(P):InterlockEventTextStr2") {
-	field(DESC, "Second half of InterlockEventTextStr")
 }
 
 record (stringin,"$(P):InterlockEventUnitStr") {
@@ -117,23 +187,23 @@ record (aSub,"$(P):InterlockEventStructBridge") {
 	field(FTVA,"STRING")
 	field(NOVA,"64")
 
-	field(OUTB,"$(P):InterlockEventTypeStr PP")
+	field(OUTB,"$(P):InterlockEventIocTimeStr PP")
 	field(FTVB,"STRING")
 	field(NOVB,"64")
 
-	field(OUTC,"$(P):InterlockEventTrigger PP")
-	field(FTVC,"LONG")
-	field(NOVC,"1")
+	field(OUTC,"$(P):InterlockEventTypeStr PP")
+	field(FTVC,"STRING")
+	field(NOVC,"64")
 
-	field(OUTD,"$(P):InterlockEventSubsystemStr PP")
-	field(FTVD,"STRING")
-	field(NOVD,"64")
+	field(OUTD,"$(P):InterlockEventTrigger PP")
+	field(FTVD,"LONG")
+	field(NOVD,"1")
 
-	field(OUTE,"$(P):InterlockEventTextStr PP")
+	field(OUTE,"$(P):InterlockEventSubsystemStr PP")
 	field(FTVE,"STRING")
 	field(NOVE,"64")
 
-	field(OUTF,"$(P):InterlockEventTextStr2 PP")
+	field(OUTF,"$(P):InterlockEventTextStr PP")
 	field(FTVF,"STRING")
 	field(NOVF,"64")
 
