@@ -15,6 +15,7 @@ DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
 DB += simulator_registers.db
 DB += M2982_registers.db
 DB += modbus_registers.db
+DB += log_messages.db
 DB += log_messages_bridge.db
 DB += waveform.db
 DB += waveform_bridge.db

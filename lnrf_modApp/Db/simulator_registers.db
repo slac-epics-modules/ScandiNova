@@ -250,7 +250,7 @@ record (ai,"$(P):Voltage") {
 	field(HSV, "MINOR")
 	info(archive,"policy:3min")
 	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read100 0)")
+	field(INP, "@asyn(read100 0) FLOAT32_LE")
 	field(DTYP, "asynFloat64")
 }
 record (bi,"$(P):CCPSMainIntlk") {
@@ -6249,13 +6249,21 @@ record (mbbo,"$(P):StateSet") {
 	field(FFST, "Disabled")
 }
 record (bo,"$(P):Reset") {
-	field(DESC, "Toggle 1 to reset modulator interlocks")
+	field(DESC, "Reset modulator interlocks")
 	field(ZNAM, "RESET")
 	field(ONAM, "RESETTING")
 	field(HIGH, "1")
-	info(archive,"policy:Default")
 	field(PINI, "YES")
 	field(OUT, "@asynMask(write2 0 0x01 500)")
+	field(DTYP, "asynUInt32Digital")
+}
+record (bo,"$(P):HardReset") {
+	field(DESC, "Hard reset modulator interlocks")
+	field(ZNAM, "HARD RESET")
+	field(ONAM, "HARD RESETTING")
+	field(HIGH, "1")
+	field(PINI, "YES")
+	field(OUT, "@asynMask(write2 0 0x04 500)")
 	field(DTYP, "asynUInt32Digital")
 }
 #record (ao,"$(P):VoltageSet") {
