@@ -1,0 +1,44 @@
+record (bo, "$(P):WaveformCvdEnable") {
+	field(DESC, "Enable/disable Cvd waveform download")
+}
+
+record (bo, "$(P):WaveformCtEnable") {
+	field(DESC, "Enable/disable Ct waveform download")
+}
+
+record (bo, "$(P):WaveformRfFwdEnable") {
+	field(DESC, "Enable/disable RfFwd waveform download")
+}
+
+record (bo, "$(P):WaveformRfRflEnable") {
+	field(DESC, "Enable/disable RfRfl waveform download")
+}
+
+
+record (aSub, "$(P):WaveformRequestBridge") {
+	field(SNAM, "handle_waveform_request")
+
+# INPUTS
+
+	field(INPA, "$(P):WaveformCvdEnable CP")
+	field(FTA, "LONG")
+	field(NOA, "1")
+
+	field(INPB, "$(P):WaveformCtEnable CP")
+	field(FTB, "LONG")
+	field(NOB, "1")
+
+	field(INPC, "$(P):WaveformRfFwdEnable CP")
+	field(FTC, "LONG")
+	field(NOC, "1")
+
+	field(INPD, "$(P):WaveformRfRflEnable CP")
+	field(FTD, "LONG")
+	field(NOD, "1")
+
+# OUTPUTS
+
+	field(OUTQ, "%(P):WaveformTypeSet PP")
+	field(FTVQ, "LONG")
+	field(NOVQ, "1")
+}

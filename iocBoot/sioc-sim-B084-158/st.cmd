@@ -36,8 +36,8 @@ set_event_output_file("./scandinova-modulator-events-$(P)")
 
 ## Load record instances
 dbLoadRecords("db/simulator_registers.db","P=$(P)")
-dbLoadRecords("db/waveform.db","P=$(P)")
 dbLoadRecords("db/waveform_bridge.db","P=$(P)")
+dbLoadRecords("db/waveform_enable_bridge.db","P=$(P)")
 dbLoadRecords("db/customer_waveform.db","P=$(P)")
 dbLoadRecords("db/log_messages.db", "P=$(P)")
 dbLoadRecords("db/log_messages_bridge.db","P=$(P)")

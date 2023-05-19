@@ -6365,13 +6365,3 @@ record (bo,"$(P):HardReset") {
 #	field(OUT, "@asyn(write504)")
 #	field(DTYP, "asynFloat64")
 #}
-record (longout,"$(P):WaveformTypeSet") {
-	field(DESC, "Requested waveform type set value")
-	field(HIHI, "40")
-	field(HHSV, "MAJOR")
-	field(LOLO, "-1")
-	field(LLSV, "MAJOR")
-	field(PINI, "YES")
-	field(OUT, "@asyn(write3000)")
-	field(DTYP, "asynInt32")
-}

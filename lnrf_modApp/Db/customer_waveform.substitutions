@@ -47,3 +47,11 @@ file int64in.template
 	{ P,      R,          PORT,       OFFSET, DATA_TYPE, SCAN       }
     { "${P}", ":PulseId", "read3005", 0,      UINT64_LE, "I/O Intr" }
 }
+
+# int32 out
+file ao.template
+{
+	pattern
+	{ P,      R,                  PORT,        OFFSET, BITS, EGUL, EGUF, PREC }
+	{ "${P}", ":WaveformTypeSet", "write3000", 0,      16,   0,    39,   0    }
+}

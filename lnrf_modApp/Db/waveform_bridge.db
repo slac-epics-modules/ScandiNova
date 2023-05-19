@@ -1,17 +1,197 @@
-# waveform
+# waveform time str
 
-record (stringin,"$(P):WaveformTimeStr") {
+record (stringin,"$(P):WaveformTimeStrCvd") {
 	field(DESC, "Timestamp of the selected waveform")
 }
 
-record (aSub,"$(P):WaveformTimeBridge") {
-	field(SNAM, "handle_waveform_timestamp_modify")
+record (stringin,"$(P):WaveformTimeStrCt") {
+	field(DESC, "Timestamp of the selected Ct waveform")
+}
 
-	field(INPA, "$(P):WaveformTime CP")
+record (stringin,"$(P):WaveformTimeStrRfFwd") {
+	field(DESC, "Timestamp of the selected RfFwd waveform")
+}
+
+record (stringin,"$(P):WaveformTimeStrRfRfl") {
+	field(DESC, "Timestamp of the selected RfRfl waveform")
+}
+
+# waveform sample count
+
+record (longin,"$(P):WaveformSampleCountCvd" {
+	field(DESC, "Sample count of the selected Cvd waveform")
+}
+
+record (longin,"$(P):WaveformSampleCountCt" {
+	field(DESC, "Sample count of the selected Ct waveform")
+}
+
+record (longin,"$(P):WaveformSampleCountRfFwd" {
+	field(DESC, "Sample count of the selected RfFwd waveform")
+}
+
+record (longin,"$(P):WaveformSampleCountRfRfl" {
+	field(DESC, "Sample count of the selected RfRfl waveform")
+}
+
+# pulse id
+
+record (longin,"$(P):WaveformSamplePulseIdCvd" {
+	field(DESC, "Pulse id of the selected Cvd waveform")
+}
+
+record (longin,"$(P):WaveformSamplePulseIdCt" {
+	field(DESC, "Pulse id of the selected Ct waveform")
+}
+
+record (longin,"$(P):WaveformSamplePulseIdRfFwd" {
+	field(DESC, "Pulse id of the selected RfFwd waveform")
+}
+
+record (longin,"$(P):WaveformSamplePulseIdRfRfl" {
+	field(DESC, "Pulse id of the selected RfRfl waveform")
+}
+
+# waveform
+
+record (waveform,"$(P):WaveformCvd" {
+	field(DESC, "Waveform Cvd")
+	field(FTVL, "DOUBLE")
+	field(NELM, "503")
+}
+
+record (waveform,"$(P):WaveformCt" {
+	field(DESC, "Waveform Ct")
+	field(FTVL, "DOUBLE")
+	field(NELM, "503")
+}
+
+record (waveform,"$(P):WaveformRfFwd" {
+	field(DESC, "Waveform RfFwd")
+	field(FTVL, "DOUBLE")
+	field(NELM, "503")
+}
+
+record (waveform,"$(P):WaveformRfRfl" {
+	field(DESC, "Waveform RfRfl")
+	field(FTVL, "DOUBLE")
+	field(NELM, "503")
+}
+
+# bridge
+
+record (aSub,"$(P):WaveformBridge") {
+	field(SNAM, "handle_waveform_ready")
+
+# INPUTS
+
+	field(INPA, "$(P):WaveformType CP")
 	field(FTA,  "LONG")
-	field(NOA,  "4")
+	field(NOA,  "1")
 
-	field(OUTA, "$(P):WaveformTimeStr PP")
+	field(INPB, "$(P):WaveformTime CP")
+	field(FTB,  "LONG")
+	field(NOB,  "4")
+
+	field(INPC, "$(P):SampleCount CP")
+	field(FTC,  "LONG")
+	field(NOC,  "1")
+
+	field(INPD, "$(P):PulseId CP")
+	field(FTD,  "LONG")
+	field(NOD,  "1")
+
+	field(INPE, "$(P):Waveform1 CP")
+	field(FTE,  "LONG")
+	field(NOE,  "100")
+
+	field(INPF, "$(P):Waveform2 CP")
+	field(FTF,  "LONG")
+	field(NOF,  "100")
+
+	field(INPG, "$(P):Waveform3 CP")
+	field(FTG,  "LONG")
+	field(NOG,  "100")
+
+	field(INPH, "$(P):Waveform4 CP")
+	field(FTH,  "LONG")
+	field(NOH,  "100")
+
+	field(INPI, "$(P):Waveform5 CP")
+	field(FTI,  "LONG")
+	field(NOI,  "100")
+
+	field(INPJ, "$(P):Waveform6 CP")
+	field(FTJ,  "LONG")
+	field(NOJ,  "3")
+
+# OUTPUTS
+
+	field(OUTA, "$(P):WaveformTimeStrCvd PP")
 	field(FTVA, "STRING")
 	field(NOVA, "64")
+
+	field(OUTB, "$(P):WaveformSampleCountCvd PP")
+	field(FTVB, "LONG")
+	field(NOVB, "1")
+
+	field(OUTC, "$(P):WaveformPulseIdCvd PP")
+	field(FTVC, "LONG")
+	field(NOVC, "1")
+
+	field(OUTD, "$(P):WaveformCvd PP")
+	field(FTVD, "DOUBLE")
+	field(NOVD, "503")
+
+	field(OUTE, "$(P):WaveformTimeStrCt PP")
+	field(FTVE, "STRING")
+	field(NOVE, "64")
+
+	field(OUTF, "$(P):WaveformSampleCountCt PP")
+	field(FTVF, "LONG")
+	field(NOVF, "1")
+
+	field(OUTG, "$(P):WaveformPulseIdCt PP")
+	field(FTVG, "LONG")
+	field(NOVG, "1")
+
+	field(OUTH, "$(P):WaveformCt PP")
+	field(FTVH, "DOUBLE")
+	field(NOVH, "503")
+
+	field(OUTI, "$(P):WaveformTimeStrRfFwd PP")
+	field(FTVI, "STRING")
+	field(NOVI, "64")
+
+	field(OUTJ, "$(P):WaveformSampleCountRfFwd PP")
+	field(FTVJ, "LONG")
+	field(NOVJ, "1")
+
+	field(OUTK, "$(P):WaveformPulseIdRfFwd PP")
+	field(FTVK, "LONG")
+	field(NOVK, "1")
+
+	field(OUTL, "$(P):WaveformRfFwd PP")
+	field(FTVL, "DOUBLE")
+	field(NOVL, "503")
+
+	field(OUTM, "$(P):WaveformTimeStrRfRfl PP")
+	field(FTVM, "STRING")
+	field(NOVM, "64")
+
+	field(OUTN, "$(P):WaveformSampleCountRfRfl PP")
+	field(FTVN, "LONG")
+	field(NOVN, "1")
+
+	field(OUTO, "$(P):WaveformPulseIdRfRfl PP")
+	field(FTVO, "LONG")
+	field(NOVO, "1")
+
+	field(OUTP, "$(P):WaveformRfRfl PP")
+	field(FTVP, "DOUBLE")
+	field(NOVP, "503")
+
+	field(OUTQ, "%(P):WaveformTypeSet PP")
+	field(FTVQ, "LONG")
+	field(NOVQ, "1")
 }

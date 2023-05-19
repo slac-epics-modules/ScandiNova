@@ -5868,7 +5868,6 @@ record (mbbo,"$(P):StateSet") {
 	field(FFVL, "99")
 	field(FFST, "Disabled")
 }
-# TODO hard reset, bit 2
 record (bo,"$(P):Reset") {
 	field(DESC, "Toggle 1 to reset modulator interlocks")
 	field(ZNAM, "RESET")
@@ -5876,6 +5875,15 @@ record (bo,"$(P):Reset") {
 	field(HIGH, "1")
 	field(PINI, "YES")
 	field(OUT, "@asynMask(write2 0 0x01 500)")
+	field(DTYP, "asynUInt32Digital")
+}
+record (bo,"$(P):HardReset") {
+	field(DESC, "Hard reset modulator interlocks")
+	field(ZNAM, "HARD RESET")
+	field(ONAM, "HARD RESETTING")
+	field(HIGH, "1")
+	field(PINI, "YES")
+	field(OUT, "@asynMask(write2 0 0x04 500)")
 	field(DTYP, "asynUInt32Digital")
 }
 record (ao,"$(P):VoltageSet") {
@@ -5890,14 +5898,4 @@ record (ao,"$(P):VoltageSet") {
 	field(PINI, "YES")
 	field(OUT, "@asyn(write100)")
 	field(DTYP, "asynFloat64")
-}
-record (longout,"$(P):WaveformTypeSet") {
-	field(DESC, "Requested waveform type set value")
-	field(HIHI, "40")
-	field(HHSV, "MAJOR")
-	field(LOLO, "-1")
-	field(LLSV, "MAJOR")
-	field(PINI, "YES")
-	field(OUT, "@asyn(write3000)")
-	field(DTYP, "asynInt32")
 }

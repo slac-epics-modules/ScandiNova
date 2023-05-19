@@ -24,6 +24,10 @@
 #define EPOCH_RAW_TO_EPOCH(raw) ((raw) / 10000000 - 11644473600)
 #define EPOCH_RAW_TO_MILLISECONDS_OFFSET(raw) (((raw) % 10000000) / 10000)
 
+#define WAVEFORM_COUNT_MAX 40
+#define WAVEFORM_SAMPLE_COUNT_MAX 503
+#define WAVEFORM_READY_CODE_TO_REQUEST_CODE(code) ((waveform_code_t) ((code) - 100))
+
 
 using namespace std;
 
@@ -35,6 +39,51 @@ typedef enum {
 	EVENT_TYPE_PARAM,
 	EVENT_TYPE_MESSAGE
 } event_type_t;
+
+typedef enum {
+	WAVEFORM_UNKNOWN = -1,
+	WAVEFORM_CVD_T0_REQUEST = 0,
+	WAVEFORM_CVD_T1_REQUEST = 1,
+	WAVEFORM_CVD_T2_REQUEST = 2,
+	WAVEFORM_CVD_T3_REQUEST = 3,
+	WAVEFORM_CVD_T4_REQUEST = 4,
+	WAVEFORM_CT_T0_REQUEST = 10,
+	WAVEFORM_CT_T1_REQUEST = 11,
+	WAVEFORM_CT_T2_REQUEST = 12,
+	WAVEFORM_CT_T3_REQUEST = 13,
+	WAVEFORM_CT_T4_REQUEST = 14,
+	WAVEFORM_RF_FWD_T0_REQUEST = 20,
+	WAVEFORM_RF_FWD_T1_REQUEST = 21,
+	WAVEFORM_RF_FWD_T2_REQUEST = 22,
+	WAVEFORM_RF_FWD_T3_REQUEST = 23,
+	WAVEFORM_RF_FWD_T4_REQUEST = 24,
+	WAVEFORM_RF_RFL_T0_REQUEST = 30,
+	WAVEFORM_RF_RFL_T1_REQUEST = 31,
+	WAVEFORM_RF_RFL_T2_REQUEST = 32,
+	WAVEFORM_RF_RFL_T3_REQUEST = 33,
+	WAVEFORM_RF_RFL_T4_REQUEST = 34,
+	WAVEFORM_FETCHING = 99,
+	WAVEFORM_CVD_T0_READY = 100,
+	WAVEFORM_CVD_T1_READY = 101,
+	WAVEFORM_CVD_T2_READY = 102,
+	WAVEFORM_CVD_T3_READY = 103,
+	WAVEFORM_CVD_T4_READY = 104,
+	WAVEFORM_CT_T0_READY = 110,
+	WAVEFORM_CT_T1_READY = 111,
+	WAVEFORM_CT_T2_READY = 112,
+	WAVEFORM_CT_T3_READY = 113,
+	WAVEFORM_CT_T4_READY = 114,
+	WAVEFORM_RF_FWD_T0_READY = 120,
+	WAVEFORM_RF_FWD_T1_READY = 121,
+	WAVEFORM_RF_FWD_T2_READY = 122,
+	WAVEFORM_RF_FWD_T3_READY = 123,
+	WAVEFORM_RF_FWD_T4_READY = 124,
+	WAVEFORM_RF_RFL_T0_READY = 130,
+	WAVEFORM_RF_RFL_T1_READY = 131,
+	WAVEFORM_RF_RFL_T2_READY = 132,
+	WAVEFORM_RF_RFL_T3_READY = 133,
+	WAVEFORM_RF_RFL_T4_READY = 134,
+} waveform_code_t;
 
 typedef struct __attribute__ (packed) {
 	uint16_t increment;
@@ -75,6 +124,11 @@ static event_info_t event_infos[EVENT_LOG_SIZE];
 static int current_event_index = -1;
 static char *event_output_file = NULL;
 static FILE *event_output_fd = NULL;
+static double waveforms[WAVEFORM_COUNT_MAX][WAVEFORM_SAMPLE_COUNT_MAX];
+static char waveform_timestamp[WAVEFORM_COUNT_MAX][64];
+static int waveform_trig_ids[WAVEFORM_COUNT_MAX];
+static int waveform_sample_counts[WAVEFORM_COUNT_MAX];
+static uint64_t waveform_request_enable = 0;
 
 // maps that hold data we parse out of the XML doc
 static map<int, pair<string, string> > matrix_items;
@@ -720,22 +774,180 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 }
 epicsRegisterFunction(handle_interlock_event_struct_modify);
 
+// inputs from EPICS:
+// INPA read3000 "Waveform type"
+// INPB read3001 "Waveform time"
+// INPC read3009 "Sample count"
+// INPD read3005 "Pulse ID"
+//
+// outputs to modbus:
+// OUTA write3000 "WaveformTypeSet"
+static long
+handle_waveform_request(aSubRecord *prec)
+{
+	int cvd_enable = *(int *) prec->a;
+	int ct_enable = *(int *) prec->b;
+	int rf_fwd_enable = *(int *) prec->c;
+	int rf_rfl_enable = *(int *) prec->d;
+	uint64_t mask = 0;
+	waveform_code_t kick_waveform = WAVEFORM_UNKNOWN;
+
+	if (cvd_enable) {
+		kick_waveform = WAVEFORM_CVD_T0_REQUEST;
+		mask |=
+			(1L << WAVEFORM_CVD_T0_REQUEST) | (1L << WAVEFORM_CVD_T1_REQUEST) |
+			(1L << WAVEFORM_CVD_T2_REQUEST) | (1L << WAVEFORM_CVD_T3_REQUEST) |
+			(1L << WAVEFORM_CVD_T4_REQUEST);
+	}
+	if (ct_enable) {
+		kick_waveform = WAVEFORM_CT_T0_REQUEST;
+		mask |=
+			(1L << WAVEFORM_CT_T0_REQUEST) | (1L << WAVEFORM_CT_T1_REQUEST) |
+			(1L << WAVEFORM_CT_T2_REQUEST) | (1L << WAVEFORM_CT_T3_REQUEST) |
+			(1L << WAVEFORM_CT_T4_REQUEST);
+	}
+	if (rf_fwd_enable) {
+		kick_waveform = WAVEFORM_RF_FWD_T0_REQUEST;
+		mask |=
+			(1L << WAVEFORM_RF_FWD_T0_REQUEST) | (1L << WAVEFORM_RF_FWD_T1_REQUEST) |
+			(1L << WAVEFORM_RF_FWD_T2_REQUEST) | (1L << WAVEFORM_RF_FWD_T3_REQUEST) |
+			(1L << WAVEFORM_RF_FWD_T4_REQUEST);
+	}
+	if (rf_rfl_enable) {
+		kick_waveform = WAVEFORM_RF_RFL_T0_REQUEST;
+		mask |=
+			(1L << WAVEFORM_RF_RFL_T0_REQUEST) | (1L << WAVEFORM_RF_RFL_T1_REQUEST) |
+			(1L << WAVEFORM_RF_RFL_T2_REQUEST) | (1L << WAVEFORM_RF_RFL_T3_REQUEST) |
+			(1L << WAVEFORM_RF_RFL_T4_REQUEST);
+	}
+
+	if (!waveform_request_enable && kick_waveform) {
+		*(long *) prec->vala = kick_waveform;
+	}
+
+	waveform_request_enable = mask;
+
+	return 0;
+}
+epicsRegisterFunction(handle_waveform_request);
+
 // inputs from modbus:
-// INPA  read3001/4 "Customer waveform timestamp"
+// INPA read3000 "Waveform type"
+// INPB read3001 "Waveform time"
+// INPC read3009 "Sample count"
+// INPD read3005 "Pulse ID"
+// INPE read3010/100 "Waveform"
+// INPF read3110/100 "Waveform"
+// INPG read3210/100 "Waveform"
+// INPH read3310/100 "Waveform"
+// INPI read3410/100 "Waveform"
+// INPJ read3510/3 "Waveform"
 //
 // outputs to EPICS:
-// OUTA WaveformTimeStr
+// OUTA WaveformTimeStrCvd
+// OUTB WaveformSampleCountCvd
+// OUTC WaveformPulseIdCvd
+// OUTD WaveformCvd
+// OUTE WaveformTimeStrCt
+// OUTF WaveformSampleCountCt
+// OUTG WaveformPulseIdCt
+// OUTH WaveformCt
+// OUTI WaveformTimeStrRfFwd
+// OUTJ WaveformSampleCountRfFwd
+// OUTK WaveformPulseIdRfFwd
+// OUTL WaveformRfFwd
+// OUTM WaveformTimeStrRfRfl
+// OUTN WaveformSampleCountRfRfl
+// OUTO WaveformPulseIdRfRfl
+// OUTP WaveformRfRfl
+// OUTQ write3000 "WaveformTypeSet"
 //
 // note this is unrelated to logging and events.  we put it in this file for
 // convenience only.
 static long
-handle_waveform_timestamp_modify(aSubRecord *prec)
+handle_waveform_ready(aSubRecord *prec)
 {
-	epoch_raw_to_timestr(*(uint64_t *) prec->a, (char *) prec->vala, prec->nova);
+	waveform_code_t waveform_ready_code = (waveform_code_t) *(long *) prec->a;
+	waveform_code_t waveform_request_code = WAVEFORM_UNKNOWN;
+	waveform_code_t i = WAVEFORM_UNKNOWN;
+	char *timestamp = NULL;
+	int *sample_count = NULL;
+	int *trig_id = NULL;
+	double *waveform = NULL;
+
+	if (waveform_ready_code == WAVEFORM_FETCHING) {
+		return 0;
+	}
+
+	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novd);
+	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novh);
+	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novl);
+	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novp);
+	assert(*(long *) prec->c == WAVEFORM_SAMPLE_COUNT_MAX);
+
+	waveform_request_code = WAVEFORM_READY_CODE_TO_REQUEST_CODE(waveform_ready_code);
+	assert(waveform_request_code > WAVEFORM_UNKNOWN);
+	assert(waveform_request_code < WAVEFORM_COUNT_MAX);
+
+	// convenience variables
+	timestamp = waveform_timestamp[waveform_request_code];
+	sample_count = &waveform_sample_counts[waveform_request_code];
+	trig_id = &waveform_trig_ids[waveform_request_code];
+	waveform = waveforms[waveform_request_code];
+
+	// populate the local (to this app) waveform data
+	epoch_raw_to_timestr(
+			*(uint64_t *) prec->b,
+			timestamp,
+			sizeof(waveform_timestamp[waveform_request_code]));
+	*sample_count = *(long *) prec->c;
+	*trig_id = *(long *) prec->d;
+	memcpy(waveform +   0, (double *) prec->e, prec->noe);
+	memcpy(waveform + 100, (double *) prec->f, prec->nof);
+	memcpy(waveform + 200, (double *) prec->g, prec->nog);
+	memcpy(waveform + 300, (double *) prec->h, prec->noh);
+	memcpy(waveform + 400, (double *) prec->i, prec->noi);
+	memcpy(waveform + 500, (double *) prec->j, prec->noj);
+
+	// copy waveform data to PVs
+	if (waveform_request_code <= WAVEFORM_CVD_T4_REQUEST) {
+		strncpy((char *) prec->vala, timestamp, prec->nova);
+		*(long *) prec->valb = *sample_count;
+		*(long *) prec->valc = *trig_id;
+		memcpy((double *) prec->vald, waveform, prec->novd);
+	} else if (waveform_request_code <= WAVEFORM_CT_T4_REQUEST) {
+		strncpy((char *) prec->vale, timestamp, prec->nove);
+		*(long *) prec->valf = *sample_count;
+		*(long *) prec->valg = *trig_id;
+		memcpy((double *) prec->valh, waveform, prec->novh);
+	} else if (waveform_request_code <= WAVEFORM_RF_FWD_T4_REQUEST) {
+		strncpy((char *) prec->vali, timestamp, prec->novi);
+		*(long *) prec->valj = *sample_count;
+		*(long *) prec->valk = *trig_id;
+		memcpy((double *) prec->vall, waveform, prec->novl);
+	} else if (waveform_request_code <= WAVEFORM_RF_RFL_T4_REQUEST) {
+		strncpy((char *) prec->valm, timestamp, prec->novm);
+		*(long *) prec->valn = *sample_count;
+		*(long *) prec->valo = *trig_id;
+		memcpy((double *) prec->valp, waveform, prec->novp);
+	}
+
+	// calculate next waveform to request
+	for (
+			i = (waveform_code_t) ((waveform_request_code + 1) % WAVEFORM_COUNT_MAX);
+			i != waveform_request_code;
+			i = (waveform_code_t) ((i + 1) % WAVEFORM_COUNT_MAX)) {
+
+		if ((1 << i) & waveform_request_enable) {
+			// request waveform
+			*(long *) prec->valq = i;
+			break;
+		}
+	}
 
 	return 0;
 }
-epicsRegisterFunction(handle_waveform_timestamp_modify);
+epicsRegisterFunction(handle_waveform_ready);
 
 extern "C"
 {
