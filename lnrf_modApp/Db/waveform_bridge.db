@@ -18,64 +18,97 @@ record (stringin,"$(P):WaveformTimeStrRfRfl") {
 
 # waveform sample count
 
-record (longin,"$(P):WaveformSampleCountCvd" {
-	field(DESC, "Sample count of the selected Cvd waveform")
+record (longin,"$(P):WaveformSampleCountCvd") {
+	field(DESC, "Samples of the selected Cvd waveform")
 }
 
-record (longin,"$(P):WaveformSampleCountCt" {
-	field(DESC, "Sample count of the selected Ct waveform")
+record (longin,"$(P):WaveformSampleCountCt") {
+	field(DESC, "Samples of the selected Ct waveform")
 }
 
-record (longin,"$(P):WaveformSampleCountRfFwd" {
-	field(DESC, "Sample count of the selected RfFwd waveform")
+record (longin,"$(P):WaveformSampleCountRfFwd") {
+	field(DESC, "Samples of the selected RfFwd waveform")
 }
 
-record (longin,"$(P):WaveformSampleCountRfRfl" {
-	field(DESC, "Sample count of the selected RfRfl waveform")
+record (longin,"$(P):WaveformSampleCountRfRfl") {
+	field(DESC, "Samples of the selected RfRfl waveform")
 }
 
 # pulse id
 
-record (longin,"$(P):WaveformSamplePulseIdCvd" {
+record (longin,"$(P):WaveformPulseIdCvd") {
 	field(DESC, "Pulse id of the selected Cvd waveform")
 }
 
-record (longin,"$(P):WaveformSamplePulseIdCt" {
+record (longin,"$(P):WaveformPulseIdCt") {
 	field(DESC, "Pulse id of the selected Ct waveform")
 }
 
-record (longin,"$(P):WaveformSamplePulseIdRfFwd" {
+record (longin,"$(P):WaveformPulseIdRfFwd") {
 	field(DESC, "Pulse id of the selected RfFwd waveform")
 }
 
-record (longin,"$(P):WaveformSamplePulseIdRfRfl" {
+record (longin,"$(P):WaveformPulseIdRfRfl") {
 	field(DESC, "Pulse id of the selected RfRfl waveform")
 }
 
 # waveform
 
-record (waveform,"$(P):WaveformCvd" {
+record (waveform,"$(P):WaveformCvdInternal") {
 	field(DESC, "Waveform Cvd")
 	field(FTVL, "DOUBLE")
 	field(NELM, "503")
 }
 
-record (waveform,"$(P):WaveformCt" {
+record (waveform,"$(P):WaveformCtInternal") {
 	field(DESC, "Waveform Ct")
 	field(FTVL, "DOUBLE")
 	field(NELM, "503")
 }
 
-record (waveform,"$(P):WaveformRfFwd" {
+record (waveform,"$(P):WaveformRfFwdInternal") {
 	field(DESC, "Waveform RfFwd")
 	field(FTVL, "DOUBLE")
 	field(NELM, "503")
 }
 
-record (waveform,"$(P):WaveformRfRfl" {
+record (waveform,"$(P):WaveformRfRflInternal") {
 	field(DESC, "Waveform RfRfl")
 	field(FTVL, "DOUBLE")
 	field(NELM, "503")
+}
+
+
+record (subArray,"$(P):WaveformCvd") {
+	field(DESC, "Waveform Cvd")
+	field(FTVL, "DOUBLE")
+	field(MALM, "503")
+	field(NELM, "1")
+	field(INP,  "$(P):WaveformCvdInternal CP")
+}
+
+record (subArray,"$(P):WaveformCt") {
+	field(DESC, "Waveform Ct")
+	field(FTVL, "DOUBLE")
+	field(MALM, "503")
+	field(NELM, "1")
+	field(INP,  "$(P):WaveformCtInternal CP")
+}
+
+record (subArray,"$(P):WaveformRfFwd") {
+	field(DESC, "Waveform RfFwd")
+	field(FTVL, "DOUBLE")
+	field(MALM, "503")
+	field(NELM, "1")
+	field(INP,  "$(P):WaveformRfFwdInternal CP")
+}
+
+record (subArray,"$(P):WaveformRfRfl") {
+	field(DESC, "Waveform RfRfl")
+	field(FTVL, "DOUBLE")
+	field(MALM, "503")
+	field(NELM, "1")
+	field(INP,  "$(P):WaveformRfRflInternal CP")
 }
 
 # bridge
@@ -139,7 +172,7 @@ record (aSub,"$(P):WaveformBridge") {
 	field(FTVC, "LONG")
 	field(NOVC, "1")
 
-	field(OUTD, "$(P):WaveformCvd PP")
+	field(OUTD, "$(P):WaveformCvdInternal PP")
 	field(FTVD, "DOUBLE")
 	field(NOVD, "503")
 
@@ -155,7 +188,7 @@ record (aSub,"$(P):WaveformBridge") {
 	field(FTVG, "LONG")
 	field(NOVG, "1")
 
-	field(OUTH, "$(P):WaveformCt PP")
+	field(OUTH, "$(P):WaveformCtInternal PP")
 	field(FTVH, "DOUBLE")
 	field(NOVH, "503")
 
@@ -171,7 +204,7 @@ record (aSub,"$(P):WaveformBridge") {
 	field(FTVK, "LONG")
 	field(NOVK, "1")
 
-	field(OUTL, "$(P):WaveformRfFwd PP")
+	field(OUTL, "$(P):WaveformRfFwdInternal PP")
 	field(FTVL, "DOUBLE")
 	field(NOVL, "503")
 
@@ -187,11 +220,27 @@ record (aSub,"$(P):WaveformBridge") {
 	field(FTVO, "LONG")
 	field(NOVO, "1")
 
-	field(OUTP, "$(P):WaveformRfRfl PP")
+	field(OUTP, "$(P):WaveformRfRflInternal PP")
 	field(FTVP, "DOUBLE")
 	field(NOVP, "503")
 
 	field(OUTQ, "%(P):WaveformTypeSet PP")
 	field(FTVQ, "LONG")
 	field(NOVQ, "1")
+
+	field(OUTR, "$(P):WaveformCvd.NELM PP")
+	field(FTVR, "LONG")
+	field(NOVR, "1")
+
+	field(OUTS, "$(P):WaveformCt.NELM PP")
+	field(FTVS, "LONG")
+	field(NOVS, "1")
+
+	field(OUTT, "$(P):WaveformRfFwd.NELM PP")
+	field(FTVT, "LONG")
+	field(NOVT, "1")
+
+	field(OUTU, "$(P):WaveformRfRfl.NELM PP")
+	field(FTVU, "LONG")
+	field(NOVU, "1")
 }

@@ -15,6 +15,8 @@ epicsEnvSet("BUILDING", "B084")
 epicsEnvSet("POSITION", "158")
 epicsEnvSet("P", "$(SYSTEM):$(BUILDING):$(POSITION)")
 
+epicsEnvSet("LOG_FILE", "log.html")
+
 # Register all support components
 dbLoadDatabase("dbd/lnrf_mod.dbd",0,0)
 lnrf_mod_registerRecordDeviceDriver(pdbbase)
@@ -26,7 +28,7 @@ modbusInterposeConfig("mod-beckhoff-plc", 0, 0, 0)
 < "iocBoot/$(IOCNAME)/modbus.cmd"
 
 parse_resources_xml("./iocBoot/$(IOCNAME)/Resource.xml")
-set_event_output_file("./scandinova-modulator-events-$(P)")
+set_event_output_file("./$(LOG_FILE)")
 
 # Load record instances
 dbLoadRecords("db/M2982_registers.db","P=$(P)")

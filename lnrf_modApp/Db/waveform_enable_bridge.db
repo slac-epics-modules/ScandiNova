@@ -1,17 +1,25 @@
 record (bo, "$(P):WaveformCvdEnable") {
 	field(DESC, "Enable/disable Cvd waveform download")
+	field(ONAM, "enabled")
+	field(ZNAM, "disabled")
 }
 
 record (bo, "$(P):WaveformCtEnable") {
 	field(DESC, "Enable/disable Ct waveform download")
+	field(ONAM, "enabled")
+	field(ZNAM, "disabled")
 }
 
 record (bo, "$(P):WaveformRfFwdEnable") {
 	field(DESC, "Enable/disable RfFwd waveform download")
+	field(ONAM, "enabled")
+	field(ZNAM, "disabled")
 }
 
 record (bo, "$(P):WaveformRfRflEnable") {
 	field(DESC, "Enable/disable RfRfl waveform download")
+	field(ONAM, "enabled")
+	field(ZNAM, "disabled")
 }
 
 
@@ -38,7 +46,23 @@ record (aSub, "$(P):WaveformRequestBridge") {
 
 # OUTPUTS
 
-	field(OUTQ, "%(P):WaveformTypeSet PP")
-	field(FTVQ, "LONG")
-	field(NOVQ, "1")
+	field(OUTA, "$(P):WaveformTypeSet PP")
+	field(FTVA, "LONG")
+	field(NOVA, "1")
+
+	field(OUTB, "$(P):WaveformCvd.NELM PP")
+	field(FTVB, "LONG")
+	field(NOVB, "1")
+
+	field(OUTC, "$(P):WaveformCt.NELM PP")
+	field(FTVC, "LONG")
+	field(NOVC, "1")
+
+	field(OUTD, "$(P):WaveformRfFwd.NELM PP")
+	field(FTVD, "LONG")
+	field(NOVD, "1")
+
+	field(OUTE, "$(P):WaveformRfRfl.NELM PP")
+	field(FTVE, "LONG")
+	field(NOVE, "1")
 }

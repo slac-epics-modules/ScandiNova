@@ -32,6 +32,10 @@ record (stringin,"$(P):CurrentEventDataStr") {
 	field(DESC, "Data associated with the current event")
 }
 
+record (stringin,"$(P):CurrentEventDisplayStr") {
+	field(DESC, "Display of the current event")
+}
+
 record (stringin,"$(P):WarningEventTimeStr") {
 	field(DESC, "Timestamp of the warning event")
 }
@@ -62,6 +66,10 @@ record (stringin,"$(P):WarningEventUnitStr") {
 
 record (stringin,"$(P):WarningEventDataStr") {
 	field(DESC, "Data associated with the warning event")
+}
+
+record (stringin,"$(P):WarningEventDisplayStr") {
+	field(DESC, "Display of the warning event")
 }
 
 record (aSub,"$(P):CurrentEventStructBridge") {
@@ -107,39 +115,47 @@ record (aSub,"$(P):CurrentEventStructBridge") {
 	field(FTVH,"STRING")
 	field(NOVH,"64")
 
+	field(OUTI,"$(P):CurrentEventDisplayStr PP")
+	field(FTVI,"STRING")
+	field(NOVI,"128")
+
 # output warning event
 
-	field(OUTI,"$(P):WarningEventTimeStr PP")
-	field(FTVI,"STRING")
-	field(NOVI,"64")
-
-	field(OUTJ,"$(P):WarningEventIocTimeStr PP")
+	field(OUTJ,"$(P):WarningEventTimeStr PP")
 	field(FTVJ,"STRING")
 	field(NOVJ,"64")
 
-	field(OUTK,"$(P):WarningEventTypeStr PP")
+	field(OUTK,"$(P):WarningEventIocTimeStr PP")
 	field(FTVK,"STRING")
 	field(NOVK,"64")
 
-	field(OUTL,"$(P):WarningEventTrigger PP")
-	field(FTVL,"LONG")
-	field(NOVL,"1")
+	field(OUTL,"$(P):WarningEventTypeStr PP")
+	field(FTVL,"STRING")
+	field(NOVL,"64")
 
-	field(OUTM,"$(P):WarningEventSubsystemStr PP")
-	field(FTVM,"STRING")
-	field(NOVM,"64")
+	field(OUTM,"$(P):WarningEventTrigger PP")
+	field(FTVM,"LONG")
+	field(NOVM,"1")
 
-	field(OUTN,"$(P):WarningEventTextStr PP")
+	field(OUTN,"$(P):WarningEventSubsystemStr PP")
 	field(FTVN,"STRING")
 	field(NOVN,"64")
 
-	field(OUTO,"$(P):WarningEventUnitStr PP")
+	field(OUTO,"$(P):WarningEventTextStr PP")
 	field(FTVO,"STRING")
 	field(NOVO,"64")
 
-	field(OUTP,"$(P):WarningEventDataStr PP")
+	field(OUTP,"$(P):WarningEventUnitStr PP")
 	field(FTVP,"STRING")
 	field(NOVP,"64")
+
+	field(OUTQ,"$(P):WarningEventDataStr PP")
+	field(FTVQ,"STRING")
+	field(NOVQ,"64")
+
+	field(OUTR,"$(P):WarningEventDisplayStr PP")
+	field(FTVR,"STRING")
+	field(NOVR,"128")
 }
 
 # interlock event
@@ -174,6 +190,10 @@ record (stringin,"$(P):InterlockEventUnitStr") {
 
 record (stringin,"$(P):InterlockEventDataStr") {
 	field(DESC, "Data associated with the interlock event")
+}
+
+record (stringin,"$(P):InterlockEventDisplayStr") {
+	field(DESC, "Display of the interlock event")
 }
 
 record (aSub,"$(P):InterlockEventStructBridge") {
@@ -214,6 +234,10 @@ record (aSub,"$(P):InterlockEventStructBridge") {
 	field(OUTH,"$(P):InterlockEventDataStr PP")
 	field(FTVH,"STRING")
 	field(NOVH,"64")
+
+	field(OUTI,"$(P):InterlockEventDisplayStr PP")
+	field(FTVI,"STRING")
+	field(NOVI,"128")
 }
 
 # events for logging to a file

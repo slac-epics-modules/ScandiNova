@@ -42,11 +42,11 @@ lnrf_mod_SRCS += lnrf_mod_registerRecordDeviceDriver.cpp
 lnrf_mod_SRCS_DEFAULT += lnrf_modMain.cpp
 lnrf_mod_SRCS_DEFAULT += event_log.cpp
 
-lnrf_mod_LIBS += $(EPICS_BASE_IOC_LIBS)
 lnrf_mod_LIBS += modbus
 lnrf_mod_LIBS += asyn
 lnrf_mod_LIBS += devIocStats
 lnrf_mod_LIBS += autosave
+lnrf_mod_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 

@@ -106,6 +106,7 @@ typedef struct {
 	char type_str[32];      // type description
 	int text_number;        // index for Strings[type]
 	char text_str[64];      // from Strings[type][text_number]
+	char display_str[128];  // we show on the GUI
 	int matrix_index;       // index for MatrixItems
 	char subsystem_str[32]; // from MatrixItems[matrix_index].Name
 	char units_str[8];      // from MatrixItems[matrix_index].Unit
@@ -124,11 +125,42 @@ static event_info_t event_infos[EVENT_LOG_SIZE];
 static int current_event_index = -1;
 static char *event_output_file = NULL;
 static FILE *event_output_fd = NULL;
+static waveform_code_t prev_waveform_ready_code = WAVEFORM_UNKNOWN;
 static double waveforms[WAVEFORM_COUNT_MAX][WAVEFORM_SAMPLE_COUNT_MAX];
 static char waveform_timestamp[WAVEFORM_COUNT_MAX][64];
 static int waveform_trig_ids[WAVEFORM_COUNT_MAX];
 static int waveform_sample_counts[WAVEFORM_COUNT_MAX];
 static uint64_t waveform_request_enable = 0;
+
+static char log_html_doc_template_start[] =                   \
+	"<!DOCTYPE html>\n"                                       \
+	"<html>\n"                                                \
+	"<head>\n"                                                \
+	" <meta http-equiv=\"refresh\" content=\"1\">\n"          \
+    "</head>\n"                                               \
+	" <body>\n"                                               \
+	"  <table style=\"width:100\%\">\n"                       \
+	"   <tr bgcolor=\"LIGHTGREY\">\n"                         \
+	"    <th style=\"padding:3px\" align=\"right\"><pre>Id</pre></th>\n"            \
+	"    <th style=\"padding:3px\" align=\"left\"><pre>Type</pre></th>\n"           \
+	"    <th style=\"padding:3px\" align=\"left\"><pre>Timestamp</pre></th>\n"      \
+	"    <th style=\"padding:3px\" align=\"left\"><pre>Timestamp IOC</pre></th>\n"  \
+	"    <th style=\"padding:3px\" align=\"right\"><pre>TrigId</pre></th>\n"        \
+	"    <th style=\"padding:3px\" align=\"left\"><pre>Text</pre></th>\n"           \
+	"   </tr>\n";
+static char log_html_doc_template_end[] =            \
+	"  </table>\n"                                   \
+	" </body>\n"                                     \
+	"</html>";
+static char log_html_row_template[] =                      \
+	"  <tr bgcolor=\"%s\">"                                \
+	"   <td style=\"padding:3px\" align=\"right\"><pre>%d</pre></td>"            \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"             \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"             \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"             \
+	"   <td style=\"padding:3px\" align=\"right\"><pre>%d</pre></td>"            \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s%s%s%s%s%s%s</pre></td>" \
+	"  </tr>\n";
 
 // maps that hold data we parse out of the XML doc
 static map<int, pair<string, string> > matrix_items;
@@ -142,6 +174,15 @@ static const char *event_info_type_strs[] = {
 	"Error",
 	"Param",
 	"Message"
+};
+
+static const char *event_info_type_colors[] = {
+	"DARKGREY",
+	"YELLOW",
+	"RED",
+	"RED",
+	"DARKGREY",
+	"DARKGREY"
 };
 
 // this list is not defined in Resource.xml
@@ -275,6 +316,52 @@ parse_resources_xml(const char *name)
 	xmlCleanupParser();
 }
 
+// take a UNIX epoch and milliseconds offset, and construct a human-readable
+// string representing the date, time, and timezone.
+//
+// TODO: should we have the format string be an externally settable parameter?
+static void
+human_timestr(time_t epoch, int milliseconds, char *str, size_t max_out_len_bytes)
+{
+	struct tm *ts = NULL;
+	char timestamp[64];
+	char timezone[8];
+
+	ts = localtime(&epoch);
+	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
+	strftime(timezone, sizeof(timezone), "%Z", ts);
+	memset(str, 0, max_out_len_bytes);
+	snprintf(
+		str,
+		max_out_len_bytes - 1,
+		"%s.%03d %s",
+		timestamp,
+		milliseconds,
+		timezone);
+}
+
+// construct a human-readable string from the current time (now).
+static void
+now_to_timestr(char *str, size_t max_out_len_bytes)
+{
+	struct timeval tv;
+
+	gettimeofday(&tv, NULL);
+	human_timestr(tv.tv_sec, tv.tv_usec / 1000, str, max_out_len_bytes);
+}
+
+// take a raw epoch timestamp given to us by the Scandinova hardware, and
+// convert it to a human-readable timestamp string.
+static void
+epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
+{
+	human_timestr(
+		(time_t) EPOCH_RAW_TO_EPOCH(epoch_raw),
+		(int) EPOCH_RAW_TO_MILLISECONDS_OFFSET(epoch_raw),
+		str,
+		max_out_len_bytes);
+}
+
 static void
 set_event_output_file(const char *name)
 {
@@ -286,10 +373,58 @@ set_event_output_file(const char *name)
 	}
 
 	event_output_file = strdup(name);
-	event_output_fd = fopen(event_output_file, "a");
+	event_output_fd = fopen(event_output_file, "r+");
 	if (event_output_fd == NULL) {
-		printf("error: unable to write \'%s\': %s\n", event_output_file, strerror(errno));
+		event_output_fd = fopen(event_output_file, "w+");
+		if (event_output_fd == NULL) {
+			printf("error: unable to write \'%s\': %s\n", event_output_file, strerror(errno));
+			return;
+		}
+		fprintf(event_output_fd, log_html_doc_template_start);
+		fprintf(event_output_fd, log_html_doc_template_end);
+		fflush(event_output_fd);
 	}
+}
+
+static void
+write_event_output_file(
+	int increment,
+	int type,
+	char *type_str,
+	char *timestamp,
+	char *timestamp_ioc,
+	int trig_id,
+	char *subsystem,
+	char *text,
+	char *data,
+	char *units)
+{
+	int loc = strlen(log_html_doc_template_end);
+
+	if (!event_output_fd) {
+		printf("error: can't write \'%s\'\n", event_output_file);
+		return;
+	}
+
+	fseek(event_output_fd, (long) -loc, SEEK_END);
+	fprintf(
+		event_output_fd,
+		log_html_row_template,
+		event_info_type_colors[type],
+		increment,
+		type_str,
+		timestamp,
+		timestamp_ioc,
+		trig_id,
+		subsystem,
+		subsystem[0] ? " " : "",
+		text,
+		data[0] ? ": " : "",
+		data,
+		units[0] ? " " : "",
+		units);
+	fprintf(event_output_fd, log_html_doc_template_end);
+	fflush(event_output_fd);
 }
 
 // convert raw bytes from the modulator to a meaningful number
@@ -409,31 +544,17 @@ update_log_file(void *unused)
 				printf("\n");
 			}
 
-			if (event_output_fd != NULL) {
-				// if this event has an empty data field
-				if (event_info->data_type == 0) {
-					fprintf(event_output_fd, "%d \"%s\" \"%s\" %3d %-9s \"%s\" \"%s\"\n",
-						event_info->increment,
-						event_info->timestamp,
-						event_info->timestamp_ioc,
-						event_info->trigger,
-						event_info->type_str,
-						event_info->subsystem_str,
-						event_info->text_str);
-				} else {
-					fprintf(event_output_fd, "%d \"%s\" \"%s\" %3d %-9s \"%s\" \"%s: %s %s\"\n",
-						event_info->increment,
-						event_info->timestamp,
-						event_info->timestamp_ioc,
-						event_info->trigger,
-						event_info->type_str,
-						event_info->subsystem_str,
-						event_info->text_str,
-						event_info->data_str,
-						event_info->units_str);
-				}
-				fflush(event_output_fd);
-			}
+			write_event_output_file(
+				event_info->increment,
+				event_info->type,
+				event_info->type_str,
+				event_info->timestamp,
+				event_info->timestamp_ioc,
+				event_info->trigger,
+				event_info->subsystem_str,
+				event_info->text_str,
+				event_info->data_str,
+				event_info->units_str);
 		}
 
 		previous_event_index = current_event_index;
@@ -442,52 +563,6 @@ update_log_file(void *unused)
 	}
 
 	return NULL;
-}
-
-// take a UNIX epoch and milliseconds offset, and construct a human-readable
-// string representing the date, time, and timezone.
-//
-// TODO: should we have the format string be an externally settable parameter?
-static void
-human_timestr(time_t epoch, int milliseconds, char *str, size_t max_out_len_bytes)
-{
-	struct tm *ts = NULL;
-	char timestamp[64];
-	char timezone[8];
-
-	ts = localtime(&epoch);
-	strftime(timestamp, sizeof(timestamp), "%a %Y-%m-%d %H:%M:%S", ts);
-	strftime(timezone, sizeof(timezone), "%Z", ts);
-	memset(str, 0, max_out_len_bytes);
-	snprintf(
-		str,
-		max_out_len_bytes - 1,
-		"%s.%03d %s",
-		timestamp,
-		milliseconds,
-		timezone);
-}
-
-// construct a human-readable string from the current time (now).
-static void
-now_to_timestr(char *str, size_t max_out_len_bytes)
-{
-	struct timeval tv;
-
-	gettimeofday(&tv, NULL);
-	human_timestr(tv.tv_sec, tv.tv_usec / 1000, str, max_out_len_bytes);
-}
-
-// take a raw epoch timestamp given to us by the Scandinova hardware, and
-// convert it to a human-readable timestamp string.
-static void
-epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
-{
-	human_timestr(
-		(time_t) EPOCH_RAW_TO_EPOCH(epoch_raw),
-		(int) EPOCH_RAW_TO_MILLISECONDS_OFFSET(epoch_raw),
-		str,
-		max_out_len_bytes);
 }
 
 // convert raw event struct from hardware to a meaningful event
@@ -518,6 +593,19 @@ event_struct_to_event_info(event_struct_t *event_struct, event_info_t *event_inf
 
 	epoch_raw_to_timestr(event_struct->epoch_raw, event_info->timestamp, sizeof(event_info->timestamp));
 	now_to_timestr(event_info->timestamp_ioc, sizeof(event_info->timestamp_ioc));
+
+	snprintf(
+		event_info->display_str,
+		sizeof(event_info->display_str) - 1,
+		"%s%s%s%s%s%s%s",
+		event_info->subsystem_str,
+		event_info->subsystem_str[0] ? " " : "",
+		event_info->text_str,
+		event_info->data_str[0] ? ": " : "",
+		event_info->data_str,
+		event_info->units_str[0] ? " " : "",
+		event_info->units_str);
+
 }
 
 // one of the arrays containing log data has changed.  here we handle the
@@ -626,6 +714,8 @@ handle_current_event(aSubRecord *prec, event_info_t *event_info)
 	memset(prec->valf, 0, prec->novf);
 	memset(prec->valg, 0, prec->novg);
 	memset(prec->valh, 0, prec->novh);
+	memset(prec->vali, 0, prec->novi);
+	memset(prec->valj, 0, prec->novj);
 
 	strncpy((char *) prec->vala, event_info->timestamp, prec->nova - 1);
 	strncpy((char *) prec->valb, event_info->timestamp, prec->novb - 1);
@@ -635,6 +725,7 @@ handle_current_event(aSubRecord *prec, event_info_t *event_info)
 	strncpy((char *) prec->valf, event_info->text_str, prec->novf - 1);
 	strncpy((char *) prec->valg, event_info->units_str, prec->nog - 1);
 	strncpy((char *) prec->valh, event_info->data_str, prec->noh - 1);
+	strncpy((char *) prec->vali, event_info->display_str, prec->novi - 1);
 }
 
 // update warning event struct PVs.
@@ -647,23 +738,25 @@ handle_current_event(aSubRecord *prec, event_info_t *event_info)
 static void
 handle_warning_event(aSubRecord *prec, event_info_t *event_info)
 {
-	memset(prec->vali, 0, prec->novi);
 	memset(prec->valj, 0, prec->novj);
 	memset(prec->valk, 0, prec->novk);
-	memset(prec->vall, 0, sizeof(long) * prec->novl);
-	memset(prec->valm, 0, prec->novm);
+	memset(prec->vall, 0, prec->novl);
+	memset(prec->valm, 0, sizeof(long) * prec->novm);
 	memset(prec->valn, 0, prec->novn);
 	memset(prec->valo, 0, prec->novo);
 	memset(prec->valp, 0, prec->novp);
+	memset(prec->valq, 0, prec->novq);
+	memset(prec->valr, 0, prec->novr);
 
-	strncpy((char *) prec->vali, event_info->timestamp, prec->novi - 1);
 	strncpy((char *) prec->valj, event_info->timestamp, prec->novj - 1);
-	strncpy((char *) prec->valk, event_info->type_str, prec->novk - 1);
-	*(long *) prec->vall = event_info->trigger;
-	strncpy((char *) prec->valm, event_info->subsystem_str, prec->nom - 1);
-	strncpy((char *) prec->valn, event_info->text_str, prec->novn - 1);
-	strncpy((char *) prec->valo, event_info->units_str, prec->novo - 1);
-	strncpy((char *) prec->valp, event_info->data_str, prec->novp - 1);
+	strncpy((char *) prec->valk, event_info->timestamp, prec->novk - 1);
+	strncpy((char *) prec->vall, event_info->type_str, prec->novl - 1);
+	*(long *) prec->valm = event_info->trigger;
+	strncpy((char *) prec->valn, event_info->subsystem_str, prec->novn - 1);
+	strncpy((char *) prec->valo, event_info->text_str, prec->novo - 1);
+	strncpy((char *) prec->valp, event_info->units_str, prec->novp - 1);
+	strncpy((char *) prec->valq, event_info->data_str, prec->novq - 1);
+	strncpy((char *) prec->valr, event_info->display_str, prec->novr - 1);
 }
 
 
@@ -679,14 +772,16 @@ handle_warning_event(aSubRecord *prec, event_info_t *event_info)
 // OUTF CurrentEventTextStr
 // OUTG CurrentEventUnitStr
 // OUTH CurrentEventDataStr
-// OUTI WarningEventTimeStr
-// OUTJ WarningEventIocTimeStr
-// OUTK WarningEventTypeStr
-// OUTL WarningEventTrigger
-// OUTM WarningEventSubsystemStr
-// OUTN WarningEventTextStr
-// OUTO WarningEventUnitStr
-// OUTP WarningEventDataStr
+// OUTI CurrentEventDisplayStr
+// OUTJ WarningEventTimeStr
+// OUTK WarningEventIocTimeStr
+// OUTL WarningEventTypeStr
+// OUTM WarningEventTrigger
+// OUTN WarningEventSubsystemStr
+// OUTO WarningEventTextStr
+// OUTP WarningEventUnitStr
+// OUTQ WarningEventDataStr
+// OUTR WarningEventDisplayStr
 static long
 handle_current_event_struct_modify(aSubRecord *prec)
 {
@@ -731,6 +826,7 @@ epicsRegisterFunction(handle_current_event_struct_modify);
 // OUTF InterlockEventTextStr
 // OUTG InterlockEventUnitStr
 // OUTH InterlockEventDataStr
+// OUTI InterlockEventDisplayStr
 static long
 handle_interlock_event_struct_modify(aSubRecord *prec)
 {
@@ -746,6 +842,7 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 	memset(prec->valf, 0, prec->novf);
 	memset(prec->valg, 0, prec->novg);
 	memset(prec->valh, 0, prec->novh);
+	memset(prec->vali, 0, prec->novi);
 
 	strncpy((char *) prec->vala, event_info.timestamp, prec->nova - 1);
 	strncpy((char *) prec->valb, event_info.timestamp_ioc, prec->novb - 1);
@@ -755,6 +852,7 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 	strncpy((char *) prec->valf, event_info.text_str, prec->novf - 1);
 	strncpy((char *) prec->valg, event_info.units_str, prec->novg - 1);
 	strncpy((char *) prec->valh, event_info.data_str, prec->novh - 1);
+	strncpy((char *) prec->vali, event_info.display_str, prec->novi - 1);
 
 	if (debug_flag) {
 		printf("%s event ------------------------------\n", event_info_type_strs[event_info.type]);
@@ -774,6 +872,19 @@ handle_interlock_event_struct_modify(aSubRecord *prec)
 }
 epicsRegisterFunction(handle_interlock_event_struct_modify);
 
+// we enter this function when the user sets one of the values that tells us
+// that the user wants to view a waveform.  there are four types of waveforms,
+// and each type has a history of five waveforms.  anytime a type is enabled,
+// we enable the download (via modbus) of all five historicals.  probably only
+// one historical is presented to the user at a time.  I expect all four
+// types would be displayed at the same time, however.
+//
+// the function that handles the waveform being ready to download causes the
+// "next" waveform to begin downloading (from the PLC to the modbus buffer
+// on Scandinova hardware).  but because at first there isn't a waveform
+// ready to download, we must kick off the first download here in this
+// function.
+//
 // inputs from EPICS:
 // INPA read3000 "Waveform type"
 // INPB read3001 "Waveform time"
@@ -798,30 +909,46 @@ handle_waveform_request(aSubRecord *prec)
 			(1L << WAVEFORM_CVD_T0_REQUEST) | (1L << WAVEFORM_CVD_T1_REQUEST) |
 			(1L << WAVEFORM_CVD_T2_REQUEST) | (1L << WAVEFORM_CVD_T3_REQUEST) |
 			(1L << WAVEFORM_CVD_T4_REQUEST);
+	} else {
+		*(long *) prec->valb = 1;
 	}
+
 	if (ct_enable) {
 		kick_waveform = WAVEFORM_CT_T0_REQUEST;
 		mask |=
 			(1L << WAVEFORM_CT_T0_REQUEST) | (1L << WAVEFORM_CT_T1_REQUEST) |
 			(1L << WAVEFORM_CT_T2_REQUEST) | (1L << WAVEFORM_CT_T3_REQUEST) |
 			(1L << WAVEFORM_CT_T4_REQUEST);
+	} else {
+		*(long *) prec->valc = 1;
 	}
+
 	if (rf_fwd_enable) {
 		kick_waveform = WAVEFORM_RF_FWD_T0_REQUEST;
 		mask |=
 			(1L << WAVEFORM_RF_FWD_T0_REQUEST) | (1L << WAVEFORM_RF_FWD_T1_REQUEST) |
 			(1L << WAVEFORM_RF_FWD_T2_REQUEST) | (1L << WAVEFORM_RF_FWD_T3_REQUEST) |
 			(1L << WAVEFORM_RF_FWD_T4_REQUEST);
+	} else {
+		*(long *) prec->vald = 1;
 	}
+
 	if (rf_rfl_enable) {
 		kick_waveform = WAVEFORM_RF_RFL_T0_REQUEST;
 		mask |=
 			(1L << WAVEFORM_RF_RFL_T0_REQUEST) | (1L << WAVEFORM_RF_RFL_T1_REQUEST) |
 			(1L << WAVEFORM_RF_RFL_T2_REQUEST) | (1L << WAVEFORM_RF_RFL_T3_REQUEST) |
 			(1L << WAVEFORM_RF_RFL_T4_REQUEST);
+	} else {
+		*(long *) prec->vale = 1;
 	}
 
-	if (!waveform_request_enable && kick_waveform) {
+	if (debug_flag) {
+		printf("waveform mask %08llx\n", (unsigned long long) mask);
+	}
+
+	// if no waveforms enabled and we have one that needs to be started
+	if (!waveform_request_enable && kick_waveform != WAVEFORM_UNKNOWN) {
 		*(long *) prec->vala = kick_waveform;
 	}
 
@@ -831,6 +958,11 @@ handle_waveform_request(aSubRecord *prec)
 }
 epicsRegisterFunction(handle_waveform_request);
 
+// a waveform is available in the modbus buffer on the Scandinova hardware.  in
+// this function we read it from modbus into our buffers here in this app.
+// then we tell the Scandinova hardware to download the next waveform, and when
+// that download is finished we will again be in this function.
+//
 // inputs from modbus:
 // INPA read3000 "Waveform type"
 // INPB read3001 "Waveform time"
@@ -861,9 +993,6 @@ epicsRegisterFunction(handle_waveform_request);
 // OUTO WaveformPulseIdRfRfl
 // OUTP WaveformRfRfl
 // OUTQ write3000 "WaveformTypeSet"
-//
-// note this is unrelated to logging and events.  we put it in this file for
-// convenience only.
 static long
 handle_waveform_ready(aSubRecord *prec)
 {
@@ -875,15 +1004,27 @@ handle_waveform_ready(aSubRecord *prec)
 	int *trig_id = NULL;
 	double *waveform = NULL;
 
+	// if the state of the waveforms hasn't changed since the last time we were here
+	if (prev_waveform_ready_code == waveform_ready_code) {
+		return 0;
+	}
+	prev_waveform_ready_code = waveform_ready_code;
+
+	// if the waveform has not completely downloaded yet
 	if (waveform_ready_code == WAVEFORM_FETCHING) {
 		return 0;
 	}
 
+	// XXX should we always have 503 samples?
+	if (*(long *) prec->c != WAVEFORM_SAMPLE_COUNT_MAX) {
+		return 0;
+	}
+
+	// sanity check our buffer sizes
 	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novd);
-	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novh);
-	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novl);
-	assert(prec->noe + prec->nof + prec->nog + prec->noh + prec->noi + prec->noj == prec->novp);
-	assert(*(long *) prec->c == WAVEFORM_SAMPLE_COUNT_MAX);
+	assert(prec->novd == prec->novh);
+	assert(prec->novd == prec->novl);
+	assert(prec->novd == prec->novp);
 
 	waveform_request_code = WAVEFORM_READY_CODE_TO_REQUEST_CODE(waveform_ready_code);
 	assert(waveform_request_code > WAVEFORM_UNKNOWN);
@@ -895,7 +1036,7 @@ handle_waveform_ready(aSubRecord *prec)
 	trig_id = &waveform_trig_ids[waveform_request_code];
 	waveform = waveforms[waveform_request_code];
 
-	// populate the local (to this app) waveform data
+	// populate the local (to this app) waveform data buffers
 	epoch_raw_to_timestr(
 			*(uint64_t *) prec->b,
 			timestamp,
@@ -909,30 +1050,39 @@ handle_waveform_ready(aSubRecord *prec)
 	memcpy(waveform + 400, (double *) prec->i, prec->noi);
 	memcpy(waveform + 500, (double *) prec->j, prec->noj);
 
+	// TODO: apply scaling factors to the waveform.
+	// the scaling factors are not available to us at this time.
+
 	// copy waveform data to PVs
 	if (waveform_request_code <= WAVEFORM_CVD_T4_REQUEST) {
 		strncpy((char *) prec->vala, timestamp, prec->nova);
 		*(long *) prec->valb = *sample_count;
+		*(long *) prec->valr = *sample_count;
 		*(long *) prec->valc = *trig_id;
-		memcpy((double *) prec->vald, waveform, prec->novd);
+		memcpy(prec->vald, waveform, prec->novd * sizeof(waveform[0]));
 	} else if (waveform_request_code <= WAVEFORM_CT_T4_REQUEST) {
 		strncpy((char *) prec->vale, timestamp, prec->nove);
 		*(long *) prec->valf = *sample_count;
+		*(long *) prec->vals = *sample_count;
 		*(long *) prec->valg = *trig_id;
-		memcpy((double *) prec->valh, waveform, prec->novh);
+		memcpy(prec->valh, waveform, prec->novh * sizeof(waveform[0]));
 	} else if (waveform_request_code <= WAVEFORM_RF_FWD_T4_REQUEST) {
 		strncpy((char *) prec->vali, timestamp, prec->novi);
 		*(long *) prec->valj = *sample_count;
+		*(long *) prec->valt = *sample_count;
 		*(long *) prec->valk = *trig_id;
-		memcpy((double *) prec->vall, waveform, prec->novl);
+		memcpy(prec->vall, waveform, prec->novl * sizeof(waveform[0]));
 	} else if (waveform_request_code <= WAVEFORM_RF_RFL_T4_REQUEST) {
 		strncpy((char *) prec->valm, timestamp, prec->novm);
 		*(long *) prec->valn = *sample_count;
+		*(long *) prec->valu = *sample_count;
 		*(long *) prec->valo = *trig_id;
-		memcpy((double *) prec->valp, waveform, prec->novp);
+		memcpy(prec->valp, waveform, prec->novp * sizeof(waveform[0]));
+	} else {
+		assert(0);
 	}
 
-	// calculate next waveform to request
+	// calculate next waveform to request, if any
 	for (
 			i = (waveform_code_t) ((waveform_request_code + 1) % WAVEFORM_COUNT_MAX);
 			i != waveform_request_code;
