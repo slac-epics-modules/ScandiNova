@@ -45,6 +45,8 @@ dbLoadRecords("db/log_messages.db", "P=$(P)")
 dbLoadRecords("db/log_messages_bridge.db","P=$(P)")
 dbLoadRecords("db/modbus_registers.db", "P=$(P)")
 dbLoadRecords("db/watchdog_bridge.db","P=$(P)")
+dbLoadRecords("db/subsystem_status.db","P=$(P)")
+dbLoadRecords("db/subsystem_status_bridge.db","P=$(P)")
 #iocshLoad("$(IOCSH_TOP)/als_default.iocsh")
 
 # access control list

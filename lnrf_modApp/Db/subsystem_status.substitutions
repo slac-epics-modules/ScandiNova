@@ -1,0 +1,12 @@
+# int32 array, waveform record in
+file intarray_in.template
+{
+    pattern
+    { P,      R,             PORT,        OFFSET, NELM, SCAN       }
+    { "${P}", ":StateRead1", "read2000",  0,       100, "I/O Intr" }
+    { "${P}", ":StateRead2", "read2100",  0,       100, "I/O Intr" }
+    { "${P}", ":StateRead3", "read2200",  0,        55, "I/O Intr" }
+    { "${P}", ":Status1",    "read2300",  0,       100, "I/O Intr" }
+    { "${P}", ":Status2",    "read2400",  0,       100, "I/O Intr" }
+    { "${P}", ":Status3",    "read2500",  0,        55, "I/O Intr" }
+}

@@ -1,0 +1,58 @@
+record (waveform, "$(P):WarningStatus") {
+	field(FTVL, "CHAR")
+	field(NELM, "256")
+}
+
+record (waveform, "$(P):InterlockStatus") {
+	field(FTVL, "CHAR")
+	field(NELM, "256")
+}
+
+record (waveform, "$(P):SubsystemState") {
+	field(FTVL, "CHAR")
+	field(NELM, "256")
+}
+
+record (aSub, "$(P):iSubsystemStatusBridge") {
+	field(SNAM, "handle_subsystem_status_modify")
+
+# INPUT
+
+	field(INPA, "$(P):Status1 CP")
+	field(FTA, "LONG")
+	field(NOA, "100")
+
+	field(INPB, "$(P):Status2 CP")
+	field(FTB, "LONG")
+	field(NOB, "100")
+
+	field(INPC, "$(P):Status3 CP")
+	field(FTC, "LONG")
+	field(NOC, "56")
+
+	field(INPD, "$(P):StateRead1 CP")
+	field(FTD, "LONG")
+	field(NOD, "100")
+
+	field(INPE, "$(P):StateRead2 CP")
+	field(FTE, "LONG")
+	field(NOE, "100")
+
+	field(INPF, "$(P):StateRead3 CP")
+	field(FTF, "LONG")
+	field(NOF, "56")
+
+# OUTPUT
+
+	field(OUTA, "$(P):WarningStatus PP")
+	field(FTVA, "CHAR")
+	field(NOVA, "256")
+
+	field(OUTB, "$(P):InterlockStatus PP")
+	field(FTVB, "CHAR")
+	field(NOVB, "256")
+
+	field(OUTC, "$(P):SubsystemState PP")
+	field(FTVC, "CHAR")
+	field(NOVC, "256")
+}

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1445</width>
-    <height>754</height>
+    <height>913</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,6 +42,9 @@
      <widget class="PyDMLabel" name="PyDMLabel_41">
       <property name="toolTip">
        <string/>
+      </property>
+      <property name="rules" stdset="0">
+       <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:WarningExists&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
       </property>
       <property name="precision" stdset="0">
        <number>0</number>
@@ -86,6 +89,9 @@
      <widget class="PyDMLabel" name="PyDMLabel_42">
       <property name="toolTip">
        <string/>
+      </property>
+      <property name="rules" stdset="0">
+       <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
       </property>
       <property name="precision" stdset="0">
        <number>0</number>
@@ -144,6 +150,9 @@
       <property name="toolTip">
        <string/>
       </property>
+      <property name="rules" stdset="0">
+       <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
+      </property>
       <property name="precision" stdset="0">
        <number>0</number>
       </property>
@@ -174,6 +183,9 @@
      <widget class="PyDMLabel" name="PyDMLabel_29">
       <property name="toolTip">
        <string/>
+      </property>
+      <property name="rules" stdset="0">
+       <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
       </property>
       <property name="precision" stdset="0">
        <number>0</number>
@@ -265,6 +277,9 @@
       <property name="toolTip">
        <string/>
       </property>
+      <property name="rules" stdset="0">
+       <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:WarningExists&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
+      </property>
       <property name="precision" stdset="0">
        <number>0</number>
       </property>
@@ -295,6 +310,9 @@
      <widget class="PyDMLabel" name="PyDMLabel_37">
       <property name="toolTip">
        <string/>
+      </property>
+      <property name="rules" stdset="0">
+       <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:WarningExists&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
       </property>
       <property name="precision" stdset="0">
        <number>0</number>
@@ -553,6 +571,9 @@
         <property name="toolTip">
          <string/>
         </property>
+        <property name="rules" stdset="0">
+         <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:WarningExists&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
+        </property>
         <property name="precision" stdset="0">
          <number>0</number>
         </property>
@@ -597,6 +618,9 @@
        <widget class="PyDMLabel" name="PyDMLabel_18">
         <property name="toolTip">
          <string/>
+        </property>
+        <property name="rules" stdset="0">
+         <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
         </property>
         <property name="precision" stdset="0">
          <number>0</number>
@@ -660,2061 +684,7 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item row="0" column="1">
-     <layout class="QGridLayout" name="gridLayout_6">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMinimumSize</enum>
-      </property>
-      <item row="3" column="0" colspan="2">
-       <widget class="QLabel" name="label_5">
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TRIG&amp;amp;INT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_3">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;SWITCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="PyDMLineEdit" name="PyDMLineEdit">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>1</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:PulseWidthSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_63">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:XXX</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="2">
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_39">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>PlswthSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_66">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>PlswthRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_46">
-        <property name="text">
-         <string>PrfRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_87">
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:XXX</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="3">
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="15" column="0">
-       <widget class="QLabel" name="label_62">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ipc1VoltRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="PyDMLineEdit" name="PyDMLineEdit_3">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>1</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:PulseWidthSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_76">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_73">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow3</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="15" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_79">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_72">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow2</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="17" column="0">
-       <widget class="QLabel" name="label_69">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>RflRread</string>
-        </property>
-       </widget>
-      </item>
-      <item row="19" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_86">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="PyDMLineEdit" name="PyDMLineEdit_2">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>1</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:PulseWidthSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_57">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>HeaterDelay1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_74">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow4</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="0">
-       <widget class="QLabel" name="label_64">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ipc1PressureRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_59">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Sol1VoltRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_71">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>FpsCurrSet1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="19" column="0">
-       <widget class="QLabel" name="label_70">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>PlswthRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_72">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Sol1CurrSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="0">
-       <widget class="QLabel" name="label_65">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Spare</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_78">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="16" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_83">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_54">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>FpsCurrRead1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_71">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow1</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="label_73">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Spare</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_82">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_75">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow5</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="18" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_84">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_55">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>FpsCurrRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_80">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="0">
-       <widget class="QLabel" name="label_63">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ipc1CurrRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_81">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QLabel" name="label_60">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Spare</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_56">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>FpsVoltRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="18" column="0">
-       <widget class="QLabel" name="label_68">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>VSWRRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_77">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="17" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_85">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="16" column="0">
-       <widget class="QLabel" name="label_67">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>FwdRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="label_61">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Spare</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_58">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Sol1CurrRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="PyDMLineEdit" name="PyDMLineEdit_4">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>1</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:PulseWidthSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_7">
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;KLY&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="20" column="0" colspan="2">
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout_8" rowstretch="0,1,1,1,0,0,0,0,0,0,0,0">
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_37">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>PS1 VoltRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_56">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPS2_V</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="label_44">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Spare</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_43">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>SolFlow</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_40">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ccps1Flow</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_42">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>BodyCollFlow</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0" colspan="2">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="1">
-       <widget class="PyDMLineEdit" name="PyDMLineEdit_5">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>1</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:PulseWidthSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_55">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:Voltage</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CCPS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_74">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>VoltSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QLabel" name="label_4">
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;COOL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_41">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ccps2&amp;Su1Flow</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_38">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>PS2 VoltRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QLabel" name="label_45">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Spare</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_57">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow1</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_58">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow2</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_59">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow3</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_60">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow4</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_61">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow5</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_62">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="2">
-     <layout class="QGridLayout" name="gridLayout_5">
-      <item row="3" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_66">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow3</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_69">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_75">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>BpsCurrSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_53">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>BpsCurrRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_51">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>OilTempRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_47">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>DigiCvdRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_50">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>AvgPowRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_52">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>OilLevRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_6">
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TANK&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_64">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow1</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_70">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow6</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_65">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow2</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_68">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>3</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow5</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::Decimal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_49">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>DigiFwhmRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_48">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>DigiCtRead</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="PyDMLabel" name="PyDMLabel_67">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>0</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="alarmSensitiveContent" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="alarmSensitiveBorder" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="PyDMToolTip" stdset="0">
-         <string/>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:CCPSWaterFlow4</string>
-        </property>
-        <property name="displayFormat" stdset="0">
-         <enum>PyDMLabel::String</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="PyDMLineEdit" name="PyDMLineEdit_6">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="precision" stdset="0">
-         <number>1</number>
-        </property>
-        <property name="showUnits" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="precisionFromPV" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string>ca://${P}:PulseWidthSet</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0" colspan="2">
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="4">
+    <item row="0" column="5">
      <layout class="QVBoxLayout" name="verticalLayout_12">
       <item>
        <widget class="PyDMPushButton" name="PyDMPushButton_11">
@@ -3899,24 +1869,2167 @@
       </item>
      </layout>
     </item>
+    <item row="0" column="3">
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="3" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_66">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow3</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_69">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_75">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>BpsCurrSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_53">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>BpsCurrRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_51">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>OilTempRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_47">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>DigiCvdRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_50">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>AvgPowRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_52">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>OilLevRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_6">
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TANK&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_64">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow1</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_70">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_65">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow2</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_68">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow5</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_49">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>DigiFwhmRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_48">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>DigiCtRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_67">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow4</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="PyDMLineEdit" name="PyDMLineEdit_6">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>1</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:PulseWidthSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0" colspan="2">
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="4">
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="15" column="0">
+       <widget class="QLabel" name="label_62">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Ipc1VoltRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="PyDMLineEdit" name="PyDMLineEdit_3">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>1</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:PulseWidthSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_76">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_73">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow3</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_79">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_72">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow2</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="0">
+       <widget class="QLabel" name="label_69">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>RflRread</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_86">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="PyDMLineEdit" name="PyDMLineEdit_2">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>1</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:PulseWidthSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_57">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>HeaterDelay1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_74">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow4</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="label_64">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Ipc1PressureRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_59">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Sol1VoltRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_71">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>FpsCurrSet1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="0">
+       <widget class="QLabel" name="label_70">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>PlswthRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_72">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Sol1CurrSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="label_65">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Spare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_78">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_83">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_54">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>FpsCurrRead1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_71">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow1</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_73">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Spare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_82">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_75">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow5</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_84">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_55">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>FpsCurrRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_80">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="label_63">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Ipc1CurrRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_81">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_60">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Spare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_56">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>FpsVoltRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="0">
+       <widget class="QLabel" name="label_68">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>VSWRRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_77">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_85">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="0">
+       <widget class="QLabel" name="label_67">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>FwdRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_61">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Spare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_58">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Sol1CurrRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="PyDMLineEdit" name="PyDMLineEdit_4">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>1</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:PulseWidthSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_7">
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;KLY&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="0" colspan="2">
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2">
+     <layout class="QGridLayout" name="gridLayout_6">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="label_5">
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TRIG&amp;amp;INT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;SWITCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="PyDMLineEdit" name="PyDMLineEdit">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>1</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:PulseWidthSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_63">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:XXX</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_39">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>PlswthSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_66">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>PlswthRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_46">
+        <property name="text">
+         <string>PrfRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_87">
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:XXX</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout_8" rowstretch="0,1,1,1,0,0,0,0,0,0,0,0,0">
+      <item row="2" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_55">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:Voltage</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 255);</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CCPS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_61">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow5</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_62">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow6</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_37">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>PS1 VoltRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_57">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>3</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow1</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::Decimal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0" colspan="2">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_40">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Ccps1Flow</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QLabel" name="label_4">
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 255);</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;COOL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_60">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow4</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_59">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow3</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_58">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPSWaterFlow2</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_45">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Spare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_43">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>SolFlow</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_38">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>PS2 VoltRead</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_74">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>VoltSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_44">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Spare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="PyDMLineEdit" name="PyDMLineEdit_5">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>1</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:PulseWidthSet</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="PyDMLabel" name="PyDMLabel_56">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="precision" stdset="0">
+         <number>0</number>
+        </property>
+        <property name="showUnits" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="precisionFromPV" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="alarmSensitiveContent" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alarmSensitiveBorder" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="PyDMToolTip" stdset="0">
+         <string/>
+        </property>
+        <property name="channel" stdset="0">
+         <string>ca://${P}:CCPS2_V</string>
+        </property>
+        <property name="displayFormat" stdset="0">
+         <enum>PyDMLabel::String</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_41">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Ccps2&amp;Su1Flow</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_42">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>BodyCollFlow</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="label_27">
+  <widget class="PyDMRelatedDisplayButton" name="PyDMRelatedDisplayButton">
    <property name="geometry">
     <rect>
-     <x>12</x>
-     <y>151</y>
-     <width>77</width>
-     <height>35</height>
+     <x>130</x>
+     <y>820</y>
+     <width>191</width>
+     <height>25</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <italic>false</italic>
-    </font>
+   <property name="toolTip">
+    <string/>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Digitizer</string>
+   </property>
+   <property name="filenames" stdset="0">
+    <stringlist>
+     <string>digitizer.ui</string>
+    </stringlist>
+   </property>
+   <property name="macros" stdset="0">
+    <stringlist>
+     <string>P=${P}</string>
+    </stringlist>
+   </property>
+   <property name="openInNewWindow" stdset="0">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="PyDMRelatedDisplayButton" name="PyDMRelatedDisplayButton_2">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>820</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="text">
+    <string>Event</string>
+   </property>
+   <property name="filenames" stdset="0">
+    <stringlist>
+     <string>event.ui</string>
+    </stringlist>
+   </property>
+   <property name="macros" stdset="0">
+    <stringlist>
+     <string>P=${P}</string>
+    </stringlist>
+   </property>
+   <property name="openInNewWindow" stdset="0">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="PyDMRelatedDisplayButton" name="PyDMRelatedDisplayButton_3">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>820</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="text">
+    <string>Matrix</string>
+   </property>
+   <property name="filenames" stdset="0">
+    <stringlist>
+     <string>matrix.ui</string>
+    </stringlist>
+   </property>
+   <property name="macros" stdset="0">
+    <stringlist>
+     <string>P=${P}</string>
+    </stringlist>
+   </property>
+   <property name="openInNewWindow" stdset="0">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
@@ -3935,6 +4048,11 @@
    <class>PyDMPushButton</class>
    <extends>QPushButton</extends>
    <header>pydm.widgets.pushbutton</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMRelatedDisplayButton</class>
+   <extends>QPushButton</extends>
+   <header>pydm.widgets.related_display_button</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -316,6 +316,28 @@ parse_resources_xml(const char *name)
 	xmlCleanupParser();
 }
 
+// print out the subsystem names and the byte that represents them in the
+// XML status arrays given to use by Scandinova.  we use this to create
+// a JSON file used by the PyDM GUI.
+static void
+matrix_json(void)
+{
+	int i = 0;
+
+	printf("[\n");
+	for (i = 0; i < (int) matrix_items.size(); i++) {
+		if (matrix_items[i].first.length()) {
+			printf(
+				"{\"SUBSYSTEM_NUM\":\"%d\",\"SUBSYSTEM\":\"%s\"}%s\n",
+				i,
+				matrix_items[i].first.c_str(),
+				i != (int) matrix_items.size() - 1 ? "," : "");
+		}
+	}
+	printf("]\n");
+}
+
+
 // take a UNIX epoch and milliseconds offset, and construct a human-readable
 // string representing the date, time, and timezone.
 //
@@ -1052,6 +1074,7 @@ handle_waveform_ready(aSubRecord *prec)
 
 	// TODO: apply scaling factors to the waveform.
 	// the scaling factors are not available to us at this time.
+	// Scandinova will make them available via modbus in a future patch.
 
 	// copy waveform data to PVs
 	if (waveform_request_code <= WAVEFORM_CVD_T4_REQUEST) {
@@ -1099,8 +1122,82 @@ handle_waveform_ready(aSubRecord *prec)
 }
 epicsRegisterFunction(handle_waveform_ready);
 
+// gather all the subsystem statuses.  modbus gives us a status bit array
+// and an subsystem state array.  status bits give us ok/warning/interlock
+// for each subsystem, and state bits tell us which state the subsystems are
+// in.
+//
+// we know the names of the subsystems by parsing them out from the XML file
+// given to us by Scandinova.  the byte location matches the Index in the XML.
+//
+// inputs from modbus:
+// INPA read2300/100 "status bit array"
+// INPB read2400/100 "status bit array"
+// INPC read2500/56  "status bit array"
+// INPD read2000/100 "state read"
+// INPE read2100/100 "state read"
+// INPF read2200/56  "state read"
+//
+// outputs to EPICS:
+// OUTA WarningStatus
+// OUTB InterlockStatus
+// OUTC SubsystemState
+static long
+handle_subsystem_status_modify(aSubRecord *prec)
+{
+	int i = 0;
+	uint32_t *status1 = (uint32_t *) prec->a;
+	uint32_t *status2 = (uint32_t *) prec->b;
+	uint32_t *status3 = (uint32_t *) prec->c;
+	uint32_t *state1 = (uint32_t *) prec->d;
+	uint32_t *state2 = (uint32_t *) prec->e;
+	uint32_t *state3 = (uint32_t *) prec->f;
+	uint8_t *warning_status = (uint8_t *) prec->vala;
+	uint8_t *interlock_status = (uint8_t *) prec->valb;
+	uint8_t *subsystem_state = (uint8_t *) prec->valc;
+
+	assert(prec->noa == 100);
+	assert(prec->nob == 100);
+	assert(prec->noc == 56);
+	assert(prec->nod == 100);
+	assert(prec->noe == 100);
+	assert(prec->nof == 56);
+	assert(prec->nova == 256);
+	assert(prec->novb == 256);
+	assert(prec->novc == 256);
+
+	memset(warning_status, 0, prec->nova);
+	memset(interlock_status, 0, prec->novb);
+	memset(subsystem_state, 0, prec->novc);
+
+	for (i = 0; i < (int) prec->noa; i++) {
+		warning_status[i] = status1[i] & 1;
+		warning_status[i + 100]   = status2[i] & 1;
+		interlock_status[i]       = (status1[i] & 2) > 0;
+		interlock_status[i + 100] = (status2[i] & 2) > 0;
+		subsystem_state[i]        = state1[i];
+		subsystem_state[i + 100]  = state2[i];
+		if (i < 56) {
+			warning_status[i + 200]   = status3[i] & 1;
+			interlock_status[i + 200] = (status3[i] & 2) > 0;
+			subsystem_state[i + 200]  = state3[i];
+		}
+	}
+
+	return 0;
+}
+epicsRegisterFunction(handle_subsystem_status_modify);
+
 extern "C"
 {
+
+static const iocshArg matrix_json_configure_arg0 = {"", iocshArgInt};
+static const iocshArg *matrix_json_configure_args[] = {&matrix_json_configure_arg0};
+static const iocshFuncDef matrix_json_func_def = {"matrix_json", 1, matrix_json_configure_args};
+static void matrix_json_call_func(const iocshArgBuf *args)
+{
+	matrix_json();
+}
 
 static const iocshArg event_debug_configure_arg0 = {"0|1", iocshArgInt};
 static const iocshArg *event_debug_configure_args[] = {&event_debug_configure_arg0};
@@ -1131,6 +1228,7 @@ void event_log_register_commands(void)
 	pthread_create(&log_thread, NULL, update_log_file, NULL);
 	pthread_detach(log_thread);
 
+	iocshRegister(&matrix_json_func_def, matrix_json_call_func);
 	iocshRegister(&event_debug_func_def, event_debug_call_func);
 	iocshRegister(&event_log_func_def, event_log_call_func);
 	iocshRegister(&event_resources_func_def, event_resources_call_func);

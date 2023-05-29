@@ -22,6 +22,8 @@ DB += waveform_bridge.db
 DB += customer_waveform.db
 DB += watchdog_bridge.db
 DB += waveform_enable_bridge.db
+DB += subsystem_status.db
+DB += subsystem_status_bridge.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
