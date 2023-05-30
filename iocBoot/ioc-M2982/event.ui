@@ -440,7 +440,7 @@
            <bool>true</bool>
           </property>
           <property name="channel" stdset="0">
-           <string>ca://${P}:CapVoltageDivider.VAL</string>
+           <string>ca://${P}:CurrentTransformer.VAL</string>
           </property>
           <property name="displayFormat" stdset="0">
            <enum>PyDMLabel::String</enum>

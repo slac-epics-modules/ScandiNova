@@ -527,30 +527,6 @@ record (ai,"$(P):SolenoidPS1Voltage") {
 #	field(INP, "@asyn(read410 0)")
 #	field(DTYP, "asynFloat64")
 #}
-record (ai,"$(P):CurrentTransformer") {
-	field(DESC, "Pulse current amplitude")
-	field(EGU, "A")
-	field(HIHI, "265")
-	field(HHSV, "MAJOR")
-	field(HIGH, "250")
-	field(HSV, "MINOR")
-	info(archive,"policy:3min")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read500 0)")
-	field(DTYP, "asynFloat64")
-}
-record (ai,"$(P):CapVoltageDivider") {
-	field(DESC, "Pulse voltage amplitude")
-	field(EGU, "kV")
-	field(HIHI, "265")
-	field(HHSV, "MAJOR")
-	field(HIGH, "240")
-	field(HSV, "MINOR")
-	info(archive,"policy:3min")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read502 0)")
-	field(DTYP, "asynFloat64")
-}
 record (ai,"$(P):PulseWidth") {
 	field(DESC, "Pulse width at 50% height current pulse")
 	field(EGU, "us")

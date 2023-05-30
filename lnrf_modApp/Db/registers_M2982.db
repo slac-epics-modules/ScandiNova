@@ -241,20 +241,6 @@ record (ai,"$(P):SolenoidPS1Voltage") {
 	field(INP, "@asyn(read402 0)")
 	field(DTYP, "asynFloat64")
 }
-record (ai,"$(P):CurrentTransformer") {
-	field(DESC, "Pulse current amplitude")
-	field(EGU, "A")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read500 0)")
-	field(DTYP, "asynFloat64")
-}
-record (ai,"$(P):CapVoltageDivider") {
-	field(DESC, "Pulse voltage amplitude")
-	field(EGU, "kV")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read502 0)")
-	field(DTYP, "asynFloat64")
-}
 record (ai,"$(P):PulseWidth") {
 	field(DESC, "Pulse width at 50% height current pulse")
 	field(EGU, "us")
@@ -387,12 +373,6 @@ record (ai,"$(P):OutPulseWidth") {
 	field(SCAN, "I/O Intr")
 	field(INP, "@asyn(read926 0)")
 	field(DTYP, "asynFloat64")
-}
-record (longin,"$(P):WaveformType") {
-	field(DESC, "Waveform type requested, 99 if error")
-	field(SCAN, "I/O Intr")
-	field(INP, "@asyn(read3000 0)")
-	field(DTYP, "asynInt32")
 }
 record (mbbo,"$(P):StateSet") {
 	field(DESC, "Set value for the target state")

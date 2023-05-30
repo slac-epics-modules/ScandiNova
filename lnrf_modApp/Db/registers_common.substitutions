@@ -2,9 +2,11 @@
 file aiFloat64.template
 {
     pattern
-    { P,      R,                PORT,     OFFSET, UNITS, LOPR, HIPR, PREC, DATA_TYPE,  SCAN       }
-    { "${P}", ":VoltageSetRBV", "read21", 0,      "V",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
-    { "${P}", ":PulseWidthRBV", "read25", 0,      "us",  1,    5,    3,    FLOAT32_LE, "I/O Intr" }
+    { P,      R,                     PORT,      OFFSET, UNITS, LOPR, HIPR, PREC, DATA_TYPE,  SCAN       }
+    { "${P}", ":VoltageSetRBV",      "read21",  0,      "V",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":PulseWidthRBV",      "read25",  0,      "us",  1,    5,    3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CurrentTransformer", "read500", 0,      "A",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CapVoltageDivider",  "read502", 0,      "kV",  0,    100,  3,    FLOAT32_LE, "I/O Intr" }
 }
 
 # we use the 64-bit float template for 32-bit floats
