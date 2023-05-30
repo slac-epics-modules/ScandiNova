@@ -16,7 +16,7 @@ epicsEnvSet("BUILDING", "B084")
 epicsEnvSet("POSITION", "158")
 epicsEnvSet("P", "$(SYSTEM):$(BUILDING):$(POSITION)")
 
-epicsEnvSet("LOG_FILE", "log.html")
+epicsEnvSet("LOG_FILE", "/nfs/slac/g/lcls/epics/ioc/data/ioc-M2982/log.html")
 
 ## Register all support components
 dbLoadDatabase("dbd/lnrf_mod.dbd",0,0)

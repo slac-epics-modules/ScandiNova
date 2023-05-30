@@ -1,3 +1,4 @@
+# int32 array
 file intarray_in.template
 {
     pattern
@@ -13,4 +14,12 @@ file intarray_in.template
     { "${P}", ":EventData",            "read1550",  0,       100, "I/O Intr" }
     { "${P}", ":CurrentEventStruct",   "read1700",  0,        13, "I/O Intr" }
     { "${P}", ":InterlockEventStruct", "read1715",  0,        13, "I/O Intr" }
+}
+
+# int32 in
+file ai.template
+{
+    pattern
+    { P,      R,             PORT,      OFFSET, BITS, EGUL, EGUF,  PREC, SCAN       }
+    { "${P}", ":EventIndex", "read999", 0,      16,   0,    65535, 0,    "I/O Intr" }
 }

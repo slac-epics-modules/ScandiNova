@@ -132,15 +132,15 @@ static int waveform_trig_ids[WAVEFORM_COUNT_MAX];
 static int waveform_sample_counts[WAVEFORM_COUNT_MAX];
 static uint64_t waveform_request_enable = 0;
 
-static char log_html_doc_template_start[] =                   \
-	"<!DOCTYPE html>\n"                                       \
-	"<html>\n"                                                \
-	"<head>\n"                                                \
-	" <meta http-equiv=\"refresh\" content=\"1\">\n"          \
-    "</head>\n"                                               \
-	" <body>\n"                                               \
-	"  <table style=\"width:100\%\">\n"                       \
-	"   <tr bgcolor=\"LIGHTGREY\">\n"                         \
+static char log_html_doc_template_start[] =                                         \
+	"<!DOCTYPE html>\n"                                                             \
+	"<html>\n"                                                                      \
+	"<head>\n"                                                                      \
+	" <meta http-equiv=\"refresh\" content=\"1\">\n"                                \
+	"</head>\n"                                                                     \
+	" <body>\n"                                                                     \
+	"  <table style=\"width:100\%\">\n"                                             \
+	"   <tr bgcolor=\"LIGHTGREY\">\n"                                               \
 	"    <th style=\"padding:3px\" align=\"right\"><pre>Id</pre></th>\n"            \
 	"    <th style=\"padding:3px\" align=\"left\"><pre>Type</pre></th>\n"           \
 	"    <th style=\"padding:3px\" align=\"left\"><pre>Timestamp</pre></th>\n"      \
@@ -152,14 +152,14 @@ static char log_html_doc_template_end[] =            \
 	"  </table>\n"                                   \
 	" </body>\n"                                     \
 	"</html>";
-static char log_html_row_template[] =                      \
-	"  <tr bgcolor=\"%s\">"                                \
-	"   <td style=\"padding:3px\" align=\"right\"><pre>%d</pre></td>"            \
-	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"             \
-	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"             \
-	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"             \
-	"   <td style=\"padding:3px\" align=\"right\"><pre>%d</pre></td>"            \
-	"   <td style=\"padding:3px\" align=\"left\"><pre>%s%s%s%s%s%s%s</pre></td>" \
+static char log_html_row_template[] =                                  \
+	"  <tr bgcolor=\"%s\">"                                            \
+	"   <td style=\"padding:3px\" align=\"right\"><pre>%d</pre></td>"  \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"   \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"   \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"   \
+	"   <td style=\"padding:3px\" align=\"right\"><pre>%d</pre></td>"  \
+	"   <td style=\"padding:3px\" align=\"left\"><pre>%s</pre></td>"   \
 	"  </tr>\n";
 
 // maps that hold data we parse out of the XML doc
@@ -384,6 +384,7 @@ epoch_raw_to_timestr(uint64_t epoch_raw, char *str, size_t max_out_len_bytes)
 		max_out_len_bytes);
 }
 
+// open the log file, HTML format.
 static void
 set_event_output_file(const char *name)
 {
@@ -395,8 +396,12 @@ set_event_output_file(const char *name)
 	}
 
 	event_output_file = strdup(name);
+
+	// try to open in append mode.
 	event_output_fd = fopen(event_output_file, "r+");
 	if (event_output_fd == NULL) {
+
+		// try to open, creating if necessary.
 		event_output_fd = fopen(event_output_file, "w+");
 		if (event_output_fd == NULL) {
 			printf("error: unable to write \'%s\': %s\n", event_output_file, strerror(errno));
@@ -408,6 +413,8 @@ set_event_output_file(const char *name)
 	}
 }
 
+// write to the log file, HTML format.  the GUI may update if it is reading
+// this log file.
 static void
 write_event_output_file(
 	int increment,
@@ -416,10 +423,7 @@ write_event_output_file(
 	char *timestamp,
 	char *timestamp_ioc,
 	int trig_id,
-	char *subsystem,
-	char *text,
-	char *data,
-	char *units)
+	char *display_str)
 {
 	int loc = strlen(log_html_doc_template_end);
 
@@ -428,7 +432,11 @@ write_event_output_file(
 		return;
 	}
 
-	fseek(event_output_fd, (long) -loc, SEEK_END);
+	if (fseek(event_output_fd, (long) -loc, SEEK_END)) {
+		printf("error: can't seek \'%s\'\n", event_output_file);
+		return;
+	}
+
 	fprintf(
 		event_output_fd,
 		log_html_row_template,
@@ -438,13 +446,7 @@ write_event_output_file(
 		timestamp,
 		timestamp_ioc,
 		trig_id,
-		subsystem,
-		subsystem[0] ? " " : "",
-		text,
-		data[0] ? ": " : "",
-		data,
-		units[0] ? " " : "",
-		units);
+		display_str);
 	fprintf(event_output_fd, log_html_doc_template_end);
 	fflush(event_output_fd);
 }
@@ -573,10 +575,7 @@ update_log_file(void *unused)
 				event_info->timestamp,
 				event_info->timestamp_ioc,
 				event_info->trigger,
-				event_info->subsystem_str,
-				event_info->text_str,
-				event_info->data_str,
-				event_info->units_str);
+				event_info->display_str);
 		}
 
 		previous_event_index = current_event_index;

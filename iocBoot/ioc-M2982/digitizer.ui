@@ -84,7 +84,7 @@
         <string/>
        </property>
        <property name="rules" stdset="0">
-        <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
+        <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] or ch[1]  or ch[2]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
        </property>
        <property name="precision" stdset="0">
         <number>0</number>
@@ -144,7 +144,7 @@
         <string/>
        </property>
        <property name="rules" stdset="0">
-        <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
+        <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] or ch[1] or ch[2]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
        </property>
        <property name="precision" stdset="0">
         <number>0</number>
@@ -178,7 +178,7 @@
         <string/>
        </property>
        <property name="rules" stdset="0">
-        <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
+        <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] or ch[1] or ch[2]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
        </property>
        <property name="precision" stdset="0">
         <number>0</number>
@@ -564,6 +564,9 @@
          <property name="toolTip">
           <string/>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 0);</string>
+         </property>
          <property name="rules" stdset="0">
           <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:WarningExists&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
          </property>
@@ -612,8 +615,11 @@
          <property name="toolTip">
           <string/>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 0, 0);</string>
+         </property>
          <property name="rules" stdset="0">
-          <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] != \&quot;OK\&quot; or ch[1] != \&quot;OK\&quot; or ch[2] != \&quot;OK\&quot;&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: true}]}]</string>
+          <string>[{&quot;name&quot;: &quot;hide&quot;, &quot;property&quot;: &quot;Visible&quot;, &quot;initial_value&quot;: &quot;&quot;, &quot;expression&quot;: &quot;ch[0] or ch[1] or ch[2]&quot;, &quot;channels&quot;: [{&quot;channel&quot;: &quot;ca://${P}:StandByStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:HVStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}, {&quot;channel&quot;: &quot;ca://${P}:TrigStateIntlk&quot;, &quot;trigger&quot;: true, &quot;use_enum&quot;: false}]}]</string>
          </property>
          <property name="precision" stdset="0">
           <number>0</number>
