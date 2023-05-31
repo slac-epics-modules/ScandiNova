@@ -686,13 +686,16 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="3" column="0">
+     <item row="3" column="0" alignment="Qt::AlignHCenter">
       <widget class="PyDMCheckbox" name="PyDMCheckbox_3">
        <property name="toolTip">
         <string/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 255, 0);</string>
+        <string notr="true">border-top: 2px solid #00ff00;
+border-bottom: 2px solid #00ff00;
+border-left: 10px solid #00ff00;
+border-right: 10px solid #00ff00;</string>
        </property>
        <property name="channel" stdset="0">
         <string>ca://${P}:WaveformRfFwdEnable</string>
@@ -729,13 +732,16 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="2" column="0" alignment="Qt::AlignHCenter">
       <widget class="PyDMCheckbox" name="PyDMCheckbox_2">
        <property name="toolTip">
         <string/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 0);</string>
+        <string notr="true">border-top: 2px solid yellow;
+border-bottom: 2px solid yellow;
+border-left: 10px solid yellow;
+border-right: 10px solid yellow;</string>
        </property>
        <property name="channel" stdset="0">
         <string>ca://${P}:WaveformCtEnable</string>
@@ -744,6 +750,12 @@
      </item>
      <item row="0" column="0">
       <widget class="PyDMLabel" name="PyDMLabel_5">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="toolTip">
         <string/>
        </property>
@@ -775,7 +787,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="1" column="0" alignment="Qt::AlignHCenter">
       <widget class="PyDMCheckbox" name="PyDMCheckbox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -793,21 +805,26 @@
         <bool>false</bool>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 0, 255);
-color: rgb(255, 255, 255);</string>
+        <string notr="true">border-top: 2px solid blue;
+border-bottom: 2px solid blue;
+border-left: 10px solid blue;
+border-right: 10px solid blue;</string>
        </property>
        <property name="channel" stdset="0">
         <string>ca://${P}:WaveformCvdEnable</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="4" column="0" alignment="Qt::AlignHCenter">
       <widget class="PyDMCheckbox" name="PyDMCheckbox_4">
        <property name="toolTip">
         <string/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 0, 0);</string>
+        <string notr="true">border-top: 2px solid red;
+border-bottom: 2px solid red;
+border-left: 10px solid red;
+border-right: 10px solid red;</string>
        </property>
        <property name="channel" stdset="0">
         <string>ca://${P}:WaveformRfRflEnable</string>

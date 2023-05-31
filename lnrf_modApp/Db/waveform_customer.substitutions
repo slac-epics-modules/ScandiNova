@@ -36,8 +36,9 @@ file intarray_in.template
 file ai.template
 {
     pattern
-    { P,      R,              PORT,       OFFSET, BITS, EGUL, EGUF,  PREC, SCAN       }
-    { "${P}", ":SampleCount", "read3009", 0,      16,   0,    65535, 0,    "I/O Intr" }
+    { P,      R,               PORT,       OFFSET, BITS, EGUL, EGUF,  PREC, SCAN       }
+    { "${P}", ":WaveformType", "read3000", 0,      16,   99,   139    0,    "I/O Intr" }
+    { "${P}", ":SampleCount",  "read3009", 0,      16,   0,    65535, 0,    "I/O Intr" }
 }
 
 # int64 in

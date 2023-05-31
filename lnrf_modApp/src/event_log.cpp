@@ -736,7 +736,6 @@ handle_current_event(aSubRecord *prec, event_info_t *event_info)
 	memset(prec->valg, 0, prec->novg);
 	memset(prec->valh, 0, prec->novh);
 	memset(prec->vali, 0, prec->novi);
-	memset(prec->valj, 0, prec->novj);
 
 	strncpy((char *) prec->vala, event_info->timestamp, prec->nova - 1);
 	strncpy((char *) prec->valb, event_info->timestamp, prec->novb - 1);
@@ -828,6 +827,7 @@ handle_current_event_struct_modify(aSubRecord *prec)
 		printf("log text:      \"%s\" (%d/%d)\n",         event_info.text_str, event_info.type, event_info.text_number);
 		printf("data type:     \"%s\" (%d)\n",            event_info.data_type_str, event_info.data_type);
 		printf("data:          \"%s\" \"%s\" (0x%08x)\n", event_info.data_str, event_info.units_str, event_info.data);
+		printf("display:       \"%s\n",                   event_info.display_str);
 		printf("\n");
 	}
 

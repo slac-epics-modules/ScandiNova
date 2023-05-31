@@ -2,11 +2,41 @@
 file aiFloat64.template
 {
     pattern
-    { P,      R,                     PORT,      OFFSET, UNITS, LOPR, HIPR, PREC, DATA_TYPE,  SCAN       }
-    { "${P}", ":VoltageSetRBV",      "read21",  0,      "V",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
-    { "${P}", ":PulseWidthRBV",      "read25",  0,      "us",  1,    5,    3,    FLOAT32_LE, "I/O Intr" }
-    { "${P}", ":CurrentTransformer", "read500", 0,      "A",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
-    { "${P}", ":CapVoltageDivider",  "read502", 0,      "kV",  0,    100,  3,    FLOAT32_LE, "I/O Intr" }
+    { P,      R,                         PORT,      OFFSET, UNITS, LOPR, HIPR, PREC, DATA_TYPE,  SCAN       }
+    { "${P}", ":FilamentWarmupTimeLeft", "read6",   0,      "s",   0,    120,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":PulseRepetitionFreq",    "read8",   0,      "Hz",  0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":VoltageSetRBV",          "read21",  0,      "V",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":PulseWidthRBV",          "read25",  0,      "us",  1,    5,    3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":VoltagePS1",             "read100", 0,      "V",   0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":VoltagePS2",             "read102", 0,      "V",   0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":FilamentCurrent",        "read200", 0,      "A",   0,    100,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":FilamentVoltage",        "read202", 0,      "V",   0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":IonPumpCurrent",         "read300", 0,      "nA",  0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":IonPumpVoltage",         "read302", 0,      "kV",  0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":IonPumpPressure",        "read304", 0,      "Pa",  0,    100,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":SolenoidPS1Current",     "read400", 0,      "A",   0,    100,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":SolenoidPS1Voltage",     "read402", 0,      "V",   0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CurrentTransformer",     "read500", 0,      "A",   0,    1200, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CapVoltageDivider",      "read502", 0,      "kV",  0,    100,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":FwhmRead"  ,             "read504", 0,      "us",  0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":AveragePower",           "read506", 0,      "kW",  0,    100,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":OilTemp",                "read600", 0,      "C",   0,    200,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":OilLevel",               "read602", 0,      "mm",  0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":InletWaterTemp",         "read700", 0,      "C",   0,    200,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CollectorReturnTemp",    "read702", 0,      "C",   0,    200,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":BodyReturnTemp",         "read704", 0,      "C",   0,    200,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":SolATemp",               "read706", 0,      "C",   0,    200,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CCPSWaterFlow1",         "read800", 0,      "l/m", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CCPSWaterFlow2",         "read802", 0,      "l/m", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CCPSWaterFlow3",         "read804", 0,      "l/m", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CCPSWaterFlow4",         "read806", 0,      "l/m", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CCPSWaterFlow5",         "read808", 0,      "l/m", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CCPSWaterFlow6",         "read810", 0,      "l/m", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":CollectorPowerLoss",     "read852", 0,      "kW",  0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":ForwardPower",           "read920", 0,      "dBm", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":ReflectedPower",         "read922", 0,      "dBm", 0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":StandingWaveRatio",      "read924", 0,      "",    0,    100,  3,    FLOAT32_LE, "I/O Intr" }
+    { "${P}", ":OutPulseWidth",          "read926", 0,      "us",  0,    1000, 3,    FLOAT32_LE, "I/O Intr" }
 }
 
 # we use the 64-bit float template for 32-bit floats
@@ -34,4 +64,26 @@ file ao.template
     pattern
     { P,      R,                 PORT,        OFFSET, BITS, EGUL, EGUF,  PREC }
     { "${P}", ":CommWatchdog",   "write0",    0,      16,   0,    65535, 0    }
+}
+
+# binary in, word
+file bi_word.template
+{
+	pattern
+	{ P,      R,                     PORT,    OFFSET, MASK, ZNAM, ONAM,      ZSV,        OSV,     SCAN       }
+	{ "${P}", ":StandByStateIntlk",  "read4", 0,      0x01, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+	{ "${P}", ":HVStateIntlk",       "read4", 0,      0x02, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+	{ "${P}", ":TrigStateIntlk",     "read4", 0,      0x04, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+	{ "${P}", ":WarningExists",      "read4", 0,      0x08, "OK", "WARNING", "NO_ALARM", "MINOR", "I/O Intr" }
+	{ "${P}", ":OutsideLimitsIntlk", "read4", 0,      0x10, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+	{ "${P}", ":ErrorExists",        "read4", 0,      0x20, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+}
+
+# binary out, word
+file bo_word.template
+{
+	pattern
+	{ P,      R,            PORT,     OFFSET, MASK, ZNAM,    ONAM   }
+	{ "${P}", ":Reset",     "write2", 0       0x01, "FALSE", "TRUE" }
+	{ "${P}", ":HardReset", "write2", 0       0x04, "FALSE", "TRUE" }
 }
