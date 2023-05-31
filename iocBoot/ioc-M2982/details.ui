@@ -3158,7 +3158,7 @@
          <bool>false</bool>
         </property>
         <property name="channel" stdset="0">
-         <string>ca://${P}:PulseWidthSet</string>
+         <string>ca://${P}:XXX</string>
         </property>
        </widget>
       </item>
@@ -3282,7 +3282,7 @@
          </size>
         </property>
         <property name="text">
-         <string>RflRread</string>
+         <string>RflRead</string>
         </property>
        </widget>
       </item>

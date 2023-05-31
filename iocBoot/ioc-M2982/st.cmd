@@ -28,7 +28,7 @@ modbusInterposeConfig("mod-beckhoff-plc", 0, 0, 0)
 < "iocBoot/$(IOCNAME)/modbus.cmd"
 
 parse_resources_xml("./iocBoot/$(IOCNAME)/Resource.xml")
-set_event_output_file("./$(LOG_FILE)")
+set_event_output_file("$(LOG_FILE)")
 
 # Load record instances
 dbLoadRecords("db/registers_M2982.db","P=$(P)")
