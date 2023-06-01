@@ -1,0 +1,14 @@
+# template for ScandiNova access level
+record (mbbi,"$(P)$(R)") {
+	field(INP, "@asyn($(PORT) 0)")
+	field(SCAN, "I/O Intr")
+	field(DTYP, "asynInt32")
+	field(ZRVL, "0")
+	field(ZRST, "Remote")
+	field(ONVL, "1")
+	field(ONST, "Operator")
+	field(TWVL, "2")
+	field(TWST, "Admin")
+	field(THVL, "3")
+	field(THST, "ScandiNova")
+}

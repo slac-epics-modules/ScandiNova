@@ -31,8 +31,7 @@ parse_resources_xml("./iocBoot/$(IOCNAME)/Resource.xml")
 set_event_output_file("$(LOG_FILE)")
 
 # Load record instances
-dbLoadRecords("db/registers_M2982.db","P=$(P)")
-dbLoadRecords("db/registers_common.db", "P=$(P)")
+dbLoadRecords("db/modbus_registers.db", "P=$(P)")
 dbLoadRecords("db/waveform_bridge.db","P=$(P)")
 dbLoadRecords("db/waveform_enable_bridge.db","P=$(P)")
 dbLoadRecords("db/waveform_customer.db","P=$(P)")

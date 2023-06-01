@@ -1,3 +1,19 @@
+file state.template
+{
+    pattern
+    { P,      R,                 MBBTYPE, PORT,     INPOROUT, PINIORSCAN, VALUE      }
+    { "${P}", ":State",          "mbbi",  "read3",  "INP",    "SCAN",     "I/O Intr" }
+    { "${P}", ":TargetStateRBV", "mbbi",  "read20", "INP",    "SCAN",     "I/O Intr" }
+    { "${P}", ":StateSet",       "mbbo"   "write1", "OUT",    "PINI",     "YES"      }
+}
+
+file access.template
+{
+    pattern
+    { P,      R,              PORT    }
+    { "${P}", ":AccessLevel", "read5" }
+}
+
 # we use the 64-bit float template for 32-bit floats
 file aiFloat64.template
 {
@@ -69,21 +85,21 @@ file ao.template
 # binary in, word
 file bi_word.template
 {
-	pattern
-	{ P,      R,                     PORT,    OFFSET, MASK, ZNAM, ONAM,      ZSV,        OSV,     SCAN       }
-	{ "${P}", ":StandByStateIntlk",  "read4", 0,      0x01, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
-	{ "${P}", ":HVStateIntlk",       "read4", 0,      0x02, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
-	{ "${P}", ":TrigStateIntlk",     "read4", 0,      0x04, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
-	{ "${P}", ":WarningExists",      "read4", 0,      0x08, "OK", "WARNING", "NO_ALARM", "MINOR", "I/O Intr" }
-	{ "${P}", ":OutsideLimitsIntlk", "read4", 0,      0x10, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
-	{ "${P}", ":ErrorExists",        "read4", 0,      0x20, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+    pattern
+    { P,      R,                     PORT,    OFFSET, MASK, ZNAM, ONAM,      ZSV,        OSV,     SCAN       }
+    { "${P}", ":StandByStateIntlk",  "read4", 0,      0x01, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+    { "${P}", ":HVStateIntlk",       "read4", 0,      0x02, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+    { "${P}", ":TrigStateIntlk",     "read4", 0,      0x04, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+    { "${P}", ":WarningExists",      "read4", 0,      0x08, "OK", "WARNING", "NO_ALARM", "MINOR", "I/O Intr" }
+    { "${P}", ":OutsideLimitsIntlk", "read4", 0,      0x10, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
+    { "${P}", ":ErrorExists",        "read4", 0,      0x20, "OK", "FAULT",   "NO_ALARM", "MAJOR", "I/O Intr" }
 }
 
 # binary out, word
 file bo_word.template
 {
-	pattern
-	{ P,      R,            PORT,     OFFSET, MASK, ZNAM,    ONAM   }
-	{ "${P}", ":Reset",     "write2", 0       0x01, "FALSE", "TRUE" }
-	{ "${P}", ":HardReset", "write2", 0       0x04, "FALSE", "TRUE" }
+    pattern
+    { P,      R,            PORT,     OFFSET, MASK, ZNAM,    ONAM   }
+    { "${P}", ":Reset",     "write2", 0       0x01, "FALSE", "TRUE" }
+    { "${P}", ":HardReset", "write2", 0       0x04, "FALSE", "TRUE" }
 }
