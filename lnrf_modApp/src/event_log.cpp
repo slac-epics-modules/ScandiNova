@@ -491,7 +491,8 @@ event_data_to_str(uint32_t data, int type, char *out, size_t max_out_len_bytes)
 // this function assumes the in-memory representation of the log data has
 // been locked, i.e. the in-memory log will not change again until it has
 // been unlocked.
-static int is_log_updating(void)
+static int
+is_log_updating(void)
 {
 	struct timespec now;
 	struct timespec diff;
@@ -779,7 +780,6 @@ handle_warning_event(aSubRecord *prec, event_info_t *event_info)
 	strncpy((char *) prec->valr, event_info->display_str, prec->novr - 1);
 }
 
-
 // inputs from modbus:
 // INPA CurrentEventStruct read1700
 //
@@ -913,7 +913,11 @@ epicsRegisterFunction(handle_interlock_event_struct_modify);
 // INPD read3005 "Pulse ID"
 //
 // outputs to modbus:
-// OUTA write3000 "WaveformTypeSet"
+// OUTA write3000 WaveformTypeSet
+// OUTB WaveformCvd.NELM
+// OUTC WaveformCt.NELM
+// OUTD WaveformRfFwd.NELM
+// OUTE WaveformRfRfl.NELM
 static long
 handle_waveform_request(aSubRecord *prec)
 {

@@ -13,7 +13,7 @@ record (waveform, "$(P):SubsystemState") {
 	field(NELM, "256")
 }
 
-record (aSub, "$(P):iSubsystemStatusBridge") {
+record (aSub, "$(P):SubsystemStatusBridge") {
 	field(SNAM, "handle_subsystem_status_modify")
 
 # INPUT

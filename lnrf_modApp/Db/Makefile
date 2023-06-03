@@ -10,15 +10,13 @@ DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
 # DB for db inside this IOC's source
 DB += state.template
 DB += access.template
-DB += registers_simulator.db
 DB += modbus_registers.db
 DB += log_messages.db
 DB += log_messages_bridge.db
-DB += waveform.db
 DB += waveform_bridge.db
 DB += waveform_customer.db
-DB += watchdog_bridge.db
 DB += waveform_enable_bridge.db
+DB += watchdog_bridge.db
 DB += subsystem_status.db
 DB += subsystem_status_bridge.db
 
