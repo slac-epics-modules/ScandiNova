@@ -1,7 +1,6 @@
 TOP=../..
 
 include $(TOP)/configure/CONFIG
-#include $(PYDEVSUP)/configure/CONFIG_PY
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
@@ -21,7 +20,7 @@ lnrf_mod_DBD += modbusSupport.dbd
 lnrf_mod_DBD += drvAsynIPPort.dbd
 lnrf_mod_DBD += asyn.dbd
 lnrf_mod_DBD += iocAdmin.dbd
-lnrf_mod_DBD += event_log.dbd
+lnrf_mod_DBD += lnrf_mod_exports.dbd
 
 USR_INCLUDES += -I$(ZLIB_INCLUDE)
 USR_INCLUDES += -I$(XZ_INCLUDE)
@@ -40,7 +39,7 @@ lnrf_mod_SRCS += lnrf_mod_registerRecordDeviceDriver.cpp
 
 # Build the main IOC entry point on workstation OSs.
 lnrf_mod_SRCS_DEFAULT += lnrf_modMain.cpp
-lnrf_mod_SRCS_DEFAULT += event_log.cpp
+lnrf_mod_SRCS_DEFAULT += lnrf_mod.cpp
 
 lnrf_mod_LIBS += modbus
 lnrf_mod_LIBS += asyn
@@ -51,7 +50,6 @@ lnrf_mod_LIBS += $(EPICS_BASE_IOC_LIBS)
 #===========================
 
 include $(TOP)/configure/RULES
-#include $(PYDEVSUP)/configure/RULES_PY
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 

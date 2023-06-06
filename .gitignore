@@ -1,5 +1,4 @@
 *~
-*.log
 build/
 children/build/
 db/
@@ -13,7 +12,6 @@ tags
 /bin/
 /events/
 /db/ioc*
-/db/py.db
 /db/reccaster.db
 /db/waveform.db
 /dbd/
@@ -23,9 +21,6 @@ O.*/
 envPaths
 *.swp
 *.~lock*
-*.pyc
-python*/
-.pydevproject
 screenlog.0
 RELEASE_SITE
 archive/
