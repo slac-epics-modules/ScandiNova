@@ -1,5 +1,13 @@
 #! /bin/bash
 
+# This file is part of ScandiNova MKS control system application. It is
+# subject to the license terms in the LICENSE.txt file found in the top-level
+# directory of this distribution and at
+# https://confluence.slac.stanford.edu/display/ppareg/LICENSE.html. No part of
+# the ScandiNova MKS control system application, including this file, may be
+# copied, modified, propagated, or distributed except according to the terms
+# contained in the LICENSE.txt file.
+
 if [ -z "$1" ] || [ -z "$2" ]
 then
 	echo usage: $0 \<address\> \<value\> \<count-words=1\>
