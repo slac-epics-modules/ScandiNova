@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <time.h>
 #include <string.h>
 #include <errno.h>
@@ -93,7 +94,7 @@ typedef enum {
 	WAVEFORM_RF_RFL_T4_READY = 134,
 } waveform_code_t;
 
-typedef struct __attribute__ (packed) {
+typedef struct __attribute__ ((packed)) {
 	uint16_t increment;
 	uint16_t type;
 	uint64_t epoch_raw;
